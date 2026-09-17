@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro v3.0 — Clientes</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+  --topbar-h: 60px;
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .sidebar { background:#0a0a0a; border-right-color:rgba(255,255,255,0.08); }
+body.theme-dark .topbar { background:#0a0a0a; border-bottom-color:rgba(255,255,255,0.08); }
+body.theme-dark .sb-item:hover { background:rgba(255,255,255,0.05); color:#f0f0f0; }
+body.theme-dark .sb-item.activo { background:linear-gradient(90deg, rgba(196,163,255,0.15), rgba(77,239,255,0.05)); color:#f0f0f0; border-left-color:#c4a3ff; }
+body.theme-dark .empresa-switcher { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+body.theme-dark .panel, body.theme-dark .cliente-card { background:#141414; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .input, body.theme-dark .select { background:#0f0f0f; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn:hover { background:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn.activo { background:rgba(179,136,255,0.2); }
+body.theme-dark .modal { background:#141414; border-color:rgba(255,255,255,0.15); }
+body.theme-dark .fila { border-bottom-color: rgba(255,255,255,0.06); }
+body.theme-dark .orden-mini { background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.08); }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light .sidebar { background:#f7f7f5; border-right-color:#e9e9e7; }
+body.theme-light .topbar { background:#fbfbfa; border-bottom-color:#e9e9e7; }
+body.theme-light .logo-sidebar { border-bottom-color:#e9e9e7; }
+body.theme-light .sb-item { color:#57564f; }
+body.theme-light .sb-item:hover { background:rgba(0,0,0,0.04); color:#37352f; }
+body.theme-light .sb-item.activo { background:linear-gradient(90deg,rgba(107,70,193,0.15),rgba(11,122,140,0.08)); color:#37352f; border-left-color:#6b46c1; }
+body.theme-light .empresa-switcher { background:rgba(107,70,193,0.08); border-color:#e9e9e7; }
+body.theme-light .icon-btn { color:#57564f; }
+body.theme-light .icon-btn:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .icon-btn.activo { background:rgba(107,70,193,0.15); color:#6b46c1; }
+body.theme-light .panel, body.theme-light .cliente-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .input, body.theme-light .select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus, body.theme-light .select:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .select option { background:#fff; color:#37352f; }
+body.theme-light .modal { background:#fff; border-color:#d3d1cb; }
+body.theme-light .modal-header { border-bottom-color:#e9e9e7; }
+body.theme-light .modal-footer { border-top-color:#e9e9e7; }
+body.theme-light .modal-titulo { color:#37352f; }
+body.theme-light .toast { background:#fff; border-color:#d3d1cb; }
+body.theme-light .toast-msg { color:#37352f; }
+body.theme-light .fila { border-bottom-color: rgba(0,0,0,0.05); }
+body.theme-light .orden-mini { background:#fbfbfa; border-color:#e9e9e7; }
+body.theme-light .cliente-card:hover { box-shadow:0 6px 20px rgba(15,15,15,0.08); }
+
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-text-size-adjust: 100%; }
+.app-root { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
+
+.sidebar { width: 230px; background: var(--bg-3); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.25s ease; z-index: 100; }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+.logo-sidebar { display: flex; align-items: center; gap: 12px; padding: 18px; border-bottom: 1px solid var(--border); }
+.logo-icono { width: 42px; height: 42px; background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.logo-nombre { font-size: 15px; font-weight: 800; }
+.logo-sub { font-size: 10px; color: var(--text-mute); }
+.sidebar-nav { flex: 1; padding: 8px 10px 20px; }
+.sb-seccion { font-size: 9px; font-weight: 800; color: var(--text-mute); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 12px 6px; }
+.sb-item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 10px; font-size: 13px; color: var(--text-dim); font-weight: 600; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sb-item:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.sb-item.activo { background: linear-gradient(90deg, rgba(106,27,154,0.4), rgba(0,229,255,0.08)); color: var(--text); border-left: 3px solid var(--purple); }
+.sb-icono { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; opacity: 0; transition: opacity 0.25s ease; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.sidebar-backdrop.activo { display: block; opacity: 1; }
+
+.main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--border); min-height: var(--topbar-h); flex-shrink: 0; }
+
+.hamburger { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 8px 10px; border-radius: 8px; transition: background 0.15s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.hamburger:hover { background: rgba(106,27,154,0.15); }
+.hamburger:active { background: rgba(106,27,154,0.25); }
+
+.empresa-switcher { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(106,27,154,0.2); border: 1px solid var(--border); border-radius: 10px; }
+.empresa-nombre { font-size: 12px; font-weight: 800; }
+.empresa-rol { font-size: 9px; color: var(--purple); font-weight: 700; }
+.topbar-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: transparent; border: none; color: var(--text-dim); font-size: 17px; cursor: pointer; padding: 10px; border-radius: 8px; transition: all 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: rgba(106,27,154,0.15); }
+.icon-btn:active { background: rgba(106,27,154,0.25); }
+.icon-btn.activo { background: rgba(106,27,154,0.3); color: var(--purple); }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-titulo { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: var(--text-mute); }
+.page-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* KPIs */
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; position: relative; overflow: hidden; }
+.kpi-card::before { content:""; position: absolute; top:0; left:0; width:4px; height:100%; }
+.kpi-card.cyan::before { background: linear-gradient(180deg, var(--cyan), var(--cyan-deep)); }
+.kpi-card.purple::before { background: linear-gradient(180deg, var(--purple), var(--purple-deep)); }
+.kpi-card.green::before { background: linear-gradient(180deg, var(--green), #2e7d32); }
+.kpi-top { display:flex; justify-content: space-between; align-items:flex-start; margin-bottom: 8px; }
+.kpi-label { font-size: 10px; color: var(--text-mute); font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; }
+.kpi-icono { font-size: 18px; opacity: 0.7; }
+.kpi-valor { font-size: 26px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+.kpi-valor.cyan { color: var(--cyan); }
+.kpi-valor.purple { color: var(--purple); }
+.kpi-valor.green { color: var(--green); }
+.kpi-sub { font-size: 11px; color: var(--text-mute); font-weight: 600; }
+
+/* Filtros */
+.filtros-bar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filtros-bar .input-search { flex: 1; min-width: 200px; position: relative; }
+.filtros-bar .input-search .input { padding-left: 38px; padding-top: 10px; padding-bottom: 10px; font-size: 13px; }
+.filtros-bar .input-search .icono { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-mute); font-size: 14px; pointer-events: none; }
+.filtros-bar select { padding: 10px 34px 10px 12px; font-size: 12px; max-width: 200px; }
+
+/* Grid de clientes */
+.clientes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+
+.cliente-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.18s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cliente-card:hover { border-color: var(--cyan); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.cliente-card.inactivo { opacity: 0.65; }
+
+.cliente-card-head { display: flex; align-items: flex-start; gap: 12px; }
+
+.cliente-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: -0.5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.cliente-info { flex: 1; min-width: 0; }
+.cliente-nombre {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 3px;
+  word-break: break-word;
+  line-height: 1.2;
+}
+.cliente-telefono {
+  font-size: 12px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  word-break: break-all;
+}
+.cliente-fav {
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--text-mute);
+  opacity: 0.4;
+  transition: all 0.15s;
+  line-height: 1;
+  padding: 4px;
+  margin: -4px;
+}
+.cliente-fav:hover { opacity: 1; transform: scale(1.15); }
+.cliente-fav.activo { color: var(--yellow); opacity: 1; }
+
+.cliente-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+.stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-dim);
+}
+.stat-pill.cyan { background: rgba(0,229,255,0.12); color: var(--cyan); }
+.stat-pill.purple { background: rgba(179,136,255,0.12); color: var(--purple); }
+.stat-pill.green { background: rgba(76,175,80,0.12); color: var(--green); }
+.stat-pill.orange { background: rgba(255,167,38,0.12); color: var(--orange); }
+.stat-pill.dim { background: rgba(150,150,150,0.1); color: var(--text-mute); }
+
+.cliente-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.tag {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.tag.activo { background: rgba(76,175,80,0.15); color: var(--green); }
+.tag.reciente { background: rgba(0,229,255,0.15); color: var(--cyan); }
+.tag.inactivo { background: rgba(150,150,150,0.15); color: var(--text-mute); }
+
+/* Botones */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; min-height: 44px; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--purple-deep), #8e24aa); color: #fff; }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan-deep), #00acc1); color: #fff; }
+.btn-green { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+.btn-red { background: linear-gradient(135deg, #b71c1c, #c62828); color: #fff; }
+.btn-ghost { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
+.btn-sm { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.input-label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.input-label .opcional { color: var(--text-mute); font-weight: 500; text-transform: none; letter-spacing: 0; font-size: 10px; }
+.input, .select, textarea.input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; transition: all 0.15s; }
+.input:focus, .select:focus, textarea.input:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+.select { cursor: pointer; appearance: none; padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b388ff' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; }
+.select option { background: var(--card); color: var(--text); }
+textarea.input { resize: vertical; font-family: inherit; font-size: 13px; line-height: 1.5; }
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+.modal-overlay.activo { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border-strong); border-radius: 16px; width: 100%; max-width: 620px; max-height: 90vh; display: flex; flex-direction: column; animation: modalIn 0.25s; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+.modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.modal-titulo { font-size: 17px; font-weight: 800; word-break: break-word; }
+.modal-close { background: transparent; border: none; color: var(--text-mute); font-size: 24px; cursor: pointer; line-height: 1; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { color: var(--red); }
+.modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+/* Modal detalle */
+.detalle-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(106,27,154,0.12), rgba(0,229,255,0.06));
+  border: 1px solid rgba(0,229,255,0.2);
+  border-radius: 12px;
+  margin-bottom: 18px;
+}
+.detalle-hero .cliente-avatar { width: 68px; height: 68px; font-size: 24px; border-radius: 18px; }
+.detalle-hero-info { flex: 1; min-width: 0; }
+.detalle-hero-nombre { font-size: 19px; font-weight: 800; margin-bottom: 4px; word-break: break-word; line-height: 1.2; }
+.detalle-hero-contacto { font-size: 12px; color: var(--text-dim); display: flex; flex-direction: column; gap: 3px; }
+.detalle-hero-contacto a { color: var(--cyan); text-decoration: none; }
+.detalle-hero-contacto a:hover { text-decoration: underline; }
+
+.detalle-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.detalle-kpi {
+  padding: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+}
+.detalle-kpi .valor { font-size: 20px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+.detalle-kpi .valor.cyan { color: var(--cyan); }
+.detalle-kpi .valor.purple { color: var(--purple); }
+.detalle-kpi .valor.green { color: var(--green); }
+.detalle-kpi .lbl { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-mute); }
+
+.fila { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; gap: 8px; }
+.fila:last-child { border-bottom: none; }
+.fila .label { color: var(--text-dim); flex-shrink: 0; }
+.fila .valor { color: var(--text); font-weight: 700; text-align: right; word-break: break-word; }
+
+.historial-titulo {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 18px 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.historial-titulo .count {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: rgba(0,229,255,0.15);
+  color: var(--cyan);
+  font-weight: 800;
+}
+
+.orden-mini {
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.orden-mini:hover { border-color: var(--cyan); transform: translateX(2px); }
+.orden-mini-info { flex: 1; min-width: 0; }
+.orden-mini-titulo { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 2px; word-break: break-word; }
+.orden-mini-meta { font-size: 10px; color: var(--text-mute); font-family: 'Courier New', monospace; }
+.orden-mini-estado { font-size: 18px; flex-shrink: 0; }
+
+.empty-mini {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-mute);
+  font-size: 12px;
+  font-style: italic;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+/* Empty state general */
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-mute);
+}
+.empty-icono { font-size: 60px; opacity: 0.3; margin-bottom: 14px; }
+.empty-titulo { font-size: 16px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; }
+.empty-sub { font-size: 13px; }
+
+/* Toast */
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; pointer-events: auto; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; font-weight: 600; }
+
+/* ============================================================
+   RESPONSIVE v3.5
+   ============================================================ */
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 20px; }
+}
+
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; }
+
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; height: 100dvh; width: 260px; max-width: 85vw; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar.abierto { transform: translateX(0); }
+
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .hamburger { display: flex; }
+  .empresa-switcher { padding: 6px 10px; }
+  .empresa-nombre { font-size: 11px; }
+  .empresa-rol { font-size: 8px; }
+  .topbar-acciones { gap: 2px; }
+  .icon-btn { font-size: 18px; padding: 8px; min-width: 40px; min-height: 40px; }
+
+  .content { padding: 16px; }
+
+  .page-header { flex-direction: column; align-items: stretch; margin-bottom: 16px; }
+  .page-titulo { font-size: 22px; }
+  .page-sub { font-size: 12px; }
+  .page-acciones { width: 100%; }
+  .page-acciones .btn { flex: 1; justify-content: center; }
+
+  .kpi-grid { grid-template-columns: 1fr; gap: 10px; }
+  .kpi-card { padding: 14px 16px; }
+  .kpi-valor { font-size: 22px; }
+
+  .filtros-bar { padding: 10px 12px; gap: 8px; }
+  .filtros-bar .input-search { min-width: 100%; flex: 1 1 100%; }
+  .filtros-bar select { flex: 1 1 calc(50% - 4px); max-width: none; }
+  .filtros-bar .btn { flex: 1 1 100%; justify-content: center; }
+
+  .clientes-grid { grid-template-columns: 1fr; gap: 10px; }
+  .cliente-card { padding: 14px; }
+
+  /* Modales bottom-sheet */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal { max-width: 100%; max-height: 92vh; border-radius: 18px 18px 0 0; animation: modalSheet 0.28s ease; }
+  @keyframes modalSheet { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
+  .modal-header { padding: 16px 18px; }
+  .modal-titulo { font-size: 15px; }
+  .modal-body { padding: 16px 18px; }
+  .modal-footer { padding: 14px 18px; }
+  .modal-footer .btn { flex: 1 1 auto; justify-content: center; }
+
+  .detalle-hero { padding: 14px; gap: 12px; flex-wrap: wrap; }
+  .detalle-hero .cliente-avatar { width: 56px; height: 56px; font-size: 20px; }
+  .detalle-hero-nombre { font-size: 16px; }
+
+  .detalle-kpis { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .detalle-kpi { padding: 10px 6px; }
+  .detalle-kpi .valor { font-size: 17px; }
+
+  .form-row.cols-2, .form-row.cols-3 { grid-template-columns: 1fr; }
+
+  .toast-container { top: auto; bottom: 80px; left: 16px; right: 16px; }
+  .toast { min-width: auto; max-width: none; width: 100%; }
+
+  .btn { padding: 12px 16px; font-size: 13px; }
+  .btn-sm { padding: 8px 12px; font-size: 11px; min-height: 38px; }
+}
+
+@media (max-width: 480px) {
+  .content { padding: 12px; }
+  .page-titulo { font-size: 20px; }
+
+  .cliente-card { padding: 12px; }
+  .cliente-avatar { width: 46px; height: 46px; font-size: 16px; }
+  .cliente-nombre { font-size: 14px; }
+
+  .detalle-kpis { grid-template-columns: 1fr; }
+  .detalle-hero .cliente-avatar { width: 48px; height: 48px; font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-root">
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="cerrarSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-sidebar">
+      <div class="logo-icono">🏛️</div>
+      <div><div class="logo-nombre">Cajuña Pro</div><div class="logo-sub">v3.0</div></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sb-seccion">Principal</div>
+      <div class="sb-item" onclick="irA('dashboard.html')"><span class="sb-icono">📊</span>Dashboard</div>
+      <div class="sb-item" onclick="irA('nueva-orden.html')"><span class="sb-icono">➕</span>Nueva Orden</div>
+      <div class="sb-item" onclick="irA('llenado-parcial.html')"><span class="sb-icono">📦</span>Llenado Parcial</div>
+      <div class="sb-item" onclick="irA('produccion.html')"><span class="sb-icono">🔨</span>Producción</div>
+
+      <div class="sb-seccion">Biblioteca</div>
+      <div class="sb-item" onclick="irA('moldes.html')"><span class="sb-icono">🗄️</span>Moldes</div>
+      <div class="sb-item" onclick="irA('mis-modelos.html')"><span class="sb-icono">💾</span>Mis Modelos</div>
+      <div class="sb-item" onclick="irA('recetas.html')"><span class="sb-icono">📖</span>Recetas</div>
+      <div class="sb-item" onclick="irA('archivo.html')"><span class="sb-icono">📁</span>Archivo</div>
+      <div class="sb-item" onclick="irA('museo.html')"><span class="sb-icono">🏛️</span>Museo Virtual</div>
+
+      <div class="sb-seccion">Análisis</div>
+      <div class="sb-item" onclick="irA('stock.html')"><span class="sb-icono">📦</span>Stock</div>
+      <div class="sb-item" onclick="irA('laboratorio.html')"><span class="sb-icono">🧪</span>Laboratorio</div>
+      <div class="sb-item" onclick="irA('reportes.html')"><span class="sb-icono">📈</span>Reportes</div>
+
+      <div class="sb-seccion">Sistema</div>
+      <div class="sb-item activo" onclick="irA('clientes.html')"><span class="sb-icono">👥</span>Clientes</div>
+      <div class="sb-item" onclick="irA('usuarios.html')"><span class="sb-icono">👤</span>Usuarios</div>
+      <div class="sb-item" onclick="irA('configuracion.html')"><span class="sb-icono">⚙️</span>Configuración</div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="hamburger" onclick="abrirSidebar()" aria-label="Abrir menú">☰</button>
+      <div class="empresa-switcher">
+        <span>🏢</span>
+        <div><div class="empresa-nombre">Cajuña</div><div class="empresa-rol">Admin</div></div>
+      </div>
+      <div class="topbar-acciones">
+        <button class="icon-btn" onclick="toggleManosSucias()" id="btnManos" title="Manos sucias">🧤</button>
+        <button class="icon-btn" onclick="toggleTema()" id="btnTema" title="Cambiar tema">🎨</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-titulo">👥 Clientes</div>
+          <div class="page-sub" id="subtitulo">Cargando...</div>
+        </div>
+        <div class="page-acciones">
+          <button class="btn btn-ghost btn-sm" onclick="cargarDemo()">🎲 Demo</button>
+          <button class="btn btn-primary" onclick="abrirNuevo()">➕ Nuevo cliente</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card cyan">
+          <div class="kpi-top"><span class="kpi-label">Total clientes</span><span class="kpi-icono">👥</span></div>
+          <div class="kpi-valor cyan" id="kpiTotal">0</div>
+          <div class="kpi-sub">En tu base de datos</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-top"><span class="kpi-label">Activos este mes</span><span class="kpi-icono">🔥</span></div>
+          <div class="kpi-valor green" id="kpiActivos">0</div>
+          <div class="kpi-sub">Con órdenes este mes</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-top"><span class="kpi-label">Mejor cliente</span><span class="kpi-icono">🏆</span></div>
+          <div class="kpi-valor purple" id="kpiMejor" style="font-size:18px;">—</div>
+          <div class="kpi-sub" id="kpiMejorSub">Sin datos suficientes</div>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filtros-bar">
+        <div class="input-search">
+          <span class="icono">🔍</span>
+          <input class="input" id="busqueda" placeholder="Buscar por nombre, teléfono, email..." oninput="render()">
+        </div>
+        <select class="select" id="filtroOrden" onchange="render()">
+          <option value="recientes">Más recientes</option>
+          <option value="nombre">Nombre (A-Z)</option>
+          <option value="ordenes">Más órdenes</option>
+          <option value="favoritos">Favoritos primero</option>
+        </select>
+        <select class="select" id="filtroActividad" onchange="render()">
+          <option value="todos">Todos</option>
+          <option value="activos">Solo activos este mes</option>
+          <option value="inactivos">Sin órdenes</option>
+          <option value="favoritos">Solo favoritos</option>
+        </select>
+        <button class="btn btn-ghost btn-sm" onclick="limpiarFiltros()">↺ Limpiar</button>
+      </div>
+
+      <!-- Grid -->
+      <div class="clientes-grid" id="gridClientes"></div>
+    </main>
+  </div>
+</div>
+
+<!-- Modal crear/editar cliente -->
+<div class="modal-overlay" id="modalCliente" onclick="if(event.target===this)cerrarModalCliente()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-titulo" id="modalClienteTitulo">➕ Nuevo cliente</div>
+      <button class="modal-close" onclick="cerrarModalCliente()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row cols-2">
+        <div class="input-group">
+          <label class="input-label">Nombre completo *</label>
+          <input class="input" id="cliNombre" placeholder="Ej: Andrés León" autocomplete="off">
+        </div>
+        <div class="input-group">
+          <label class="input-label">Teléfono <span class="opcional">(WhatsApp)</span></label>
+          <input class="input" id="cliTelefono" placeholder="Ej: 04141234567" inputmode="tel" autocomplete="off">
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Email <span class="opcional">(opcional)</span></label>
+        <input class="input" id="cliEmail" type="email" placeholder="cliente@email.com" autocomplete="off">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Dirección <span class="opcional">(opcional)</span></label>
+        <input class="input" id="cliDireccion" placeholder="Ej: Av. Principal, Local 5" autocomplete="off">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Preferencias <span class="opcional">(opcional)</span></label>
+        <input class="input" id="cliPreferencias" placeholder="Ej: Prefiere tonos oscuros, entrega los viernes..." autocomplete="off">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Notas <span class="opcional">(opcional)</span></label>
+        <textarea class="input" id="cliNotas" rows="3" placeholder="Observaciones, historial, detalles..."></textarea>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Color del avatar</label>
+        <div id="paletaColores" style="display:flex;gap:8px;flex-wrap:wrap;padding-top:4px;"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="cerrarModalCliente()">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarCliente()">💾 Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal detalle -->
+<div class="modal-overlay" id="modalDetalle" onclick="if(event.target===this)cerrarDetalle()">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <div class="modal-titulo" id="detalleTitulo">Cliente</div>
+      <button class="modal-close" onclick="cerrarDetalle()">×</button>
+    </div>
+    <div class="modal-body" id="detalleBody"></div>
+    <div class="modal-footer" id="detalleFooter"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SIDEBAR MÓVIL
+// ============================================================
+function abrirSidebar() {
+  document.getElementById('sidebar').classList.add('abierto');
+  document.getElementById('sidebarBackdrop').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarSidebar() {
+  document.getElementById('sidebar').classList.remove('abierto');
+  document.getElementById('sidebarBackdrop').classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function irA(url) {
+  cerrarSidebar();
+  setTimeout(() => { location.href = url; }, 150);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    cerrarSidebar();
+    cerrarModalCliente();
+    cerrarDetalle();
+  }
+});
+
+// ============================================================
+// CONSTANTES
+// ============================================================
+const CLAVE_CLIENTES = 'cajupa_clientes_v1';
+const CLAVE_ORDENES = 'cajupa_ordenes';
+
+const PALETA_AVATARES = [
+  'linear-gradient(135deg, #6a1b9a, #b388ff)',  // purple
+  'linear-gradient(135deg, #00838f, #00e5ff)',  // cyan
+  'linear-gradient(135deg, #c2185b, #ec407a)',  // pink
+  'linear-gradient(135deg, #e65100, #ffa726)',  // orange
+  'linear-gradient(135deg, #2e7d32, #66bb6a)',  // green
+  'linear-gradient(135deg, #1565c0, #42a5f5)',  // blue
+  'linear-gradient(135deg, #827717, #d4e157)',  // lime
+  'linear-gradient(135deg, #4e342e, #a1887f)',  // brown
+  'linear-gradient(135deg, #37474f, #78909c)',  // slate
+  'linear-gradient(135deg, #ad1457, #f06292)'   // magenta
+];
+
+// ============================================================
+// ESTADO
+// ============================================================
+let clientes = [];
+let ordenes = [];
+let clienteEnEdicion = null;
+let colorSeleccionado = PALETA_AVATARES[0];
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+}
+function toggleTema() {
+  let actual = localStorage.getItem('cajupa_tema') || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem('cajupa_tema', nuevo);
+  aplicarTema(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+function toggleManosSucias() {
+  const activo = document.body.classList.toggle('manos-sucias');
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function hoyISO() { return new Date().toISOString().split('T')[0]; }
+
+function fmtFecha(iso) {
+  if (!iso) return '—';
+  const [y, m, d] = iso.split('T')[0].split('-');
+  return `${d}/${m}/${y.slice(2)}`;
+}
+
+function iniciales(nombre) {
+  if (!nombre) return '?';
+  const partes = nombre.trim().split(/\s+/);
+  if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+  return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+}
+
+function hashNombre(nombre) {
+  let h = 0;
+  const s = (nombre || '').toLowerCase();
+  for (let i = 0; i < s.length; i++) {
+    h = ((h << 5) - h) + s.charCodeAt(i);
+    h = h & h;
+  }
+  return Math.abs(h);
+}
+
+function colorPorNombre(nombre) {
+  return PALETA_AVATARES[hashNombre(nombre) % PALETA_AVATARES.length];
+}
+
+function mismoMes(iso) {
+  if (!iso) return false;
+  const f = new Date(iso);
+  const ahora = new Date();
+  return f.getFullYear() === ahora.getFullYear() && f.getMonth() === ahora.getMonth();
+}
+
+function limpiarTelefono(tel) {
+  if (!tel) return '';
+  return String(tel).replace(/[^0-9+]/g, '');
+}
+
+function linkWhatsApp(tel) {
+  const limpio = limpiarTelefono(tel);
+  if (!limpio) return null;
+  // Si empieza con 0, es Venezuela local → agregar 58
+  if (limpio.startsWith('0')) return 'https://wa.me/58' + limpio.slice(1);
+  if (limpio.startsWith('+')) return 'https://wa.me/' + limpio.slice(1);
+  if (limpio.startsWith('58')) return 'https://wa.me/' + limpio;
+  return 'https://wa.me/' + limpio;
+}
+
+// ============================================================
+// PERSISTENCIA
+// ============================================================
+function leerClientes() {
+  try {
+    const raw = localStorage.getItem(CLAVE_CLIENTES);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return [];
+}
+function guardarClientes(data) {
+  localStorage.setItem(CLAVE_CLIENTES, JSON.stringify(data));
+}
+function leerOrdenes() {
+  try {
+    const raw = localStorage.getItem(CLAVE_ORDENES);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return [];
+}
+
+// ============================================================
+// DATOS CALCULADOS POR CLIENTE
+// ============================================================
+function statsDeCliente(nombre) {
+  const misOrdenes = ordenes.filter(o => o.cliente === nombre);
+  const total = misOrdenes.length;
+  const activas = misOrdenes.filter(o => o.estado !== 'entregada').length;
+  const entregadas = misOrdenes.filter(o => o.estado === 'entregada').length;
+
+  let ultimoTrabajo = null;
+  if (misOrdenes.length > 0) {
+    const fechas = misOrdenes.map(o => o.fecha).filter(Boolean).sort();
+    ultimoTrabajo = fechas[fechas.length - 1] || null;
+  }
+
+  const activoEsteMes = misOrdenes.some(o => mismoMes(o.fecha));
+
+  return { total, activas, entregadas, ultimoTrabajo, activoEsteMes, ordenes: misOrdenes };
+}
+
+// ============================================================
+// DATOS DEMO (los mismos que ya aparecen en las órdenes)
+// ============================================================
+function clientesDemo() {
+  const hoy = new Date();
+  const haceMeses = (n) => {
+    const d = new Date(hoy);
+    d.setMonth(d.getMonth() - n);
+    return d.toISOString().split('T')[0];
+  };
+
+  return [
+    {
+      id: Date.now() + 1,
+      nombre: 'Andrés León',
+      telefono: '04141234567',
+      email: 'andres.leon@email.com',
+      direccion: 'Av. Bolívar, Casa 12',
+      notas: 'Cliente frecuente. Prefiere entregas los viernes.',
+      preferencias: 'Tonos cálidos, acabado mate',
+      desde: haceMeses(8),
+      favorito: false
+    },
+    {
+      id: Date.now() + 2,
+      nombre: 'Nicole Tovar',
+      telefono: '04249876543',
+      email: 'nicole.tovar@email.com',
+      direccion: 'Urb. Los Robles, Torre B',
+      notas: 'Trabaja con fruteros y piezas utilitarias en volumen.',
+      preferencias: 'Colores verdes y tierra',
+      desde: haceMeses(6),
+      favorito: true
+    },
+    {
+      id: Date.now() + 3,
+      nombre: 'Mármoles del Caribe',
+      telefono: '02125551234',
+      email: 'ventas@marmolescaribe.com',
+      direccion: 'Zona Industrial, Galpón 5',
+      notas: 'Empresa. Requiere facturas y órdenes formales.',
+      preferencias: 'Granito gris, pulido brillante',
+      desde: haceMeses(14),
+      favorito: true
+    },
+    {
+      id: Date.now() + 4,
+      nombre: 'Granitos Andinos',
+      telefono: '04165559876',
+      email: 'contacto@granitosandinos.com',
+      direccion: 'Av. Los Andes, Km 3',
+      notas: 'Trabaja con grandes volúmenes. Paga contra entrega.',
+      preferencias: 'Piedra blanca, alto brillo',
+      desde: haceMeses(11),
+      favorito: false
+    },
+    {
+      id: Date.now() + 5,
+      nombre: 'José Pérez',
+      telefono: '04147778899',
+      email: '',
+      direccion: 'Calle Sucre, Casa 45',
+      notas: '',
+      preferencias: '',
+      desde: haceMeses(3),
+      favorito: false
+    }
+  ];
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  clientes = leerClientes();
+  ordenes = leerOrdenes();
+
+  if (clientes.length === 0) {
+    clientes = clientesDemo();
+    guardarClientes(clientes);
+  }
+
+  render();
+  setTimeout(() => {
+    toast(`👥 ${clientes.length} cliente${clientes.length === 1 ? '' : 's'} cargados`, 'info');
+  }, 400);
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  renderKPIs();
+  renderGrid();
+  actualizarSubtitulo();
+}
+
+function renderKPIs() {
+  const total = clientes.length;
+  const activos = clientes.filter(c => statsDeCliente(c.nombre).activoEsteMes).length;
+
+  // Mejor cliente = más órdenes
+  let mejor = null;
+  let mejorCount = 0;
+  clientes.forEach(c => {
+    const s = statsDeCliente(c.nombre);
+    if (s.total > mejorCount) {
+      mejorCount = s.total;
+      mejor = c;
+    }
+  });
+
+  document.getElementById('kpiTotal').textContent = total;
+  document.getElementById('kpiActivos').textContent = activos;
+  document.getElementById('kpiMejor').textContent = mejor ? mejor.nombre : '—';
+  document.getElementById('kpiMejorSub').textContent = mejor
+    ? `${mejorCount} orden${mejorCount === 1 ? '' : 'es'}`
+    : 'Sin datos suficientes';
+}
+
+function actualizarSubtitulo() {
+  const total = clientes.length;
+  const activos = clientes.filter(c => statsDeCliente(c.nombre).activoEsteMes).length;
+  document.getElementById('subtitulo').textContent =
+    `${total} cliente${total === 1 ? '' : 's'} · ${activos} activo${activos === 1 ? '' : 's'} este mes`;
+}
+
+function filtrarYOrdenar() {
+  const q = (document.getElementById('busqueda')?.value || '').toLowerCase().trim();
+  const orden = document.getElementById('filtroOrden')?.value || 'recientes';
+  const actividad = document.getElementById('filtroActividad')?.value || 'todos';
+
+  let lista = [...clientes];
+
+  // Búsqueda
+  if (q) {
+    lista = lista.filter(c =>
+      (c.nombre || '').toLowerCase().includes(q) ||
+      (c.telefono || '').toLowerCase().includes(q) ||
+      (c.email || '').toLowerCase().includes(q) ||
+      (c.direccion || '').toLowerCase().includes(q)
+    );
+  }
+
+  // Filtro actividad
+  if (actividad === 'activos') {
+    lista = lista.filter(c => statsDeCliente(c.nombre).activoEsteMes);
+  } else if (actividad === 'inactivos') {
+    lista = lista.filter(c => statsDeCliente(c.nombre).total === 0);
+  } else if (actividad === 'favoritos') {
+    lista = lista.filter(c => c.favorito);
+  }
+
+  // Ordenar
+  if (orden === 'nombre') {
+    lista.sort((a, b) => (a.nombre || '').localeCompare(b.nombre || ''));
+  } else if (orden === 'ordenes') {
+    lista.sort((a, b) => statsDeCliente(b.nombre).total - statsDeCliente(a.nombre).total);
+  } else if (orden === 'favoritos') {
+    lista.sort((a, b) => {
+      if (a.favorito !== b.favorito) return b.favorito ? 1 : -1;
+      return (a.nombre || '').localeCompare(b.nombre || '');
+    });
+  } else {
+    // recientes: por desde desc
+    lista.sort((a, b) => new Date(b.desde || 0) - new Date(a.desde || 0));
+  }
+
+  return lista;
+}
+
+function renderGrid() {
+  const lista = filtrarYOrdenar();
+  const cont = document.getElementById('gridClientes');
+
+  if (lista.length === 0) {
+    const hayClientes = clientes.length > 0;
+    cont.innerHTML = `
+      <div class="empty" style="grid-column:1/-1;">
+        <div class="empty-icono">${hayClientes ? '🔍' : '👥'}</div>
+        <div class="empty-titulo">${hayClientes ? 'Sin resultados' : 'Todavía no hay clientes'}</div>
+        <div class="empty-sub">${hayClientes ? 'Probá cambiar los filtros' : 'Creá el primero con el botón ➕'}</div>
+      </div>
+    `;
+    return;
+  }
+
+  cont.innerHTML = lista.map(c => renderCard(c)).join('');
+}
+
+function renderCard(c) {
+  const stats = statsDeCliente(c.nombre);
+  const inicialesTxt = iniciales(c.nombre);
+  const color = c.color || colorPorNombre(c.nombre);
+  const wa = linkWhatsApp(c.telefono);
+
+  let tagActividad = '';
+  if (stats.activoEsteMes) {
+    tagActividad = '<span class="tag activo">🔥 Activo</span>';
+  } else if (stats.total === 0) {
+    tagActividad = '<span class="tag inactivo">Sin órdenes</span>';
+  } else {
+    tagActividad = '<span class="tag inactivo">Inactivo</span>';
+  }
+
+  const reciente = stats.ultimoTrabajo && mismoMes(stats.ultimoTrabajo);
+  const tagReciente = reciente ? '<span class="tag reciente">📅 Este mes</span>' : '';
+
+  return `
+    <div class="cliente-card ${stats.total === 0 ? 'inactivo' : ''}" onclick="abrirDetalle(${c.id})">
+      <div class="cliente-card-head">
+        <div class="cliente-avatar" style="background:${color};">${inicialesTxt}</div>
+        <div class="cliente-info">
+          <div class="cliente-nombre">${c.nombre}</div>
+          ${c.telefono ? `<div class="cliente-telefono">📱 ${c.telefono}</div>` : `<div class="cliente-telefono" style="font-style:italic;">Sin teléfono</div>`}
+        </div>
+        <div class="cliente-fav ${c.favorito ? 'activo' : ''}" onclick="event.stopPropagation();toggleFavorito(${c.id})" title="${c.favorito ? 'Quitar de favoritos' : 'Marcar como favorito'}">
+          ${c.favorito ? '★' : '☆'}
+        </div>
+      </div>
+
+      <div class="cliente-tags">
+        ${tagActividad}
+        ${tagReciente}
+      </div>
+
+      <div class="cliente-stats">
+        <span class="stat-pill cyan">📦 ${stats.total} orden${stats.total === 1 ? '' : 'es'}</span>
+        ${stats.activas > 0 ? `<span class="stat-pill orange">⚙️ ${stats.activas} activa${stats.activas === 1 ? '' : 's'}</span>` : ''}
+        ${stats.entregadas > 0 && stats.activas === 0 ? `<span class="stat-pill green">✓ ${stats.entregadas}</span>` : ''}
+        ${!stats.ultimoTrabajo ? `<span class="stat-pill dim">—</span>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// FAVORITOS
+// ============================================================
+function toggleFavorito(id) {
+  const idx = clientes.findIndex(c => String(c.id) === String(id));
+  if (idx === -1) return;
+  clientes[idx].favorito = !clientes[idx].favorito;
+  guardarClientes(clientes);
+  render();
+  toast(clientes[idx].favorito ? '⭐ Añadido a favoritos' : 'Quitado de favoritos', 'success');
+}
+
+// ============================================================
+// FILTROS
+// ============================================================
+function limpiarFiltros() {
+  document.getElementById('busqueda').value = '';
+  document.getElementById('filtroOrden').value = 'recientes';
+  document.getElementById('filtroActividad').value = 'todos';
+  render();
+}
+
+// ============================================================
+// MODAL CREAR / EDITAR
+// ============================================================
+function renderPaleta() {
+  const cont = document.getElementById('paletaColores');
+  cont.innerHTML = PALETA_AVATARES.map((g, i) => `
+    <div onclick="setColorAvatar('${g}', this)" data-color="${g}"
+         style="width:36px;height:36px;border-radius:10px;background:${g};cursor:pointer;border:3px solid ${g === colorSeleccionado ? 'var(--cyan)' : 'transparent'};transition:all 0.15s;">
+    </div>
+  `).join('');
+}
+
+function setColorAvatar(color, el) {
+  colorSeleccionado = color;
+  document.querySelectorAll('#paletaColores > div').forEach(d => {
+    d.style.border = '3px solid transparent';
+  });
+  el.style.border = '3px solid var(--cyan)';
+}
+
+function abrirNuevo() {
+  clienteEnEdicion = null;
+  document.getElementById('modalClienteTitulo').textContent = '➕ Nuevo cliente';
+  document.getElementById('cliNombre').value = '';
+  document.getElementById('cliTelefono').value = '';
+  document.getElementById('cliEmail').value = '';
+  document.getElementById('cliDireccion').value = '';
+  document.getElementById('cliPreferencias').value = '';
+  document.getElementById('cliNotas').value = '';
+  colorSeleccionado = PALETA_AVATARES[Math.floor(Math.random() * PALETA_AVATARES.length)];
+  renderPaleta();
+  document.getElementById('modalCliente').classList.add('activo');
+  setTimeout(() => document.getElementById('cliNombre').focus(), 150);
+}
+
+function abrirEditar(id) {
+  const c = clientes.find(x => String(x.id) === String(id));
+  if (!c) return;
+  clienteEnEdicion = c;
+  document.getElementById('modalClienteTitulo').textContent = '✏️ Editar cliente';
+  document.getElementById('cliNombre').value = c.nombre || '';
+  document.getElementById('cliTelefono').value = c.telefono || '';
+  document.getElementById('cliEmail').value = c.email || '';
+  document.getElementById('cliDireccion').value = c.direccion || '';
+  document.getElementById('cliPreferencias').value = c.preferencias || '';
+  document.getElementById('cliNotas').value = c.notas || '';
+  colorSeleccionado = c.color || colorPorNombre(c.nombre);
+  renderPaleta();
+  document.getElementById('modalCliente').classList.add('activo');
+}
+
+function cerrarModalCliente() {
+  document.getElementById('modalCliente').classList.remove('activo');
+  clienteEnEdicion = null;
+}
+
+function guardarCliente() {
+  const nombre = document.getElementById('cliNombre').value.trim();
+  if (!nombre) {
+    toast('⚠️ El nombre es obligatorio', 'warning');
+    return;
+  }
+
+  const telefono = document.getElementById('cliTelefono').value.trim();
+  const email = document.getElementById('cliEmail').value.trim();
+  const direccion = document.getElementById('cliDireccion').value.trim();
+  const preferencias = document.getElementById('cliPreferencias').value.trim();
+  const notas = document.getElementById('cliNotas').value.trim();
+
+  if (clienteEnEdicion) {
+    // Editar
+    const idx = clientes.findIndex(x => x.id === clienteEnEdicion.id);
+    if (idx !== -1) {
+      clientes[idx].nombre = nombre;
+      clientes[idx].telefono = telefono;
+      clientes[idx].email = email;
+      clientes[idx].direccion = direccion;
+      clientes[idx].preferencias = preferencias;
+      clientes[idx].notas = notas;
+      clientes[idx].color = colorSeleccionado;
+      guardarClientes(clientes);
+      toast(`✓ "${nombre}" actualizado`, 'success');
+    }
+  } else {
+    // Nuevo
+    const existe = clientes.some(c => (c.nombre || '').toLowerCase() === nombre.toLowerCase());
+    if (existe) {
+      toast('⚠️ Ya existe un cliente con ese nombre', 'warning');
+      return;
+    }
+    clientes.push({
+      id: Date.now(),
+      nombre,
+      telefono,
+      email,
+      direccion,
+      preferencias,
+      notas,
+      color: colorSeleccionado,
+      desde: hoyISO(),
+      favorito: false
+    });
+    guardarClientes(clientes);
+    toast(`✓ "${nombre}" creado`, 'success');
+  }
+
+  cerrarModalCliente();
+  render();
+}
+
+// ============================================================
+// MODAL DETALLE
+// ============================================================
+function abrirDetalle(id) {
+  const c = clientes.find(x => String(x.id) === String(id));
+  if (!c) return;
+
+  const stats = statsDeCliente(c.nombre);
+  const color = c.color || colorPorNombre(c.nombre);
+  const inicialesTxt = iniciales(c.nombre);
+  const wa = linkWhatsApp(c.telefono);
+
+  document.getElementById('detalleTitulo').textContent = c.nombre;
+
+  const historialHTML = stats.ordenes.length === 0
+    ? `<div class="empty-mini">Todavía no tiene órdenes registradas</div>`
+    : [...stats.ordenes]
+        .sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0))
+        .slice(0, 10)
+        .map(o => {
+          const iconos = { 'por-hacer':'📋', 'muestra':'🧪', 'proceso':'⚙️', 'lista':'✓', 'entregada':'📤' };
+          const ic = iconos[o.estado] || '📋';
+          return `
+            <div class="orden-mini" onclick="event.stopPropagation();irA('produccion.html')" title="Ver en Producción">
+              <div class="orden-mini-info">
+                <div class="orden-mini-titulo">${o.proyecto || 'Sin proyecto'}</div>
+                <div class="orden-mini-meta">${o.id} · ${fmtFecha(o.fecha)}</div>
+              </div>
+              <div class="orden-mini-estado">${ic}</div>
+            </div>
+          `;
+        }).join('') +
+        (stats.ordenes.length > 10 ? `<div style="text-align:center;font-size:11px;color:var(--text-mute);padding:8px;">+ ${stats.ordenes.length - 10} órdenes más</div>` : '');
+
+  const bodyHTML = `
+    <div class="detalle-hero">
+      <div class="cliente-avatar" style="background:${color};">${inicialesTxt}</div>
+      <div class="detalle-hero-info">
+        <div class="detalle-hero-nombre">${c.nombre}</div>
+        <div class="detalle-hero-contacto">
+          ${c.telefono ? `<span>📱 ${c.telefono}</span>` : ''}
+          ${c.email ? `<a href="mailto:${c.email}">✉️ ${c.email}</a>` : ''}
+          ${!c.telefono && !c.email ? '<span style="font-style:italic;opacity:0.6;">Sin datos de contacto</span>' : ''}
+        </div>
+      </div>
+    </div>
+
+    <div class="detalle-kpis">
+      <div class="detalle-kpi">
+        <div class="valor cyan">${stats.total}</div>
+        <div class="lbl">Total órdenes</div>
+      </div>
+      <div class="detalle-kpi">
+        <div class="valor ${stats.activas > 0 ? 'purple' : 'green'}">${stats.activas > 0 ? stats.activas : stats.entregadas}</div>
+        <div class="lbl">${stats.activas > 0 ? 'Activas' : 'Entregadas'}</div>
+      </div>
+      <div class="detalle-kpi">
+        <div class="valor green">${stats.ultimoTrabajo ? fmtFecha(stats.ultimoTrabajo).slice(0, 5) : '—'}</div>
+        <div class="lbl">Último trabajo</div>
+      </div>
+    </div>
+
+    ${c.direccion ? `<div class="fila"><span class="label">📍 Dirección</span><span class="valor">${c.direccion}</span></div>` : ''}
+    ${c.desde ? `<div class="fila"><span class="label">📅 Cliente desde</span><span class="valor">${fmtFecha(c.desde)}</span></div>` : ''}
+    ${c.preferencias ? `<div class="fila"><span class="label">⭐ Preferencias</span><span class="valor">${c.preferencias}</span></div>` : ''}
+    ${c.notas ? `<div class="fila" style="align-items:flex-start;"><span class="label">📝 Notas</span><span class="valor" style="font-weight:500;text-align:right;max-width:60%;">${c.notas}</span></div>` : ''}
+
+    <div class="historial-titulo">
+      <span>📦 Historial de órdenes</span>
+      <span class="count">${stats.total}</span>
+    </div>
+    ${historialHTML}
+  `;
+
+  document.getElementById('detalleBody').innerHTML = bodyHTML;
+
+  const botones = [];
+  if (wa) {
+    botones.push({ txt: '📞 WhatsApp', class: 'btn-green', fn: () => window.open(wa, '_blank') });
+  }
+  botones.push({ txt: '✏️ Editar', class: 'btn-ghost', fn: () => { cerrarDetalle(); abrirEditar(id); } });
+  botones.push({ txt: '🗑 Eliminar', class: 'btn-red', fn: () => eliminarCliente(id) });
+  botones.push({ txt: 'Cerrar', class: 'btn-primary', fn: cerrarDetalle });
+
+  document.getElementById('detalleFooter').innerHTML = botones.map((b, i) =>
+    `<button class="btn ${b.class}" onclick="window._detalleBtns[${i}]()">${b.txt}</button>`
+  ).join('');
+  window._detalleBtns = botones.map(b => b.fn);
+
+  document.getElementById('modalDetalle').classList.add('activo');
+}
+
+function cerrarDetalle() {
+  document.getElementById('modalDetalle').classList.remove('activo');
+}
+
+function eliminarCliente(id) {
+  const c = clientes.find(x => String(x.id) === String(id));
+  if (!c) return;
+
+  const stats = statsDeCliente(c.nombre);
+  const aviso = stats.total > 0
+    ? `\n\n⚠️ Tiene ${stats.total} orden${stats.total === 1 ? '' : 'es'} registrada${stats.total === 1 ? '' : 's'}. Las órdenes se mantendrán en Producción y Archivo.`
+    : '';
+
+  if (!confirm(`¿Eliminar a "${c.nombre}"?${aviso}\n\nEsta acción no se puede deshacer.`)) return;
+
+  clientes = clientes.filter(x => String(x.id) !== String(id));
+  guardarClientes(clientes);
+  cerrarDetalle();
+  render();
+  toast(`Cliente "${c.nombre}" eliminado`, 'info');
+}
+
+// ============================================================
+// DEMO
+// ============================================================
+function cargarDemo() {
+  if (clientes.length > 0) {
+    if (!confirm('Ya hay clientes cargados. ¿Agregar los 5 demo de todas formas?')) return;
+  }
+  const demo = clientesDemo();
+  // Evitar duplicados por nombre
+  const nombresExistentes = new Set(clientes.map(c => (c.nombre || '').toLowerCase()));
+  const nuevos = demo.filter(d => !nombresExistentes.has(d.nombre.toLowerCase()));
+  if (nuevos.length === 0) {
+    toast('ℹ️ Los clientes demo ya están cargados', 'info');
+    return;
+  }
+  clientes = [...clientes, ...nuevos];
+  guardarClientes(clientes);
+  render();
+  toast(`🎲 ${nuevos.length} clientes demo agregados`, 'success');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo = 'info') {
+  const iconos = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'toastIn 0.3s ease reverse';
+    setTimeout(() => el.remove(), 300);
+  }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+aplicarTema(localStorage.getItem('cajupa_tema') || 'brand');
+if (localStorage.getItem('cajupa_manos') === '1') {
+  document.body.classList.add('manos-sucias');
+  document.getElementById('btnManos').classList.add('activo');
+}
+
+init();
+
+// Sincronizar si otra pestaña cambia clientes u órdenes
+window.addEventListener('storage', (e) => {
+  if (e.key === CLAVE_CLIENTES) {
+    clientes = leerClientes();
+    render();
+  }
+  if (e.key === CLAVE_ORDENES) {
+    ordenes = leerOrdenes();
+    render();
+  }
+});
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

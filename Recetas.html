@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro v3.0 — Recetas</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+  --topbar-h: 60px;
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .sidebar { background:#0a0a0a; border-right-color:rgba(255,255,255,0.08); }
+body.theme-dark .topbar { background:#0a0a0a; border-bottom-color:rgba(255,255,255,0.08); }
+body.theme-dark .sb-item:hover { background:rgba(255,255,255,0.05); color:#f0f0f0; }
+body.theme-dark .sb-item.activo { background:linear-gradient(90deg, rgba(196,163,255,0.15), rgba(77,239,255,0.05)); color:#f0f0f0; border-left-color:#c4a3ff; }
+body.theme-dark .empresa-switcher { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+body.theme-dark .panel, body.theme-dark .kpi-card, body.theme-dark .receta-card { background:#242424; border-color:rgba(255,255,255,0.1); }
+body.theme-dark .input, body.theme-dark .select { background:#0f0f0f; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn:hover { background:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn.activo { background:rgba(179,136,255,0.2); }
+body.theme-dark .tab { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.1); }
+body.theme-dark .modal { background:#141414; border-color:rgba(255,255,255,0.15); }
+body.theme-dark .color-row-card { background:#101010; }
+body.theme-dark .fila { border-bottom-color: rgba(255,255,255,0.06); }
+body.theme-dark .receta-card:hover { border-color:#b388ff; }
+body.theme-dark .color-item { background:#101010; }
+body.theme-dark .pigmento-row .input, body.theme-dark .pigmento-row .select { background:rgba(255,255,255,0.04); }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light .sidebar { background:#f7f7f5; border-right-color:#e9e9e7; }
+body.theme-light .topbar { background:#fbfbfa; border-bottom-color:#e9e9e7; }
+body.theme-light .logo-sidebar { border-bottom-color:#e9e9e7; }
+body.theme-light .sb-item { color:#57564f; }
+body.theme-light .sb-item:hover { background:rgba(0,0,0,0.04); color:#37352f; }
+body.theme-light .sb-item.activo { background:linear-gradient(90deg,rgba(107,70,193,0.15),rgba(11,122,140,0.08)); color:#37352f; border-left-color:#6b46c1; }
+body.theme-light .empresa-switcher { background:rgba(107,70,193,0.08); border-color:#e9e9e7; }
+body.theme-light .icon-btn { color:#57564f; }
+body.theme-light .icon-btn:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .icon-btn.activo { background:rgba(107,70,193,0.15); color:#6b46c1; }
+body.theme-light .panel, body.theme-light .kpi-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .input, body.theme-light .select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus, body.theme-light .select:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .select option { background:#fff; color:#37352f; }
+body.theme-light .tab { background:#fff; border-color:#e9e9e7; color:#57564f; }
+body.theme-light .tab.activo { background:#37352f; color:#fff; border-color:#37352f; }
+body.theme-light .modal { background:#fff; border-color:#d3d1cb; }
+body.theme-light .modal-header { border-bottom-color:#e9e9e7; }
+body.theme-light .modal-footer { border-top-color:#e9e9e7; }
+body.theme-light .modal-titulo { color:#37352f; }
+body.theme-light .toast { background:#fff; border-color:#d3d1cb; }
+body.theme-light .toast-msg { color:#37352f; }
+body.theme-light .color-row-card { background:#fbfbfa; border-color:#e9e9e7; }
+body.theme-light .fila { border-bottom-color: rgba(0,0,0,0.05); }
+body.theme-light .receta-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .receta-card:hover { border-color:#6b46c1; box-shadow:0 4px 12px rgba(107,70,193,0.12); }
+body.theme-light .color-item { background:#fbfbfa; border-color:#e9e9e7; }
+body.theme-light .pigmento-row .input, body.theme-light .pigmento-row .select { background:#fff; }
+
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-text-size-adjust: 100%; }
+.app-root { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
+
+.sidebar { width: 230px; background: var(--bg-3); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.25s ease; z-index: 100; }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+.logo-sidebar { display: flex; align-items: center; gap: 12px; padding: 18px; border-bottom: 1px solid var(--border); }
+.logo-icono { width: 42px; height: 42px; background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.logo-nombre { font-size: 15px; font-weight: 800; }
+.logo-sub { font-size: 10px; color: var(--text-mute); }
+.sidebar-nav { flex: 1; padding: 8px 10px 20px; }
+.sb-seccion { font-size: 9px; font-weight: 800; color: var(--text-mute); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 12px 6px; }
+.sb-item { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px; font-size: 14px; color: var(--text-dim); font-weight: 600; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sb-item:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.sb-item.activo { background: linear-gradient(90deg, rgba(106,27,154,0.4), rgba(0,229,255,0.08)); color: var(--text); border-left: 3px solid var(--purple); }
+.sb-icono { font-size: 17px; width: 24px; text-align: center; flex-shrink: 0; }
+
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; opacity: 0; transition: opacity 0.25s ease; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.sidebar-backdrop.activo { display: block; opacity: 1; }
+
+.main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--border); min-height: var(--topbar-h); flex-shrink: 0; }
+.hamburger { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 8px 10px; border-radius: 8px; transition: background 0.15s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.hamburger:hover { background: rgba(106,27,154,0.15); }
+.hamburger:active { background: rgba(106,27,154,0.25); }
+.empresa-switcher { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(106,27,154,0.2); border: 1px solid var(--border); border-radius: 10px; }
+.empresa-nombre { font-size: 12px; font-weight: 800; }
+.empresa-rol { font-size: 9px; color: var(--purple); font-weight: 700; }
+.topbar-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: transparent; border: none; color: var(--text-dim); font-size: 17px; cursor: pointer; padding: 10px; border-radius: 8px; transition: all 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: rgba(106,27,154,0.15); }
+.icon-btn:active { background: rgba(106,27,154,0.25); }
+.icon-btn.activo { background: rgba(106,27,154,0.3); color: var(--purple); }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-titulo { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: var(--text-mute); }
+.page-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; min-height: 44px; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--purple-deep), #8e24aa); color: #fff; }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan-deep), #00acc1); color: #fff; }
+.btn-green { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+.btn-orange { background: linear-gradient(135deg, #e65100, #f57c00); color: #fff; }
+.btn-red { background: linear-gradient(135deg, #b71c1c, #c62828); color: #fff; }
+.btn-ghost { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
+.btn-sm { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.input-label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.input, .select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; transition: all 0.15s; }
+.input:focus, .select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+.input::placeholder { color: var(--text-mute); }
+.select { cursor: pointer; appearance: none; padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b388ff' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; }
+.select option { background: var(--card); color: var(--text); }
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.input-search { position: relative; }
+.input-search .input { padding-left: 40px; }
+.input-search .input-icono { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-mute); font-size: 16px; pointer-events: none; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+.kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; position: relative; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+.kpi-card:hover { transform: translateY(-3px); border-color: var(--cyan); }
+.kpi-card::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+.kpi-card.cyan::before { background: linear-gradient(180deg, var(--cyan), var(--cyan-deep)); }
+.kpi-card.purple::before { background: linear-gradient(180deg, var(--purple), var(--purple-deep)); }
+.kpi-card.green::before { background: linear-gradient(180deg, var(--green), #2e7d32); }
+.kpi-card.yellow::before { background: linear-gradient(180deg, var(--yellow), #f9a825); }
+.kpi-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.kpi-label { font-size: 10px; color: var(--text-mute); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.kpi-icono { font-size: 20px; opacity: 0.7; }
+.kpi-valor { font-size: 28px; font-weight: 900; line-height: 1; margin-bottom: 6px; }
+.kpi-valor.cyan { color: var(--cyan); }
+.kpi-valor.purple { color: var(--purple); }
+.kpi-valor.green { color: var(--green); }
+.kpi-valor.yellow { color: var(--yellow); }
+.kpi-cambio { font-size: 11px; color: var(--text-mute); font-weight: 700; }
+
+.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 18px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { padding: 9px 18px; border-radius: 22px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: inherit; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.tab.activo { background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); color: #fff; border-color: transparent; }
+
+.recetas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.receta-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: all 0.2s; position: relative; display: flex; flex-direction: column; }
+.receta-card:hover { transform: translateY(-4px); border-color: var(--purple); box-shadow: 0 8px 24px rgba(106,27,154,0.15); }
+.receta-banda-colores { display: flex; height: 8px; width: 100%; }
+.receta-banda-colores > div { flex: 1; }
+.receta-body { padding: 16px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.receta-header { display: flex; align-items: flex-start; gap: 10px; }
+.receta-emoji { width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg, rgba(179,136,255,0.15), rgba(0,229,255,0.08)); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.receta-info { flex: 1; min-width: 0; }
+.receta-nombre { font-size: 15px; font-weight: 800; color: var(--text); line-height: 1.25; margin-bottom: 3px; word-break: break-word; }
+.receta-cliente { font-size: 11px; color: var(--text-mute); font-weight: 600; }
+.receta-fav { position: absolute; top: 16px; right: 12px; font-size: 16px; cursor: pointer; transition: transform 0.2s; background: transparent; border: none; padding: 4px; }
+.receta-fav:hover { transform: scale(1.2); }
+
+.receta-colores-preview { display: flex; gap: 4px; flex-wrap: wrap; }
+.receta-color-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); position: relative; }
+.receta-meta { display: flex; gap: 8px; flex-wrap: wrap; font-size: 10px; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+.receta-meta span { padding: 3px 8px; border-radius: 6px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); }
+body.theme-light .receta-meta span { background: #fbfbfa; }
+
+.receta-stats { display: flex; gap: 12px; font-size: 11px; color: var(--text-mute); padding-top: 10px; border-top: 1px dashed var(--border); margin-top: auto; }
+.receta-stats .item { display: flex; align-items: center; gap: 4px; }
+.receta-stats .item strong { color: var(--text-dim); font-weight: 800; }
+
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+.badge-cyan { background: rgba(0,229,255,0.15); color: var(--cyan); }
+.badge-purple { background: rgba(179,136,255,0.15); color: var(--purple); }
+.badge-yellow { background: rgba(255,213,79,0.15); color: var(--yellow); }
+.badge-green { background: rgba(76,175,80,0.15); color: var(--green); }
+.badge-orange { background: rgba(255,167,38,0.15); color: var(--orange); }
+.badge-dim { background: rgba(255,255,255,0.06); color: var(--text-mute); }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+.modal-overlay.activo { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border-strong); border-radius: 16px; width: 100%; max-width: 640px; max-height: 90vh; display: flex; flex-direction: column; animation: modalIn 0.25s; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.modal-titulo { font-size: 17px; font-weight: 800; }
+.modal-close { background: transparent; border: none; color: var(--text-mute); font-size: 28px; cursor: pointer; line-height: 1; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { color: var(--red); }
+.modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+.fila { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; gap: 8px; }
+.fila:last-child { border-bottom: none; }
+.fila .label { color: var(--text-dim); }
+.fila .valor { color: var(--text); font-weight: 700; text-align: right; }
+.valor.cyan { color: var(--cyan); }
+.valor.purple { color: var(--purple); }
+.valor.green { color: var(--green); }
+.valor.orange { color: var(--orange); }
+.valor.mute { color: var(--text-mute); font-weight: 500; font-size: 12px; }
+
+.caja-hero { background: linear-gradient(135deg, rgba(106,27,154,0.15), rgba(0,229,255,0.08)); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 16px; text-align: center; }
+.caja-hero .emoji-grande { font-size: 52px; line-height: 1; margin-bottom: 8px; }
+.caja-hero .titulo-hero { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.caja-hero .cliente-hero { font-size: 12px; color: var(--text-dim); }
+
+.banda-colores-grande { display: flex; height: 28px; border-radius: 8px; overflow: hidden; margin-bottom: 16px; border: 1px solid var(--border); }
+.banda-colores-grande > div { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+
+.ingrediente-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
+.ingrediente-icon { font-size: 18px; }
+.ingrediente-nombre { flex: 1; font-size: 13px; font-weight: 700; color: var(--text); }
+.ingrediente-cant { font-size: 12px; color: var(--cyan); font-weight: 800; }
+
+.color-row-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 8px; }
+.color-row-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.color-row-info { display: flex; align-items: center; gap: 8px; }
+.color-row-pct { font-weight: 800; color: var(--cyan); font-size: 14px; }
+.pct-input-wrapper { display: flex; align-items: center; gap: 8px; }
+.pct-input-wrapper input[type=range] { flex: 1; }
+.pct-input-wrapper input[type=number] { width: 60px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 6px; padding: 5px 6px; font-size: 12px; color: var(--text); font-family: inherit; outline: none; text-align: center; font-weight: 700; }
+body.theme-light .pct-input-wrapper input[type=number] { background: #fff; }
+
+.color-swatch { width: 22px; height: 22px; border-radius: 5px; border: 2px solid var(--border); flex-shrink: 0; }
+
+.colores-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+.colores-tab { padding: 10px 16px; background: transparent; border: none; color: var(--text-mute); font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.colores-tab.activo { color: var(--cyan); border-bottom-color: var(--cyan); }
+.colores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+.color-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+.color-item:hover { border-color: var(--cyan); transform: translateY(-1px); }
+.color-nombre { flex: 1; font-size: 12px; font-weight: 600; }
+
+.pigmento-row { display: grid; grid-template-columns: 1.4fr 70px 1fr; gap: 6px; margin-bottom: 6px; align-items: center; }
+.pigmento-row .select, .pigmento-row .input { padding: 8px; font-size: 12px; }
+.pigmento-row .select { padding-right: 28px; background-position: right 8px center; background-size: 14px; }
+
+.selector-emojis { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; max-height: 160px; overflow-y: auto; padding: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; }
+.selector-emojis button { background: transparent; border: 1px solid transparent; border-radius: 8px; padding: 6px; font-size: 18px; cursor: pointer; transition: all 0.15s; }
+.selector-emojis button:hover { background: rgba(106,27,154,0.15); border-color: var(--border); }
+.selector-emojis button.sel { background: rgba(106,27,154,0.3); border-color: var(--purple); }
+
+.empty { text-align: center; padding: 60px 20px; color: var(--text-mute); grid-column: 1 / -1; }
+.empty-icono { font-size: 60px; opacity: 0.3; margin-bottom: 16px; }
+.empty-titulo { font-size: 16px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; }
+.empty-sub { font-size: 13px; }
+
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; pointer-events: auto; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; font-weight: 600; }
+
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 20px; }
+  .recetas-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .kpi-valor { font-size: 24px; }
+}
+
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; }
+
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; height: 100dvh; width: 260px; max-width: 85vw; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar.abierto { transform: translateX(0); }
+
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .hamburger { display: flex; }
+  .empresa-switcher { padding: 6px 10px; }
+  .empresa-nombre { font-size: 11px; }
+  .empresa-rol { font-size: 8px; }
+  .topbar-acciones { gap: 2px; }
+  .icon-btn { font-size: 18px; padding: 8px; min-width: 40px; min-height: 40px; }
+
+  .content { padding: 16px; }
+
+  .page-header { flex-direction: column; align-items: stretch; margin-bottom: 16px; }
+  .page-titulo { font-size: 22px; }
+  .page-sub { font-size: 12px; }
+  .page-acciones { width: 100%; }
+  .page-acciones .btn { flex: 1; justify-content: center; }
+
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .kpi-card { padding: 14px; }
+  .kpi-valor { font-size: 24px; }
+  .kpi-label { font-size: 9px; }
+
+  .panel { padding: 16px; }
+
+  .recetas-grid { grid-template-columns: 1fr; gap: 12px; }
+  .receta-emoji { width: 40px; height: 40px; font-size: 20px; }
+  .receta-nombre { font-size: 14px; }
+
+  .form-row.cols-2, .form-row.cols-3 { grid-template-columns: 1fr; }
+
+  .selector-emojis { grid-template-columns: repeat(6, 1fr); }
+
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal { max-width: 100%; max-height: 92vh; border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-top-left-radius: 20px; border-top-right-radius: 20px; animation: modalInMobile 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  @keyframes modalInMobile { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal::before { content: ""; display: block; width: 40px; height: 4px; background: var(--border-strong); border-radius: 2px; margin: 10px auto 0; }
+  .modal-header { padding: 14px 20px 16px; }
+  .modal-body { padding: 16px 20px; }
+  .modal-footer { padding: 14px 20px; }
+  .modal-footer .btn { flex: 1; justify-content: center; }
+
+  .toast-container { top: auto; bottom: 80px; left: 16px; right: 16px; }
+  .toast { min-width: auto; max-width: none; width: 100%; }
+
+  .btn { padding: 12px 16px; font-size: 13px; }
+  .btn-sm { padding: 8px 12px; font-size: 11px; min-height: 38px; }
+
+  .caja-hero .emoji-grande { font-size: 42px; }
+  .caja-hero .titulo-hero { font-size: 16px; }
+
+  .banda-colores-grande { height: 24px; }
+}
+
+@media (max-width: 480px) {
+  .content { padding: 12px; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .page-titulo { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-root">
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="cerrarSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-sidebar">
+      <div class="logo-icono">🏛️</div>
+      <div><div class="logo-nombre">Cajuña Pro</div><div class="logo-sub">v3.0</div></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sb-seccion">Principal</div>
+      <div class="sb-item" onclick="irA('dashboard.html')"><span class="sb-icono">📊</span>Dashboard</div>
+      <div class="sb-item" onclick="irA('nueva-orden.html')"><span class="sb-icono">➕</span>Nueva Orden</div>
+      <div class="sb-item" onclick="irA('llenado-parcial.html')"><span class="sb-icono">📦</span>Llenado Parcial</div>
+      <div class="sb-item" onclick="irA('produccion.html')"><span class="sb-icono">🔨</span>Producción</div>
+
+      <div class="sb-seccion">Biblioteca</div>
+      <div class="sb-item" onclick="irA('moldes.html')"><span class="sb-icono">🗄️</span>Moldes</div>
+      <div class="sb-item" onclick="irA('mis-modelos.html')"><span class="sb-icono">💾</span>Mis Modelos</div>
+      <div class="sb-item activo" onclick="irA('recetas.html')"><span class="sb-icono">📖</span>Recetas</div>
+      <div class="sb-item" onclick="irA('archivo.html')"><span class="sb-icono">📁</span>Archivo</div>
+      <div class="sb-item" onclick="irA('museo.html')"><span class="sb-icono">🏛️</span>Museo Virtual</div>
+
+      <div class="sb-seccion">Análisis</div>
+      <div class="sb-item" onclick="irA('stock.html')"><span class="sb-icono">📦</span>Stock</div>
+      <div class="sb-item" onclick="irA('laboratorio.html')"><span class="sb-icono">🧪</span>Laboratorio</div>
+      <div class="sb-item" onclick="irA('reportes.html')"><span class="sb-icono">📈</span>Reportes</div>
+
+      <div class="sb-seccion">Sistema</div>
+      <div class="sb-item" onclick="irA('clientes.html')"><span class="sb-icono">👥</span>Clientes</div>
+      <div class="sb-item" onclick="irA('usuarios.html')"><span class="sb-icono">👤</span>Usuarios</div>
+      <div class="sb-item" onclick="irA('configuracion.html')"><span class="sb-icono">⚙️</span>Configuración</div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="hamburger" onclick="abrirSidebar()" aria-label="Abrir menú">☰</button>
+      <div class="empresa-switcher">
+        <span>🏢</span>
+        <div><div class="empresa-nombre">Cajuña</div><div class="empresa-rol">Admin</div></div>
+      </div>
+      <div class="topbar-acciones">
+        <button class="icon-btn" onclick="toggleManosSucias()" id="btnManos" title="Manos sucias">🧤</button>
+        <button class="icon-btn" onclick="toggleTema()" id="btnTema" title="Cambiar tema">🎨</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-titulo">📖 Recetas</div>
+          <div class="page-sub" id="subtitulo">Cargando...</div>
+        </div>
+        <div class="page-acciones">
+          <button class="btn btn-ghost" onclick="exportarWhatsApp()">📤 Compartir</button>
+          <button class="btn btn-primary" onclick="abrirNuevaReceta()">➕ Nueva receta</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card cyan">
+          <div class="kpi-top"><span class="kpi-label">Total recetas</span><span class="kpi-icono">📖</span></div>
+          <div class="kpi-valor cyan" id="kpiTotal">0</div>
+          <div class="kpi-cambio">En biblioteca</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-top"><span class="kpi-label">Más usada</span><span class="kpi-icono">🔥</span></div>
+          <div class="kpi-valor purple" id="kpiTop" style="font-size:14px;line-height:1.2;">—</div>
+          <div class="kpi-cambio" id="kpiTopVeces">Sin uso aún</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-top"><span class="kpi-label">Favoritas</span><span class="kpi-icono">⭐</span></div>
+          <div class="kpi-valor green" id="kpiFav">0</div>
+          <div class="kpi-cambio">Marcadas por el taller</div>
+        </div>
+        <div class="kpi-card yellow">
+          <div class="kpi-top"><span class="kpi-label">Este mes</span><span class="kpi-icono">📅</span></div>
+          <div class="kpi-valor yellow" id="kpiMes">0</div>
+          <div class="kpi-cambio">Recetas nuevas</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="input-search" style="margin-bottom:16px;">
+          <span class="input-icono">🔍</span>
+          <input class="input" placeholder="Buscar receta, cliente, color o nota..." id="busqueda" oninput="render()">
+        </div>
+
+        <div class="tabs" id="tabsFiltros"></div>
+
+        <div class="recetas-grid" id="gridRecetas"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)cerrarModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-titulo" id="modalTitulo">Modal</div>
+      <button class="modal-close" onclick="cerrarModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalColores" onclick="if(event.target===this)cerrarSelectorColores()">
+  <div class="modal" style="max-width:560px;">
+    <div class="modal-header">
+      <div class="modal-titulo">🎨 Seleccionar color</div>
+      <button class="modal-close" onclick="cerrarSelectorColores()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="colores-tabs">
+        <button class="colores-tab activo" onclick="switchTabColores('predeterminados', this)">Predeterminados</button>
+        <button class="colores-tab" onclick="switchTabColores('nuevos', this)">Nuevos</button>
+      </div>
+      <div id="listaPredeterminados" class="colores-grid"></div>
+      <div id="listaNuevos" class="colores-grid" style="display:none;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="abrirCrearColor()">➕ Crear nuevo</button>
+      <button class="btn btn-primary btn-sm" onclick="cerrarSelectorColores()">Listo</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalCrearColor" onclick="if(event.target===this)cerrarCrearColor()">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <div class="modal-titulo">➕ Crear color</div>
+      <button class="modal-close" onclick="cerrarCrearColor()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="input-group"><label class="input-label">Nombre</label><input class="input" id="nuevoColorNombre" placeholder="Ej: Terracota Mawari"></div>
+      <div class="input-group"><label class="input-label">Color</label><input type="color" class="input" id="nuevoColorHex" value="#c66b4e" style="height:50px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="cerrarCrearColor()">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarNuevoColor()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SIDEBAR MÓVIL
+// ============================================================
+function abrirSidebar() {
+  document.getElementById('sidebar').classList.add('abierto');
+  document.getElementById('sidebarBackdrop').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarSidebar() {
+  document.getElementById('sidebar').classList.remove('abierto');
+  document.getElementById('sidebarBackdrop').classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function irA(url) {
+  cerrarSidebar();
+  setTimeout(() => { location.href = url; }, 150);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarSidebar();
+});
+
+// ============================================================
+// CONSTANTES
+// ============================================================
+const CLAVE_RECETAS = 'cajupa_recetas_v1';
+const CLAVE_COLORES_NUEVOS = 'cajupa_colores_nuevos';
+const CLAVE_COLORES_FAV = 'cajupa_colores_fav';
+
+const TIPOS_MEZCLA = ['Concreto', 'Resina', 'Aliven', 'Yeso'];
+
+const COLORES_PREDETERMINADOS = [
+  { nombre: 'Rojo', hex: '#ef5350' }, { nombre: 'Naranja', hex: '#ff6b35' },
+  { nombre: 'Amarillo', hex: '#ffd54f' }, { nombre: 'Verde Lima', hex: '#cddc39' },
+  { nombre: 'Verde', hex: '#4caf50' }, { nombre: 'Verde Oscuro', hex: '#2e7d32' },
+  { nombre: 'Turquesa', hex: '#26c6da' }, { nombre: 'Cian', hex: '#00e5ff' },
+  { nombre: 'Azul Claro', hex: '#42a5f5' }, { nombre: 'Azul', hex: '#1565c0' },
+  { nombre: 'Azul Oscuro', hex: '#0d47a1' }, { nombre: 'Índigo', hex: '#3f51b5' },
+  { nombre: 'Violeta', hex: '#9c27b0' }, { nombre: 'Morado', hex: '#7b1fa2' },
+  { nombre: 'Rosa', hex: '#ec407a' }, { nombre: 'Fucsia', hex: '#e91e63' },
+  { nombre: 'Café', hex: '#795548' }, { nombre: 'Marrón', hex: '#8d6e63' },
+  { nombre: 'Gris', hex: '#9e9e9e' }, { nombre: 'Gris Oscuro', hex: '#424242' },
+  { nombre: 'Negro', hex: '#000000' }, { nombre: 'Blanco', hex: '#ffffff' },
+  { nombre: 'Beige', hex: '#d7ccc8' }, { nombre: 'Crema', hex: '#fff8e1' },
+  { nombre: 'Dorado', hex: '#ffc107' }, { nombre: 'Plateado', hex: '#b0bec5' },
+  { nombre: 'Terracota', hex: '#c66b4e' }, { nombre: 'Mostaza', hex: '#d4a017' }
+];
+
+const EMOJIS = ['🎨','🎭','🌈','🎯','✨','🔥','💧','🌊','⭐','💎','🟫','⚫','⚪','🟣','🟢','🟡','🔴','🔵','🟠','🍷','🌺','🍀','🌸','🎪'];
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+}
+function toggleTema() {
+  let actual = localStorage.getItem('cajupa_tema') || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem('cajupa_tema', nuevo);
+  aplicarTema(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+function toggleManosSucias() {
+  const activo = document.body.classList.toggle('manos-sucias');
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function hoyISO() { return new Date().toISOString().split('T')[0]; }
+function fmtFecha(iso) {
+  if (!iso) return '—';
+  const [y, m, d] = iso.split('T')[0].split('-');
+  return `${d}/${m}/${y.slice(2)}`;
+}
+
+// ============================================================
+// DATOS DEMO
+// ============================================================
+function generarRecetasDefault() {
+  const hoy = new Date();
+  const año = hoy.getFullYear();
+  const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+  return [
+    { id: 1, nombre: 'Naranja V.2', cliente: 'Andrés León', tipo: 'Concreto', emoji: '🔥', colores: [{ nombre: 'Naranja', hex: '#ff6b35', pct: 60, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Rojo', hex: '#ef5350', pct: 40, pigmentosTabla: [], pigmentosLibres: [] }], piedras: ['Blanca Especial #0'], notas: 'Excelente para lavamanos grandes. Muy vistosa al sol.', vecesUsado: 8, ultimoUso: `${año}-${mes}-10`, favorita: true, fecha: `${año}-${mes}-01`, autor: 'Jesús' },
+    { id: 2, nombre: 'Verde Palo', cliente: 'Nicole Tovar', tipo: 'Concreto', emoji: '🌿', colores: [{ nombre: 'Verde Oscuro', hex: '#2e7d32', pct: 45, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Crema', hex: '#fff8e1', pct: 30, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Mostaza', hex: '#d4a017', pct: 25, pigmentosTabla: [], pigmentosLibres: [] }], piedras: ['Marfil #1'], notas: 'Tono natural. Ideal para macetas y fruteros.', vecesUsado: 12, ultimoUso: `${año}-${mes}-12`, favorita: true, fecha: `${año}-${mes}-02`, autor: 'Andrés' },
+    { id: 3, nombre: 'Terracota Mawari', cliente: 'Mármoles del Caribe', tipo: 'Concreto', emoji: '🏺', colores: [{ nombre: 'Terracota', hex: '#c66b4e', pct: 70, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Café', hex: '#795548', pct: 20, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Amarillo', hex: '#ffd54f', pct: 10, pigmentosTabla: [], pigmentosLibres: [] }], piedras: ['Arenilla Blanca #0'], notas: 'Color tierra clásico. Combina con blanco.', vecesUsado: 5, ultimoUso: `${año}-${mes}-08`, favorita: false, fecha: `${año}-${mes}-03`, autor: 'Jesús' },
+    { id: 4, nombre: 'Azul Cielo', cliente: 'Granitos Andinos', tipo: 'Resina', emoji: '💧', colores: [{ nombre: 'Azul Claro', hex: '#42a5f5', pct: 55, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Cian', hex: '#00e5ff', pct: 30, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Blanco', hex: '#ffffff', pct: 15, pigmentosTabla: [], pigmentosLibres: [] }], piedras: ['Blanca Especial #1'], notas: 'Exclusivo para resina. Brillante.', vecesUsado: 3, ultimoUso: `${año}-${mes}-05`, favorita: false, fecha: `${año}-${mes}-05`, autor: 'Nicole' },
+    { id: 5, nombre: 'Negro Medianoche', cliente: 'José Pérez', tipo: 'Concreto', emoji: '⚫', colores: [{ nombre: 'Negro', hex: '#000000', pct: 80, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Gris Oscuro', hex: '#424242', pct: 20, pigmentosTabla: [], pigmentosLibres: [] }], piedras: ['Piedra Negra #0', 'Piedra Negra #1'], notas: 'Piezas elegantes. Difícil de pulir.', vecesUsado: 6, ultimoUso: `${año}-${mes}-09`, favorita: false, fecha: `${año}-${mes}-06`, autor: 'Andrés' },
+    { id: 6, nombre: 'Rosado Suave', cliente: 'Andrés León', tipo: 'Concreto', emoji: '🌸', colores: [{ nombre: 'Rosa', hex: '#ec407a', pct: 25, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Blanco', hex: '#ffffff', pct: 50, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Crema', hex: '#fff8e1', pct: 25, pigmentosTabla: [], pigmentosLibres: [] }], piedras: ['Blanca Especial #0'], notas: 'Muy suave. Se ve bien con luz natural.', vecesUsado: 2, ultimoUso: `${año}-${mes}-07`, favorita: false, fecha: `${año}-${mes}-07`, autor: 'Nicole' },
+    { id: 7, nombre: 'Dorado Barroco', cliente: 'Granitos Andinos', tipo: 'Concreto', emoji: '✨', colores: [{ nombre: 'Dorado', hex: '#ffc107', pct: 40, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Mostaza', hex: '#d4a017', pct: 35, pigmentosTabla: [], pigmentosLibres: [] }, { nombre: 'Café', hex: '#795548', pct: 25, pigmentosTabla: [], pigmentosLibres: [] }], piedras: ['Marfil #1', 'Arenilla Roja #0'], notas: 'Detalles decorativos. Combinar con crema.', vecesUsado: 4, ultimoUso: `${año}-${mes}-11`, favorita: true, fecha: `${año}-${mes}-08`, autor: 'Jesús' }
+  ];
+}
+
+// ============================================================
+// STORAGE
+// ============================================================
+function leerRecetas() {
+  try {
+    const raw = localStorage.getItem(CLAVE_RECETAS);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+    const defaults = generarRecetasDefault();
+    localStorage.setItem(CLAVE_RECETAS, JSON.stringify(defaults));
+    return defaults;
+  } catch(e) {
+    return generarRecetasDefault();
+  }
+}
+
+function guardarRecetas(recetas) {
+  try {
+    localStorage.setItem(CLAVE_RECETAS, JSON.stringify(recetas));
+  } catch(e) {
+    toast('⚠️ No se pudo guardar', 'error');
+  }
+}
+
+function leerColoresNuevos() {
+  try {
+    const raw = localStorage.getItem(CLAVE_COLORES_NUEVOS);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) { return []; }
+}
+
+// ============================================================
+// ESTADO GLOBAL
+// ============================================================
+let filtroActual = 'todas';
+let recetaEditando = null;
+let coloresEditando = [];
+let emojiSeleccionado = '🎨';
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  renderTabs();
+  renderGrid();
+  actualizarKPIs();
+  actualizarSubtitulo();
+}
+
+function actualizarSubtitulo() {
+  const recetas = leerRecetas();
+  const clientes = new Set(recetas.map(r => r.cliente).filter(Boolean));
+  document.getElementById('subtitulo').textContent =
+    `${recetas.length} recetas · ${clientes.size} clientes`;
+}
+
+function actualizarKPIs() {
+  const recetas = leerRecetas();
+  document.getElementById('kpiTotal').textContent = recetas.length;
+
+  const top = [...recetas].sort((a, b) => (b.vecesUsado || 0) - (a.vecesUsado || 0))[0];
+  const kpiTop = document.getElementById('kpiTop');
+  const kpiTopVeces = document.getElementById('kpiTopVeces');
+  if (top && top.vecesUsado > 0) {
+    kpiTop.textContent = top.nombre;
+    kpiTopVeces.textContent = `${top.vecesUsado} usos · ${top.emoji || '🎨'}`;
+  } else {
+    kpiTop.textContent = '—';
+    kpiTopVeces.textContent = 'Sin uso aún';
+  }
+
+  document.getElementById('kpiFav').textContent = recetas.filter(r => r.favorita).length;
+
+  const ahora = new Date();
+  const mesActual = ahora.getMonth();
+  const añoActual = ahora.getFullYear();
+  const deEsteMes = recetas.filter(r => {
+    if (!r.fecha) return false;
+    const d = new Date(r.fecha);
+    return d.getMonth() === mesActual && d.getFullYear() === añoActual;
+  }).length;
+  document.getElementById('kpiMes').textContent = deEsteMes;
+}
+
+function renderTabs() {
+  const recetas = leerRecetas();
+  const tipos = TIPOS_MEZCLA.filter(t => recetas.some(r => r.tipo === t));
+
+  const tabs = [
+    { id: 'todas', icono: '🗂', label: 'Todas', count: recetas.length },
+    { id: 'favoritas', icono: '⭐', label: 'Favoritas', count: recetas.filter(r => r.favorita).length },
+    ...tipos.map(t => ({
+      id: 'tipo:' + t,
+      icono: t === 'Concreto' ? '🏗️' : t === 'Resina' ? '💧' : t === 'Aliven' ? '☁️' : '⬜',
+      label: t,
+      count: recetas.filter(r => r.tipo === t).length
+    }))
+  ];
+
+  document.getElementById('tabsFiltros').innerHTML = tabs.map(t =>
+    `<button class="tab ${filtroActual === t.id ? 'activo' : ''}" onclick="cambiarFiltro('${t.id}')">${t.icono} ${t.label} <span style="opacity:0.7;font-size:10px;">(${t.count})</span></button>`
+  ).join('');
+}
+
+function cambiarFiltro(id) {
+  filtroActual = id;
+  render();
+}
+
+function renderGrid() {
+  const q = document.getElementById('busqueda').value.trim().toLowerCase();
+  let recetas = leerRecetas();
+
+  if (filtroActual === 'favoritas') recetas = recetas.filter(r => r.favorita);
+  else if (filtroActual.startsWith('tipo:')) {
+    const tipo = filtroActual.slice(5);
+    recetas = recetas.filter(r => r.tipo === tipo);
+  }
+
+  if (q) {
+    recetas = recetas.filter(r =>
+      r.nombre.toLowerCase().includes(q) ||
+      (r.cliente || '').toLowerCase().includes(q) ||
+      (r.notas || '').toLowerCase().includes(q) ||
+      (r.colores || []).some(c => c.nombre.toLowerCase().includes(q))
+    );
+  }
+
+  recetas.sort((a, b) => {
+    if (a.favorita !== b.favorita) return b.favorita ? 1 : -1;
+    return (b.vecesUsado || 0) - (a.vecesUsado || 0);
+  });
+
+  const grid = document.getElementById('gridRecetas');
+  if (recetas.length === 0) {
+    grid.innerHTML = `
+      <div class="empty">
+        <div class="empty-icono">📖</div>
+        <div class="empty-titulo">Sin recetas</div>
+        <div class="empty-sub">No hay recetas que coincidan con los filtros</div>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = recetas.map(r => {
+    const bandaColores = (r.colores || []).map(c =>
+      `<div style="background:${c.hex};width:${c.pct}%;"></div>`
+    ).join('');
+
+    const dotsColores = (r.colores || []).slice(0, 6).map(c =>
+      `<div class="receta-color-dot" style="background:${c.hex};" title="${c.nombre} ${c.pct}%"></div>`
+    ).join('');
+
+    return `
+      <div class="receta-card" onclick="verReceta(${r.id})">
+        <div class="receta-banda-colores">${bandaColores}</div>
+        <div class="receta-body">
+          <div class="receta-header">
+            <div class="receta-emoji">${r.emoji || '🎨'}</div>
+            <div class="receta-info">
+              <div class="receta-nombre">${r.nombre}</div>
+              <div class="receta-cliente">👤 ${r.cliente || 'Sin cliente'}</div>
+            </div>
+          </div>
+          <div class="receta-colores-preview">${dotsColores}</div>
+          <div class="receta-meta">
+            <span>${tipoIcono(r.tipo)} ${r.tipo}</span>
+            ${(r.piedras || []).length > 0 ? `<span>🪨 ${r.piedras.length}</span>` : ''}
+          </div>
+          <div class="receta-stats">
+            <div class="item">🔥 <strong>${r.vecesUsado || 0}</strong> usos</div>
+            <div class="item" style="margin-left:auto;">📅 ${fmtFecha(r.ultimoUso || r.fecha)}</div>
+          </div>
+        </div>
+        <button class="receta-fav" onclick="event.stopPropagation();toggleFav(${r.id})" title="${r.favorita ? 'Quitar de favoritas' : 'Marcar como favorita'}">
+          ${r.favorita ? '⭐' : '☆'}
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+function tipoIcono(t) {
+  return t === 'Concreto' ? '🏗️' : t === 'Resina' ? '💧' : t === 'Aliven' ? '☁️' : '⬜';
+}
+
+function toggleFav(id) {
+  const recetas = leerRecetas();
+  const r = recetas.find(x => x.id === id);
+  if (!r) return;
+  r.favorita = !r.favorita;
+  guardarRecetas(recetas);
+  render();
+  toast(r.favorita ? `⭐ ${r.nombre} en favoritas` : `${r.nombre} fuera de favoritas`, 'info');
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function abrirModal(titulo, cuerpo, botones = [], maxWidth = null) {
+  document.getElementById('modalTitulo').textContent = titulo;
+  document.getElementById('modalBody').innerHTML = cuerpo;
+  document.getElementById('modalFooter').innerHTML = botones.map((b, i) =>
+    `<button class="btn ${b.class}" onclick="window._modalBtns[${i}]()">${b.txt}</button>`
+  ).join('');
+  window._modalBtns = botones.map(b => b.fn);
+  const modal = document.querySelector('.modal');
+  modal.style.maxWidth = maxWidth || '640px';
+  document.getElementById('modalOverlay').classList.add('activo');
+}
+
+function cerrarModal() {
+  document.getElementById('modalOverlay').classList.remove('activo');
+}
+
+// ============================================================
+// VER RECETA
+// ============================================================
+function verReceta(id) {
+  const recetas = leerRecetas();
+  const r = recetas.find(x => x.id === id);
+  if (!r) return;
+
+  const bandaHTML = (r.colores || []).map(c =>
+    `<div style="background:${c.hex};width:${c.pct}%;">${c.pct}%</div>`
+  ).join('');
+
+  const coloresHTML = (r.colores || []).map(c => {
+    const pigT = (c.pigmentosTabla || []).filter(p => p.pigmento !== 'Color' && p.cantidad);
+    const pigL = (c.pigmentosLibres || []).filter(p => p.pigmento !== 'Color' && p.cantidad);
+    return `
+      <div class="ingrediente-row" style="flex-direction:column;align-items:stretch;gap:6px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="color-swatch" style="background:${c.hex};"></div>
+          <div class="ingrediente-nombre">${c.nombre}</div>
+          <div class="ingrediente-cant">${c.pct}%</div>
+        </div>
+        ${pigT.map(p => `<div style="font-size:11px;color:var(--text-dim);padding-left:30px;">• ${p.pigmento}: ${p.cantidad} × ${p.cuchara}</div>`).join('')}
+        ${pigL.map(p => `<div style="font-size:11px;color:var(--text-dim);padding-left:30px;">• ${p.pigmento}: ${p.cantidad} ${p.unidad} <em>(libre)</em></div>`).join('')}
+      </div>
+    `;
+  }).join('');
+
+  const piedrasHTML = (r.piedras || []).length > 0
+    ? (r.piedras || []).map(p => `
+      <div class="ingrediente-row">
+        <div class="ingrediente-icon">🪨</div>
+        <div class="ingrediente-nombre">${p}</div>
+      </div>`).join('')
+    : '<div style="text-align:center;padding:14px;color:var(--text-mute);font-size:12px;">Sin piedras registradas</div>';
+
+  const bodyHTML = `
+    <div class="caja-hero">
+      <div class="emoji-grande">${r.emoji || '🎨'}</div>
+      <div class="titulo-hero">${r.nombre}</div>
+      <div class="cliente-hero">👤 ${r.cliente || 'Sin cliente'}</div>
+    </div>
+
+    ${bandaHTML ? `<div class="banda-colores-grande">${bandaHTML}</div>` : ''}
+
+    <div class="fila"><span class="label">Tipo de mezcla</span><span class="valor purple">${tipoIcono(r.tipo)} ${r.tipo}</span></div>
+    <div class="fila"><span class="label">Autor</span><span class="valor">${r.autor || '—'}</span></div>
+    <div class="fila"><span class="label">Creada</span><span class="valor mute">${fmtFecha(r.fecha)}</span></div>
+    <div class="fila"><span class="label">Veces usada</span><span class="valor green">${r.vecesUsado || 0} veces</span></div>
+    <div class="fila"><span class="label">Último uso</span><span class="valor">${fmtFecha(r.ultimoUso)}</span></div>
+
+    <div style="margin-top:16px;">
+      <div class="input-label" style="margin-bottom:8px;">🎨 Colores (${(r.colores || []).length})</div>
+      ${coloresHTML || '<div style="text-align:center;padding:14px;color:var(--text-mute);font-size:12px;">Sin colores</div>'}
+    </div>
+
+    <div style="margin-top:16px;">
+      <div class="input-label" style="margin-bottom:8px;">🪨 Piedras</div>
+      ${piedrasHTML}
+    </div>
+
+    ${r.notas ? `
+      <div style="margin-top:16px;">
+        <div class="input-label" style="margin-bottom:8px;">📝 Notas</div>
+        <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:13px;color:var(--text-dim);line-height:1.6;">
+          ${r.notas}
+        </div>
+      </div>
+    ` : ''}
+  `;
+
+  const botones = [
+    { txt: '🗑 Eliminar', class: 'btn-red', fn: () => eliminarReceta(id) },
+    { txt: '✏️ Editar', class: 'btn-cyan', fn: () => abrirEditarReceta(id) },
+    { txt: '📥 Usar en orden', class: 'btn-green', fn: () => usarEnOrden(id) },
+    { txt: '📤 WhatsApp', class: 'btn-primary', fn: () => compartirWhatsApp(id) }
+  ];
+
+  abrirModal(`${r.emoji || '🎨'} ${r.nombre}`, bodyHTML, botones, '660px');
+}
+
+function usarEnOrden(id) {
+  const recetas = leerRecetas();
+  const r = recetas.find(x => x.id === id);
+  if (!r) return;
+
+  r.vecesUsado = (r.vecesUsado || 0) + 1;
+  r.ultimoUso = hoyISO();
+  guardarRecetas(recetas);
+
+  toast(`✓ "${r.nombre}" lista para usar en Nueva Orden`, 'success');
+  setTimeout(() => {
+    location.href = 'nueva-orden.html?receta=' + id;
+  }, 800);
+}
+
+function compartirWhatsApp(id) {
+  const recetas = leerRecetas();
+  const r = recetas.find(x => x.id === id);
+  if (!r) return;
+
+  const coloresStr = (r.colores || []).map(c => `   • ${c.nombre}: ${c.pct}%`).join('\n');
+  const piedrasStr = (r.piedras || []).length > 0
+    ? '\n🪨 Piedras:\n' + r.piedras.map(p => `   • ${p}`).join('\n')
+    : '';
+
+  const texto = `📖 *${r.nombre}*\n\n` +
+    `👤 Cliente: ${r.cliente || 'Sin cliente'}\n` +
+    `🧪 Tipo: ${r.tipo}\n\n` +
+    `🎨 *Colores:*\n${coloresStr}\n` +
+    `${piedrasStr}\n\n` +
+    (r.notas ? `📝 *Notas:* ${r.notas}\n\n` : '') +
+    `_Receta de Cajuña Pro_`;
+
+  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+  toast('💬 Abriendo WhatsApp...', 'success');
+}
+
+function eliminarReceta(id) {
+  const recetas = leerRecetas();
+  const r = recetas.find(x => x.id === id);
+  if (!r) return;
+  if (!confirm(`¿Eliminar la receta "${r.nombre}"?\n\nSe perdió el registro de ${r.vecesUsado || 0} usos.`)) return;
+
+  const nuevos = recetas.filter(x => x.id !== id);
+  guardarRecetas(nuevos);
+  cerrarModal();
+  render();
+  toast('Receta eliminada', 'info');
+}
+
+// ============================================================
+// CREAR / EDITAR RECETA
+// ============================================================
+function abrirNuevaReceta() {
+  recetaEditando = {
+    id: null, nombre: '', cliente: '', tipo: 'Concreto', emoji: '🎨',
+    colores: [], piedras: [], notas: '', vecesUsado: 0, ultimoUso: null,
+    favorita: false, fecha: hoyISO(), autor: 'Jesús'
+  };
+  coloresEditando = [];
+  emojiSeleccionado = '🎨';
+  renderModalReceta('Nueva receta');
+}
+
+function abrirEditarReceta(id) {
+  const recetas = leerRecetas();
+  const r = recetas.find(x => x.id === id);
+  if (!r) return;
+  recetaEditando = JSON.parse(JSON.stringify(r));
+  coloresEditando = JSON.parse(JSON.stringify(r.colores || []));
+  emojiSeleccionado = r.emoji || '🎨';
+  renderModalReceta(`Editar ${r.nombre}`);
+}
+
+function renderModalReceta(titulo) {
+  const r = recetaEditando;
+
+  const emojisHTML = EMOJIS.map(e =>
+    `<button type="button" class="emoji-btn ${e === emojiSeleccionado ? 'sel' : ''}" data-emoji="${e}">${e}</button>`
+  ).join('');
+
+  const bodyHTML = `
+    <div class="form-row cols-2">
+      <div class="input-group">
+        <label class="input-label">Nombre de la receta</label>
+        <input class="input" id="rNombre" placeholder="Ej: Naranja V.2" value="${r.nombre}">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Cliente</label>
+        <input class="input" id="rCliente" placeholder="Ej: Andrés León" value="${r.cliente}">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Tipo de mezcla</label>
+      <select class="select" id="rTipo">
+        ${TIPOS_MEZCLA.map(t => `<option ${t === r.tipo ? 'selected' : ''}>${t}</option>`).join('')}
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Ícono / Emoji</label>
+      <div class="selector-emojis" id="emojiSelector">
+        ${emojisHTML}
+      </div>
+    </div>
+
+    <div class="input-group" style="margin-top:16px;">
+      <label class="input-label">🎨 Colores de la receta</label>
+      <div id="coloresEditandoHTML" style="margin-bottom:10px;"></div>
+      <button type="button" class="btn btn-cyan btn-sm" onclick="abrirSelectorColores()" style="width:100%;justify-content:center;">
+        ➕ Agregar color
+      </button>
+    </div>
+
+    <div class="input-group" style="margin-top:16px;">
+      <label class="input-label">🪨 Piedras (separadas por coma)</label>
+      <input class="input" id="rPiedras" placeholder="Ej: Blanca Especial #0, Marfil #1" value="${(r.piedras || []).join(', ')}">
+    </div>
+
+    <div class="input-group" style="margin-top:16px;">
+      <label class="input-label">📝 Notas</label>
+      <textarea class="input" id="rNotas" rows="3" placeholder="Observaciones, cuándo usarla, tips de mezclado..." style="resize:vertical;font-family:inherit;">${r.notas}</textarea>
+    </div>
+  `;
+
+  abrirModal(titulo, bodyHTML, [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: cerrarModal },
+    { txt: '💾 Guardar', class: 'btn-primary', fn: guardarRecetaDesdeModal }
+  ], '680px');
+
+  setTimeout(() => {
+    document.querySelectorAll('.emoji-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        emojiSeleccionado = btn.dataset.emoji;
+        document.querySelectorAll('.emoji-btn').forEach(b => {
+          b.classList.remove('sel');
+        });
+        btn.classList.add('sel');
+      });
+    });
+    renderColoresEditando();
+  }, 30);
+}
+
+function renderColoresEditando() {
+  const cont = document.getElementById('coloresEditandoHTML');
+  if (!cont) return;
+
+  if (coloresEditando.length === 0) {
+    cont.innerHTML = `<div style="text-align:center;padding:14px;color:var(--text-mute);font-size:12px;border:1px dashed var(--border);border-radius:8px;">Sin colores agregados</div>`;
+    return;
+  }
+
+  const suma = coloresEditando.reduce((s, c) => s + c.pct, 0);
+  const sumaColor = suma === 100 ? 'var(--green)' : suma > 100 ? 'var(--red)' : 'var(--orange)';
+
+  cont.innerHTML = coloresEditando.map((c, i) => `
+    <div class="color-row-card">
+      <div class="color-row-head">
+        <div class="color-row-info">
+          <div class="color-swatch" style="background:${c.hex};"></div>
+          <span style="font-size:13px;font-weight:700;">${c.nombre}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="color-row-pct">${c.pct}%</span>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="quitarColorEditando(${i})">✕</button>
+        </div>
+      </div>
+      <div class="pct-input-wrapper">
+        <input type="range" min="0" max="100" value="${c.pct}" oninput="cambiarPctEditando(${i}, this.value)">
+        <input type="number" min="0" max="100" value="${c.pct}" oninput="cambiarPctEditando(${i}, this.value)">
+      </div>
+    </div>
+  `).join('') + `
+    <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(255,255,255,0.03);border-radius:8px;font-size:12px;font-weight:700;">
+      <span style="color:var(--text-dim);">Total</span>
+      <span style="color:${sumaColor};">${suma}%</span>
+    </div>
+  `;
+}
+
+function cambiarPctEditando(idx, valor) {
+  valor = Math.max(0, Math.min(100, parseInt(valor) || 0));
+  const sumaOtros = coloresEditando.reduce((s, c, i) => i === idx ? s : s + c.pct, 0);
+  const maxPermitido = Math.max(0, 100 - sumaOtros);
+  if (valor > maxPermitido) {
+    valor = maxPermitido;
+    toast(`⚠️ Máximo ${valor}% (los otros colores ya suman ${sumaOtros}%)`, 'warning');
+  }
+  coloresEditando[idx].pct = valor;
+  renderColoresEditando();
+}
+
+function quitarColorEditando(i) {
+  coloresEditando.splice(i, 1);
+  renderColoresEditando();
+}
+
+// ============================================================
+// SELECTOR DE COLORES
+// ============================================================
+function abrirSelectorColores() {
+  document.getElementById('modalColores').classList.add('activo');
+  renderListasColores();
+}
+
+function cerrarSelectorColores() {
+  document.getElementById('modalColores').classList.remove('activo');
+}
+
+function switchTabColores(tab, el) {
+  document.querySelectorAll('.colores-tab').forEach(t => t.classList.remove('activo'));
+  el.classList.add('activo');
+  document.getElementById('listaPredeterminados').style.display = tab === 'predeterminados' ? 'grid' : 'none';
+  document.getElementById('listaNuevos').style.display = tab === 'nuevos' ? 'grid' : 'none';
+}
+
+function renderListasColores() {
+  const nuevos = leerColoresNuevos();
+  document.getElementById('listaPredeterminados').innerHTML = COLORES_PREDETERMINADOS.map(c =>
+    `<div class="color-item" onclick="agregarColorEditando('${c.nombre}','${c.hex}')">
+      <div class="color-swatch" style="background:${c.hex};"></div>
+      <div class="color-nombre">${c.nombre}</div>
+    </div>`
+  ).join('');
+  document.getElementById('listaNuevos').innerHTML = nuevos.length === 0
+    ? '<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-mute);font-size:12px;">No hay colores nuevos</div>'
+    : nuevos.map(c =>
+      `<div class="color-item" onclick="agregarColorEditando('${c.nombre}','${c.hex}')">
+        <div class="color-swatch" style="background:${c.hex};"></div>
+        <div class="color-nombre">${c.nombre}</div>
+      </div>`
+    ).join('');
+}
+
+function agregarColorEditando(nombre, hex) {
+  if (coloresEditando.some(c => c.nombre === nombre)) {
+    toast('⚠️ Ese color ya está en la receta', 'warning');
+    return;
+  }
+  coloresEditando.push({ nombre, hex, pct: 0, pigmentosTabla: [], pigmentosLibres: [] });
+  renderColoresEditando();
+  cerrarSelectorColores();
+  toast(`✓ ${nombre} agregado · subí su %`, 'success');
+}
+
+function abrirCrearColor() {
+  document.getElementById('modalCrearColor').classList.add('activo');
+  document.getElementById('nuevoColorNombre').value = '';
+}
+
+function cerrarCrearColor() {
+  document.getElementById('modalCrearColor').classList.remove('activo');
+}
+
+function guardarNuevoColor() {
+  const n = document.getElementById('nuevoColorNombre').value.trim();
+  const h = document.getElementById('nuevoColorHex').value;
+  if (!n) { toast('⚠️ Escribí un nombre', 'warning'); return; }
+
+  const nuevos = leerColoresNuevos();
+  if (nuevos.some(c => c.nombre === n)) { toast('⚠️ Ya existe ese color', 'warning'); return; }
+  nuevos.push({ nombre: n, hex: h });
+  localStorage.setItem(CLAVE_COLORES_NUEVOS, JSON.stringify(nuevos));
+  renderListasColores();
+  cerrarCrearColor();
+  toast(`✓ "${n}" creado`, 'success');
+}
+
+// ============================================================
+// GUARDAR RECETA
+// ============================================================
+function guardarRecetaDesdeModal() {
+  const nombre = document.getElementById('rNombre').value.trim();
+  const cliente = document.getElementById('rCliente').value.trim();
+  const tipo = document.getElementById('rTipo').value;
+  const piedrasStr = document.getElementById('rPiedras').value.trim();
+  const notas = document.getElementById('rNotas').value.trim();
+
+  if (!nombre) { toast('⚠️ Ingresá un nombre', 'warning'); return; }
+
+  const piedras = piedrasStr ? piedrasStr.split(',').map(p => p.trim()).filter(p => p) : [];
+
+  const recetas = leerRecetas();
+
+  if (recetaEditando.id) {
+    const idx = recetas.findIndex(r => r.id === recetaEditando.id);
+    if (idx !== -1) {
+      recetas[idx] = {
+        ...recetas[idx],
+        nombre, cliente, tipo, piedras, notas,
+        emoji: emojiSeleccionado,
+        colores: JSON.parse(JSON.stringify(coloresEditando))
+      };
+      toast('✓ Receta actualizada', 'success');
+    }
+  } else {
+    recetas.push({
+      id: Date.now(),
+      nombre, cliente, tipo,
+      emoji: emojiSeleccionado,
+      colores: JSON.parse(JSON.stringify(coloresEditando)),
+      piedras, notas,
+      vecesUsado: 0, ultimoUso: null,
+      favorita: false,
+      fecha: hoyISO(),
+      autor: 'Jesús'
+    });
+    toast(`✓ "${nombre}" guardada`, 'success');
+  }
+
+  guardarRecetas(recetas);
+  cerrarModal();
+  render();
+}
+
+// ============================================================
+// EXPORTAR
+// ============================================================
+function exportarWhatsApp() {
+  const recetas = leerRecetas();
+  if (recetas.length === 0) {
+    toast('⚠️ No hay recetas para compartir', 'warning');
+    return;
+  }
+
+  const texto = '📖 *RECETAS — CAJUÑA PRO*\n\n' +
+    recetas.map(r => {
+      const colores = (r.colores || []).map(c => `${c.nombre} ${c.pct}%`).join(' + ');
+      return `${r.emoji || '🎨'} *${r.nombre}* (${r.tipo})\n   ${colores}`;
+    }).join('\n\n') +
+    `\n\n_Total: ${recetas.length} recetas_`;
+
+  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+  toast('💬 Abriendo WhatsApp...', 'success');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo = 'info') {
+  const iconos = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'toastIn 0.3s ease reverse';
+    setTimeout(() => el.remove(), 300);
+  }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+aplicarTema(localStorage.getItem('cajupa_tema') || 'brand');
+if (localStorage.getItem('cajupa_manos') === '1') {
+  document.body.classList.add('manos-sucias');
+  document.getElementById('btnManos').classList.add('activo');
+}
+
+render();
+setTimeout(() => toast('📖 Recetas cargadas', 'info'), 300);
+
+window.addEventListener('storage', (e) => {
+  if (e.key === CLAVE_RECETAS) render();
+});
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

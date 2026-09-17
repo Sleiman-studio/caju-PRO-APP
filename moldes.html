@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro v3.0 — Moldes</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+  --topbar-h: 60px;
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .sidebar { background:#0a0a0a; border-right-color:rgba(255,255,255,0.08); }
+body.theme-dark .topbar { background:#0a0a0a; border-bottom-color:rgba(255,255,255,0.08); }
+body.theme-dark .sb-item:hover { background:rgba(255,255,255,0.05); color:#f0f0f0; }
+body.theme-dark .sb-item.activo { background:linear-gradient(90deg, rgba(196,163,255,0.15), rgba(77,239,255,0.05)); color:#f0f0f0; border-left-color:#c4a3ff; }
+body.theme-dark .empresa-switcher { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+body.theme-dark .panel, body.theme-dark .kpi-card, body.theme-dark .molde-card { background:#242424; border-color:rgba(255,255,255,0.1); }
+body.theme-dark .input, body.theme-dark .select { background:#0f0f0f; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn:hover { background:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn.activo { background:rgba(179,136,255,0.2); }
+body.theme-dark .tab { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.1); }
+body.theme-dark .modal { background:#141414; border-color:rgba(255,255,255,0.15); }
+body.theme-dark .molde-card:hover { border-color:#b388ff; }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light .sidebar { background:#f7f7f5; border-right-color:#e9e9e7; }
+body.theme-light .topbar { background:#fbfbfa; border-bottom-color:#e9e9e7; }
+body.theme-light .logo-sidebar { border-bottom-color:#e9e9e7; }
+body.theme-light .sb-item { color:#57564f; }
+body.theme-light .sb-item:hover { background:rgba(0,0,0,0.04); color:#37352f; }
+body.theme-light .sb-item.activo { background:linear-gradient(90deg,rgba(107,70,193,0.15),rgba(11,122,140,0.08)); color:#37352f; border-left-color:#6b46c1; }
+body.theme-light .empresa-switcher { background:rgba(107,70,193,0.08); border-color:#e9e9e7; }
+body.theme-light .icon-btn { color:#57564f; }
+body.theme-light .icon-btn:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .icon-btn.activo { background:rgba(107,70,193,0.15); color:#6b46c1; }
+body.theme-light .panel, body.theme-light .kpi-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .input, body.theme-light .select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus, body.theme-light .select:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .select option { background:#fff; color:#37352f; }
+body.theme-light .tab { background:#fff; border-color:#e9e9e7; color:#57564f; }
+body.theme-light .tab.activo { background:#37352f; color:#fff; border-color:#37352f; }
+body.theme-light .modal { background:#fff; border-color:#d3d1cb; }
+body.theme-light .modal-header { border-bottom-color:#e9e9e7; }
+body.theme-light .modal-footer { border-top-color:#e9e9e7; }
+body.theme-light .modal-titulo { color:#37352f; }
+body.theme-light .toast { background:#fff; border-color:#d3d1cb; }
+body.theme-light .toast-msg { color:#37352f; }
+body.theme-light .molde-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .molde-card:hover { border-color:#6b46c1; box-shadow:0 4px 12px rgba(107,70,193,0.12); }
+
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-text-size-adjust: 100%; }
+.app-root { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
+
+/* SIDEBAR */
+.sidebar { width: 230px; background: var(--bg-3); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.25s ease; z-index: 100; }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+.logo-sidebar { display: flex; align-items: center; gap: 12px; padding: 18px; border-bottom: 1px solid var(--border); }
+.logo-icono { width: 42px; height: 42px; background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.logo-nombre { font-size: 15px; font-weight: 800; }
+.logo-sub { font-size: 10px; color: var(--text-mute); }
+.sidebar-nav { flex: 1; padding: 8px 10px 20px; }
+.sb-seccion { font-size: 9px; font-weight: 800; color: var(--text-mute); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 12px 6px; }
+.sb-item { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px; font-size: 14px; color: var(--text-dim); font-weight: 600; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sb-item:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.sb-item.activo { background: linear-gradient(90deg, rgba(106,27,154,0.4), rgba(0,229,255,0.08)); color: var(--text); border-left: 3px solid var(--purple); }
+.sb-icono { font-size: 17px; width: 24px; text-align: center; flex-shrink: 0; }
+
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; opacity: 0; transition: opacity 0.25s ease; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.sidebar-backdrop.activo { display: block; opacity: 1; }
+
+/* MAIN */
+.main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--border); min-height: var(--topbar-h); flex-shrink: 0; }
+.hamburger { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 8px 10px; border-radius: 8px; transition: background 0.15s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.hamburger:hover { background: rgba(106,27,154,0.15); }
+.hamburger:active { background: rgba(106,27,154,0.25); }
+.empresa-switcher { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(106,27,154,0.2); border: 1px solid var(--border); border-radius: 10px; }
+.empresa-nombre { font-size: 12px; font-weight: 800; }
+.empresa-rol { font-size: 9px; color: var(--purple); font-weight: 700; }
+.topbar-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: transparent; border: none; color: var(--text-dim); font-size: 17px; cursor: pointer; padding: 10px; border-radius: 8px; transition: all 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: rgba(106,27,154,0.15); }
+.icon-btn:active { background: rgba(106,27,154,0.25); }
+.icon-btn.activo { background: rgba(106,27,154,0.3); color: var(--purple); }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-titulo { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: var(--text-mute); }
+.page-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; min-height: 44px; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--purple-deep), #8e24aa); color: #fff; }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan-deep), #00acc1); color: #fff; }
+.btn-green { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+.btn-orange { background: linear-gradient(135deg, #e65100, #f57c00); color: #fff; }
+.btn-red { background: linear-gradient(135deg, #b71c1c, #c62828); color: #fff; }
+.btn-ghost { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
+.btn-sm { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.input-label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.input, .select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; transition: all 0.15s; }
+.input:focus, .select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+.input::placeholder { color: var(--text-mute); }
+.select { cursor: pointer; appearance: none; padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b388ff' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; }
+.select option { background: var(--card); color: var(--text); }
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.input-search { position: relative; }
+.input-search .input { padding-left: 40px; }
+.input-search .input-icono { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-mute); font-size: 16px; pointer-events: none; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+.kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; position: relative; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+.kpi-card:hover { transform: translateY(-3px); border-color: var(--cyan); }
+.kpi-card::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+.kpi-card.cyan::before { background: linear-gradient(180deg, var(--cyan), var(--cyan-deep)); }
+.kpi-card.purple::before { background: linear-gradient(180deg, var(--purple), var(--purple-deep)); }
+.kpi-card.green::before { background: linear-gradient(180deg, var(--green), #2e7d32); }
+.kpi-card.yellow::before { background: linear-gradient(180deg, var(--yellow), #f9a825); }
+.kpi-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.kpi-label { font-size: 10px; color: var(--text-mute); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.kpi-icono { font-size: 20px; opacity: 0.7; }
+.kpi-valor { font-size: 28px; font-weight: 900; line-height: 1; margin-bottom: 6px; }
+.kpi-valor.cyan { color: var(--cyan); }
+.kpi-valor.purple { color: var(--purple); }
+.kpi-valor.green { color: var(--green); }
+.kpi-valor.yellow { color: var(--yellow); }
+.kpi-cambio { font-size: 11px; color: var(--text-mute); font-weight: 700; }
+
+.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 18px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { padding: 9px 18px; border-radius: 22px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: inherit; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.tab.activo { background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); color: #fff; border-color: transparent; }
+
+.moldes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.molde-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 12px; }
+.molde-card:hover { transform: translateY(-4px); border-color: var(--purple); box-shadow: 0 8px 24px rgba(106,27,154,0.15); }
+.molde-card-header { display: flex; align-items: flex-start; gap: 12px; }
+.molde-emoji { width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, rgba(179,136,255,0.15), rgba(0,229,255,0.08)); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+.molde-info { flex: 1; min-width: 0; }
+.molde-nombre { font-size: 15px; font-weight: 800; margin-bottom: 3px; color: var(--text); word-break: break-word; }
+.molde-cat { font-size: 10px; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+.molde-fav { position: absolute; top: 14px; right: 14px; font-size: 16px; cursor: pointer; transition: transform 0.2s; background: transparent; border: none; padding: 4px; border-radius: 50%; }
+.molde-fav:hover { transform: scale(1.2); }
+.molde-volumen { display: flex; align-items: baseline; gap: 6px; }
+.molde-volumen .num { font-size: 22px; font-weight: 900; color: var(--cyan); }
+.molde-volumen .unit { font-size: 12px; color: var(--text-mute); font-weight: 700; }
+.molde-volumen .equiv { font-size: 10px; color: var(--text-mute); margin-left: auto; }
+.molde-stats { display: flex; gap: 12px; font-size: 11px; color: var(--text-mute); padding-top: 10px; border-top: 1px dashed var(--border); }
+.molde-stats .item { display: flex; align-items: center; gap: 4px; }
+.molde-stats .item strong { color: var(--text-dim); font-weight: 800; }
+.molde-badge-linea { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--purple), var(--cyan)); }
+
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+.badge-ok { background: rgba(76,175,80,0.15); color: var(--green); }
+.badge-info { background: rgba(0,229,255,0.15); color: var(--cyan); }
+.badge-purple { background: rgba(179,136,255,0.15); color: var(--purple); }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+.modal-overlay.activo { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border-strong); border-radius: 16px; width: 100%; max-width: 560px; max-height: 90vh; display: flex; flex-direction: column; animation: modalIn 0.25s; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.modal-titulo { font-size: 17px; font-weight: 800; }
+.modal-close { background: transparent; border: none; color: var(--text-mute); font-size: 28px; cursor: pointer; line-height: 1; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { color: var(--red); }
+.modal-body { padding: 22px 24px; overflow-y: auto; flex: 1; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+.fila { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; gap: 8px; }
+.fila:last-child { border-bottom: none; }
+.fila .label { color: var(--text-dim); }
+.fila .valor { color: var(--text); font-weight: 700; text-align: right; }
+.valor.cyan { color: var(--cyan); }
+.valor.purple { color: var(--purple); }
+.valor.green { color: var(--green); }
+.valor.orange { color: var(--orange); }
+.valor.mute { color: var(--text-mute); font-weight: 500; font-size: 12px; }
+
+.caja-grande { background: linear-gradient(135deg, rgba(0,229,255,0.08), rgba(106,27,154,0.05)); border: 1px solid rgba(0,229,255,0.3); border-radius: var(--radius-sm); padding: 18px; margin-bottom: 16px; text-align: center; }
+.caja-grande .emoji { font-size: 48px; line-height: 1; margin-bottom: 8px; }
+.caja-grande .volumen { font-size: 32px; font-weight: 900; color: var(--cyan); line-height: 1; }
+.caja-grande .unidad { font-size: 14px; color: var(--text-dim); margin-top: 4px; }
+.caja-grande .equiv { font-size: 11px; color: var(--text-mute); margin-top: 6px; }
+
+.selector-emojis { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin-top: 8px; max-height: 160px; overflow-y: auto; padding: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; }
+.selector-emojis button { background: transparent; border: 1px solid transparent; border-radius: 8px; padding: 8px; font-size: 18px; cursor: pointer; transition: all 0.15s; }
+.selector-emojis button:hover { background: rgba(106,27,154,0.15); border-color: var(--border); }
+.selector-emojis button.sel { background: rgba(106,27,154,0.3); border-color: var(--purple); }
+
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; pointer-events: auto; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; font-weight: 600; }
+
+.empty { text-align: center; padding: 60px 20px; color: var(--text-mute); grid-column: 1/-1; }
+.empty-icono { font-size: 60px; opacity: 0.3; margin-bottom: 16px; }
+.empty-titulo { font-size: 16px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; }
+.empty-sub { font-size: 13px; }
+
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 20px; }
+}
+
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; }
+
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; height: 100dvh; width: 260px; max-width: 85vw; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar.abierto { transform: translateX(0); }
+
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .hamburger { display: flex; }
+  .empresa-switcher { padding: 6px 10px; }
+  .empresa-nombre { font-size: 11px; }
+  .empresa-rol { font-size: 8px; }
+  .topbar-acciones { gap: 2px; }
+  .icon-btn { font-size: 18px; padding: 8px; min-width: 40px; min-height: 40px; }
+
+  .content { padding: 16px; }
+
+  .page-header { flex-direction: column; align-items: stretch; margin-bottom: 16px; }
+  .page-titulo { font-size: 22px; }
+  .page-sub { font-size: 12px; }
+  .page-acciones { width: 100%; }
+  .page-acciones .btn { flex: 1; justify-content: center; }
+
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .kpi-card { padding: 14px; }
+  .kpi-valor { font-size: 24px; }
+  .kpi-label { font-size: 9px; }
+  .kpi-cambio { font-size: 10px; }
+
+  .panel { padding: 16px; }
+
+  .moldes-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .molde-card { padding: 14px; gap: 10px; }
+  .molde-emoji { width: 44px; height: 44px; font-size: 22px; border-radius: 10px; }
+  .molde-nombre { font-size: 13px; }
+  .molde-volumen .num { font-size: 18px; }
+  .molde-stats { font-size: 10px; }
+
+  .form-row.cols-2, .form-row.cols-3 { grid-template-columns: 1fr; }
+
+  .selector-emojis { grid-template-columns: repeat(6, 1fr); }
+
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal { max-width: 100%; max-height: 92vh; border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-top-left-radius: 20px; border-top-right-radius: 20px; animation: modalInMobile 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  @keyframes modalInMobile { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal::before { content: ""; display: block; width: 40px; height: 4px; background: var(--border-strong); border-radius: 2px; margin: 10px auto 0; }
+  .modal-header { padding: 14px 20px 16px; }
+  .modal-body { padding: 16px 20px; }
+  .modal-footer { padding: 14px 20px; }
+  .modal-footer .btn { flex: 1; justify-content: center; }
+
+  .toast-container { top: auto; bottom: 80px; left: 16px; right: 16px; }
+  .toast { min-width: auto; max-width: none; width: 100%; }
+
+  .btn { padding: 12px 16px; font-size: 13px; }
+  .btn-sm { padding: 8px 12px; font-size: 11px; min-height: 38px; }
+
+  .caja-grande .volumen { font-size: 26px; }
+  .caja-grande .emoji { font-size: 40px; }
+}
+
+@media (max-width: 480px) {
+  .content { padding: 12px; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .moldes-grid { grid-template-columns: 1fr; }
+  .page-titulo { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-root">
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="cerrarSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-sidebar">
+      <div class="logo-icono">🏛️</div>
+      <div><div class="logo-nombre">Cajuña Pro</div><div class="logo-sub">v3.0</div></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sb-seccion">Principal</div>
+      <div class="sb-item" onclick="irA('dashboard.html')"><span class="sb-icono">📊</span>Dashboard</div>
+      <div class="sb-item" onclick="irA('nueva-orden.html')"><span class="sb-icono">➕</span>Nueva Orden</div>
+      <div class="sb-item" onclick="irA('llenado-parcial.html')"><span class="sb-icono">📦</span>Llenado Parcial</div>
+      <div class="sb-item" onclick="irA('produccion.html')"><span class="sb-icono">🔨</span>Producción</div>
+
+      <div class="sb-seccion">Biblioteca</div>
+      <div class="sb-item activo" onclick="irA('moldes.html')"><span class="sb-icono">🗄️</span>Moldes</div>
+      <div class="sb-item" onclick="irA('mis-modelos.html')"><span class="sb-icono">💾</span>Mis Modelos</div>
+      <div class="sb-item" onclick="irA('recetas.html')"><span class="sb-icono">📖</span>Recetas</div>
+      <div class="sb-item" onclick="irA('archivo.html')"><span class="sb-icono">📁</span>Archivo</div>
+      <div class="sb-item" onclick="irA('museo.html')"><span class="sb-icono">🏛️</span>Museo Virtual</div>
+
+      <div class="sb-seccion">Análisis</div>
+      <div class="sb-item" onclick="irA('stock.html')"><span class="sb-icono">📦</span>Stock</div>
+      <div class="sb-item" onclick="irA('laboratorio.html')"><span class="sb-icono">🧪</span>Laboratorio</div>
+      <div class="sb-item" onclick="irA('reportes.html')"><span class="sb-icono">📈</span>Reportes</div>
+
+      <div class="sb-seccion">Sistema</div>
+      <div class="sb-item" onclick="irA('clientes.html')"><span class="sb-icono">👥</span>Clientes</div>
+      <div class="sb-item" onclick="irA('usuarios.html')"><span class="sb-icono">👤</span>Usuarios</div>
+      <div class="sb-item" onclick="irA('configuracion.html')"><span class="sb-icono">⚙️</span>Configuración</div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="hamburger" onclick="abrirSidebar()" aria-label="Abrir menú">☰</button>
+      <div class="empresa-switcher">
+        <span>🏢</span>
+        <div><div class="empresa-nombre">Cajuña</div><div class="empresa-rol">Admin</div></div>
+      </div>
+      <div class="topbar-acciones">
+        <button class="icon-btn" onclick="toggleManosSucias()" id="btnManos" title="Manos sucias">🧤</button>
+        <button class="icon-btn" onclick="toggleTema()" id="btnTema" title="Cambiar tema">🎨</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-titulo">🗄️ Moldes</div>
+          <div class="page-sub" id="subtituloMoldes">Cargando...</div>
+        </div>
+        <div class="page-acciones">
+          <button class="btn btn-ghost" onclick="exportarWhatsApp()">📤 Compartir</button>
+          <button class="btn btn-primary" onclick="abrirNuevoMolde()">➕ Nuevo molde</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card cyan">
+          <div class="kpi-top"><span class="kpi-label">Total moldes</span><span class="kpi-icono">🗄️</span></div>
+          <div class="kpi-valor cyan" id="kpiTotal">0</div>
+          <div class="kpi-cambio">En biblioteca</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-top"><span class="kpi-label">Favoritos</span><span class="kpi-icono">⭐</span></div>
+          <div class="kpi-valor green" id="kpiFav">0</div>
+          <div class="kpi-cambio">Los más usados</div>
+        </div>
+        <div class="kpi-card yellow">
+          <div class="kpi-top"><span class="kpi-label">Más usado</span><span class="kpi-icono">🔥</span></div>
+          <div class="kpi-valor yellow" id="kpiTop" style="font-size:14px;line-height:1.2;">-</div>
+          <div class="kpi-cambio" id="kpiTopVeces">Sin uso aún</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-top"><span class="kpi-label">Volumen total</span><span class="kpi-icono">💧</span></div>
+          <div class="kpi-valor purple" id="kpiVolTotal">0 L</div>
+          <div class="kpi-cambio">Suma de moldes</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="input-search" style="margin-bottom:16px;">
+          <span class="input-icono">🔍</span>
+          <input class="input" placeholder="Buscar molde por nombre o categoría..." id="busqueda" oninput="render()">
+        </div>
+
+        <div class="tabs" id="tabsCat"></div>
+
+        <div class="moldes-grid" id="gridMoldes"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)cerrarModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-titulo" id="modalTitulo">Modal</div>
+      <button class="modal-close" onclick="cerrarModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SIDEBAR MÓVIL
+// ============================================================
+function abrirSidebar() {
+  document.getElementById('sidebar').classList.add('abierto');
+  document.getElementById('sidebarBackdrop').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarSidebar() {
+  document.getElementById('sidebar').classList.remove('abierto');
+  document.getElementById('sidebarBackdrop').classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function irA(url) {
+  cerrarSidebar();
+  setTimeout(() => { location.href = url; }, 150);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarSidebar();
+});
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+}
+function toggleTema() {
+  let actual = localStorage.getItem('cajupa_tema') || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem('cajupa_tema', nuevo);
+  aplicarTema(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+function toggleManosSucias() {
+  const activo = document.body.classList.toggle('manos-sucias');
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function hoyISO() { return new Date().toISOString().split('T')[0]; }
+function fmtFecha(iso) {
+  if (!iso) return '-';
+  const [y,m,d] = iso.split('T')[0].split('-');
+  return `${d}/${m}/${y.slice(2)}`;
+}
+function fmtVolumen(ml) {
+  if (ml >= 1000) return { num: (ml/1000).toFixed(2), unit: 'L', equiv: `${ml} ml` };
+  return { num: ml, unit: 'ml', equiv: `${(ml/1000).toFixed(3)} L` };
+}
+
+// ============================================================
+// DATOS BASE
+// ============================================================
+const CATEGORIAS = ['Platos', 'Bases', 'Apliques', 'Macetas', 'Especiales', 'Personalizados'];
+
+const MOLDES_DEFAULT = [
+  { id: 1, nombre: 'Plato Perro Kuma', volumenMl: 1800, emoji: '🐕', categoria: 'Platos', fecha: '2026-08-15', vecesUsado: 12, ultimoUso: '2026-09-10', favorito: true, notas: 'Molde original de Cajuña. Muy pedido.' },
+  { id: 2, nombre: 'Plato Grande', volumenMl: 1200, emoji: '🍽️', categoria: 'Platos', fecha: '2026-08-20', vecesUsado: 8, ultimoUso: '2026-09-05', favorito: false, notas: '30 cm diámetro.' },
+  { id: 3, nombre: 'Plato Mediano', volumenMl: 600, emoji: '🥣', categoria: 'Platos', fecha: '2026-08-20', vecesUsado: 15, ultimoUso: '2026-09-12', favorito: true, notas: '' },
+  { id: 4, nombre: 'Frutero', volumenMl: 800, emoji: '🍎', categoria: 'Platos', fecha: '2026-08-25', vecesUsado: 6, ultimoUso: '2026-09-01', favorito: false, notas: '360 mm diámetro.' },
+  { id: 5, nombre: 'Base Cafetera', volumenMl: 1800, emoji: '☕', categoria: 'Bases', fecha: '2026-08-18', vecesUsado: 4, ultimoUso: '2026-08-30', favorito: false, notas: '' },
+  { id: 6, nombre: 'Base Maceta Grande', volumenMl: 2200, emoji: '🪴', categoria: 'Bases', fecha: '2026-08-22', vecesUsado: 2, ultimoUso: '2026-09-02', favorito: false, notas: '' },
+  { id: 7, nombre: 'Aplique', volumenMl: 1600, emoji: '🔲', categoria: 'Apliques', fecha: '2026-08-12', vecesUsado: 3, ultimoUso: '2026-08-28', favorito: false, notas: 'Aplique rectangular decorativo.' },
+  { id: 8, nombre: 'Hexágonos', volumenMl: 500, emoji: '⬡', categoria: 'Apliques', fecha: '2026-08-12', vecesUsado: 7, ultimoUso: '2026-09-08', favorito: false, notas: 'Set de 6 hexágonos pequeños.' },
+  { id: 9, nombre: 'Maceta M', volumenMl: 900, emoji: '🪴', categoria: 'Macetas', fecha: '2026-08-10', vecesUsado: 9, ultimoUso: '2026-09-11', favorito: true, notas: '180×90 mm.' },
+  { id: 10, nombre: 'Maceta S', volumenMl: 500, emoji: '🌱', categoria: 'Macetas', fecha: '2026-08-10', vecesUsado: 11, ultimoUso: '2026-09-11', favorito: false, notas: '150×70 mm.' },
+  { id: 11, nombre: 'Maceta XS', volumenMl: 200, emoji: '🌿', categoria: 'Macetas', fecha: '2026-08-10', vecesUsado: 5, ultimoUso: '2026-09-05', favorito: false, notas: '130×50 mm.' },
+  { id: 12, nombre: 'Fontana', volumenMl: 110, emoji: '⛲', categoria: 'Especiales', fecha: '2026-08-05', vecesUsado: 2, ultimoUso: '2026-08-20', favorito: false, notas: 'Pieza mini decorativa.' },
+  { id: 13, nombre: 'Bandeja #1', volumenMl: 1400, emoji: '🥘', categoria: 'Especiales', fecha: '2026-08-28', vecesUsado: 1, ultimoUso: '2026-09-01', favorito: false, notas: '400×160×310 mm.' }
+];
+
+let MOLDES = (function cargar() {
+  try {
+    const raw = localStorage.getItem('cajupa_moldes_v1');
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(MOLDES_DEFAULT));
+})();
+
+let catActual = 'todas';
+
+function guardar() { localStorage.setItem('cajupa_moldes_v1', JSON.stringify(MOLDES)); }
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  renderTabs();
+  renderGrid();
+  actualizarKPIs();
+  actualizarSubtitulo();
+}
+
+function actualizarSubtitulo() {
+  const cats = new Set(MOLDES.map(m => m.categoria));
+  document.getElementById('subtituloMoldes').textContent =
+    `${MOLDES.length} moldes · ${cats.size} categorías`;
+}
+
+function actualizarKPIs() {
+  const total = MOLDES.length;
+  const favs = MOLDES.filter(m => m.favorito).length;
+  const top = [...MOLDES].sort((a,b) => b.vecesUsado - a.vecesUsado)[0];
+  const volTotal = MOLDES.reduce((s, m) => s + m.volumenMl, 0);
+
+  document.getElementById('kpiTotal').textContent = total;
+  document.getElementById('kpiFav').textContent = favs;
+  document.getElementById('kpiTop').textContent = top && top.vecesUsado > 0 ? top.nombre : '-';
+  document.getElementById('kpiTopVeces').textContent = top && top.vecesUsado > 0
+    ? `${top.vecesUsado} usos · ${top.emoji}`
+    : 'Sin uso aún';
+  document.getElementById('kpiVolTotal').textContent = (volTotal/1000).toFixed(1) + ' L';
+}
+
+function renderTabs() {
+  const cats = ['todas', ...CATEGORIAS.filter(c => MOLDES.some(m => m.categoria === c))];
+  const cont = document.getElementById('tabsCat');
+  cont.innerHTML = cats.map(c => {
+    const icono = c === 'todas' ? '🗂' :
+                  c === 'Platos' ? '🍽️' :
+                  c === 'Bases' ? '🟫' :
+                  c === 'Apliques' ? '🔲' :
+                  c === 'Macetas' ? '🪴' :
+                  c === 'Especiales' ? '⭐' : '✨';
+    const label = c === 'todas' ? 'Todas' : c;
+    const count = c === 'todas' ? MOLDES.length : MOLDES.filter(m => m.categoria === c).length;
+    return `<button class="tab ${catActual===c?'activo':''}" onclick="cambiarCat('${c}')">${icono} ${label} <span style="opacity:0.7;font-size:10px;">(${count})</span></button>`;
+  }).join('');
+}
+
+function cambiarCat(cat) {
+  catActual = cat;
+  render();
+}
+
+function renderGrid() {
+  const q = document.getElementById('busqueda').value.trim().toLowerCase();
+  let filtrados = MOLDES;
+  if (catActual !== 'todas') filtrados = filtrados.filter(m => m.categoria === catActual);
+  if (q) filtrados = filtrados.filter(m =>
+    m.nombre.toLowerCase().includes(q) ||
+    m.categoria.toLowerCase().includes(q) ||
+    (m.notas && m.notas.toLowerCase().includes(q))
+  );
+
+  const grid = document.getElementById('gridMoldes');
+  if (filtrados.length === 0) {
+    grid.innerHTML = `<div class="empty">
+      <div class="empty-icono">🔍</div>
+      <div class="empty-titulo">Sin moldes</div>
+      <div class="empty-sub">No hay moldes que coincidan con la búsqueda</div>
+    </div>`;
+    return;
+  }
+
+  filtrados.sort((a,b) => {
+    if (a.favorito !== b.favorito) return b.favorito ? 1 : -1;
+    return b.vecesUsado - a.vecesUsado;
+  });
+
+  grid.innerHTML = filtrados.map(m => {
+    const vol = fmtVolumen(m.volumenMl);
+    return `
+      <div class="molde-card" onclick="verMolde(${m.id})">
+        <div class="molde-badge-linea" style="${m.favorito ? 'background:linear-gradient(180deg,#ffd54f,#ffa726);' : ''}"></div>
+        <button class="molde-fav" onclick="event.stopPropagation();toggleFav(${m.id})" title="${m.favorito ? 'Quitar de favoritos' : 'Marcar como favorito'}">${m.favorito ? '⭐' : '☆'}</button>
+        <div class="molde-card-header">
+          <div class="molde-emoji">${m.emoji}</div>
+          <div class="molde-info">
+            <div class="molde-nombre">${m.nombre}</div>
+            <div class="molde-cat">${m.categoria}</div>
+          </div>
+        </div>
+        <div class="molde-volumen">
+          <span class="num">${vol.num}</span>
+          <span class="unit">${vol.unit}</span>
+          <span class="equiv">${vol.equiv}</span>
+        </div>
+        <div class="molde-stats">
+          <div class="item">🔥 <strong>${m.vecesUsado}</strong> usos</div>
+          <div class="item" style="margin-left:auto;">📅 ${fmtFecha(m.ultimoUso)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleFav(id) {
+  const m = MOLDES.find(x => x.id === id);
+  if (!m) return;
+  m.favorito = !m.favorito;
+  guardar();
+  render();
+  toast(m.favorito ? `⭐ ${m.nombre} en favoritos` : `${m.nombre} fuera de favoritos`, 'info');
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function abrirModal(titulo, cuerpo, botones = []) {
+  document.getElementById('modalTitulo').textContent = titulo;
+  document.getElementById('modalBody').innerHTML = cuerpo;
+  document.getElementById('modalFooter').innerHTML = botones.map((b, i) =>
+    `<button class="btn ${b.class}" onclick="window._modalBtns[${i}]()">${b.txt}</button>`
+  ).join('');
+  window._modalBtns = botones.map(b => b.fn);
+  document.getElementById('modalOverlay').classList.add('activo');
+}
+function cerrarModal() { document.getElementById('modalOverlay').classList.remove('activo'); }
+
+// ============================================================
+// VER MOLDE
+// ============================================================
+function verMolde(id) {
+  const m = MOLDES.find(x => x.id === id);
+  if (!m) return;
+  const vol = fmtVolumen(m.volumenMl);
+
+  abrirModal(`${m.emoji} ${m.nombre}`, `
+    <div class="caja-grande">
+      <div class="emoji">${m.emoji}</div>
+      <div class="volumen">${vol.num} <span style="font-size:18px;color:var(--text-dim);">${vol.unit}</span></div>
+      <div class="unidad">Equivale a ${vol.equiv}</div>
+    </div>
+
+    <div class="fila"><span class="label">Categoría</span><span class="valor purple">${m.categoria}</span></div>
+    <div class="fila"><span class="label">Volumen</span><span class="valor cyan">${m.volumenMl} ml</span></div>
+    <div class="fila"><span class="label">Veces usado</span><span class="valor green">${m.vecesUsado} veces</span></div>
+    <div class="fila"><span class="label">Último uso</span><span class="valor">${fmtFecha(m.ultimoUso)}</span></div>
+    <div class="fila"><span class="label">Fecha de creación</span><span class="valor mute">${fmtFecha(m.fecha)}</span></div>
+    ${m.notas ? `<div class="fila"><span class="label">Notas</span><span class="valor mute" style="max-width:60%;text-align:right;">${m.notas}</span></div>` : ''}
+  `, [
+    { txt: '🗑 Eliminar', class: 'btn-red', fn: () => eliminarMolde(id) },
+    { txt: '✏️ Editar', class: 'btn-cyan', fn: () => abrirEditarMolde(id) },
+    { txt: '📥 Registrar uso', class: 'btn-green', fn: () => registrarUso(id) }
+  ]);
+}
+
+function registrarUso(id) {
+  const m = MOLDES.find(x => x.id === id);
+  if (!m) return;
+  m.vecesUsado = (m.vecesUsado || 0) + 1;
+  m.ultimoUso = hoyISO();
+  guardar();
+  render();
+  cerrarModal();
+  toast(`✓ Uso registrado en ${m.nombre}`, 'success');
+}
+
+function eliminarMolde(id) {
+  const m = MOLDES.find(x => x.id === id);
+  if (!m) return;
+  if (!confirm(`¿Eliminar el molde "${m.nombre}"?\n\nSe perdió el registro de ${m.vecesUsado} usos.`)) return;
+  MOLDES = MOLDES.filter(x => x.id !== id);
+  guardar();
+  cerrarModal();
+  render();
+  toast('Molde eliminado', 'info');
+}
+
+// ============================================================
+// NUEVO / EDITAR
+// ============================================================
+const EMOJIS_DISPONIBLES = [
+  '🍽️','🥣','🐕','🍎','☕','🪴','🌱','🌿','🔲','⬡','⛲','🥘','🍕','🍰','🍩','🪣','🧴','🏺',
+  '🎨','📐','⚙️','🔧','💎','⭐','💧','🔥','🌊','🎯','📦','🧱','🪨','🪵','🧊','🍶','🥛','🧪',
+  '🗿','🎭','🎪','🎁','🏆','💠','🔷','🔶','🟣','🟢','🟡','🔴','⚪','⚫','🟤','🟠'
+];
+
+let emojiSeleccionado = '🍽️';
+
+function abrirNuevoMolde() {
+  emojiSeleccionado = '🍽️';
+  abrirModal('➕ Nuevo molde', formMolde(), [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: cerrarModal },
+    { txt: '💾 Guardar', class: 'btn-primary', fn: guardarNuevoMolde }
+  ]);
+  setTimeout(() => {
+    document.querySelectorAll('.selector-emojis button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        emojiSeleccionado = btn.textContent;
+        document.querySelectorAll('.selector-emojis button').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+      });
+    });
+  }, 10);
+}
+
+function formMolde(edit = null) {
+  const cats = CATEGORIAS.filter(c => c !== 'Personalizados' || MOLDES.some(m => m.categoria === c) || edit);
+  return `
+    <div class="input-group"><label class="input-label">Nombre del molde</label>
+      <input class="input" id="moNombre" placeholder="Ej: Plato Perro Kuma" value="${edit?.nombre || ''}"></div>
+
+    <div class="form-row cols-2">
+      <div class="input-group"><label class="input-label">Categoría</label>
+        <select class="select" id="moCategoria">
+          ${cats.map(c => `<option ${edit?.categoria===c?'selected':''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="input-group"><label class="input-label">Volumen (ml)</label>
+        <input type="number" class="input" id="moVolumen" placeholder="1800" value="${edit?.volumenMl || ''}"></div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Ícono / Emoji</label>
+      <div class="selector-emojis" id="selectorEmojis">
+        ${EMOJIS_DISPONIBLES.map(e => `<button type="button" class="${e===emojiSeleccionado?'sel':''}">${e}</button>`).join('')}
+      </div>
+    </div>
+
+    <div class="input-group"><label class="input-label">Notas (opcional)</label>
+      <input class="input" id="moNotas" placeholder="Ej: Molde original de Cajuña" value="${edit?.notas || ''}"></div>
+  `;
+}
+
+function guardarNuevoMolde() {
+  const nombre = document.getElementById('moNombre').value.trim();
+  const volumen = parseFloat(document.getElementById('moVolumen').value) || 0;
+  if (!nombre) { toast('⚠️ Ingresá un nombre', 'warning'); return; }
+  if (volumen <= 0) { toast('⚠️ Volumen inválido', 'warning'); return; }
+
+  MOLDES.push({
+    id: Date.now(),
+    nombre,
+    volumenMl: volumen,
+    emoji: emojiSeleccionado,
+    categoria: document.getElementById('moCategoria').value,
+    fecha: hoyISO(),
+    vecesUsado: 0,
+    ultimoUso: null,
+    favorito: false,
+    notas: document.getElementById('moNotas').value.trim()
+  });
+  guardar();
+  cerrarModal();
+  render();
+  toast(`✓ ${nombre} agregado`, 'success');
+}
+
+function abrirEditarMolde(id) {
+  const m = MOLDES.find(x => x.id === id);
+  if (!m) return;
+  emojiSeleccionado = m.emoji;
+  abrirModal(`✏️ Editar ${m.nombre}`, formMolde(m), [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: () => verMolde(id) },
+    { txt: '💾 Guardar', class: 'btn-primary', fn: () => guardarEdicion(id) }
+  ]);
+  setTimeout(() => {
+    document.querySelectorAll('.selector-emojis button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        emojiSeleccionado = btn.textContent;
+        document.querySelectorAll('.selector-emojis button').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+      });
+    });
+  }, 10);
+}
+
+function guardarEdicion(id) {
+  const m = MOLDES.find(x => x.id === id);
+  if (!m) return;
+  const nombre = document.getElementById('moNombre').value.trim();
+  const volumen = parseFloat(document.getElementById('moVolumen').value) || 0;
+  if (!nombre) { toast('⚠️ Ingresá un nombre', 'warning'); return; }
+  if (volumen <= 0) { toast('⚠️ Volumen inválido', 'warning'); return; }
+
+  m.nombre = nombre;
+  m.volumenMl = volumen;
+  m.emoji = emojiSeleccionado;
+  m.categoria = document.getElementById('moCategoria').value;
+  m.notas = document.getElementById('moNotas').value.trim();
+
+  guardar();
+  cerrarModal();
+  render();
+  toast('✓ Molde actualizado', 'success');
+}
+
+// ============================================================
+// EXPORTAR
+// ============================================================
+function exportarWhatsApp() {
+  if (MOLDES.length === 0) { toast('⚠️ No hay moldes para exportar', 'warning'); return; }
+  const texto = '🗄️ *MOLDES — CAJUÑA PRO*\n\n' +
+    MOLDES.map(m => {
+      const vol = fmtVolumen(m.volumenMl);
+      return `${m.emoji} *${m.nombre}*\n   ${vol.num} ${vol.unit} · ${m.categoria} · ${m.vecesUsado} usos`;
+    }).join('\n\n') +
+    `\n\n_Total: ${MOLDES.length} moldes · ${(MOLDES.reduce((s,m)=>s+m.volumenMl,0)/1000).toFixed(1)} L_`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+  toast('💬 Abriendo WhatsApp...', 'success');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo='info') {
+  const iconos = { success:'✓', error:'✕', warning:'⚠', info:'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => { el.style.animation = 'toastIn 0.3s ease reverse'; setTimeout(() => el.remove(), 300); }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+aplicarTema(localStorage.getItem('cajupa_tema') || 'brand');
+if (localStorage.getItem('cajupa_manos') === '1') {
+  document.body.classList.add('manos-sucias');
+  document.getElementById('btnManos').classList.add('activo');
+}
+render();
+setTimeout(() => toast('🗄️ Moldes cargados', 'info'), 300);
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

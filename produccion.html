@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro v3.0 — Producción</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+  --topbar-h: 60px; /* RESPONSIVE v3.5 */
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .sidebar { background:#0a0a0a; border-right-color:rgba(255,255,255,0.08); }
+body.theme-dark .topbar { background:#0a0a0a; border-bottom-color:rgba(255,255,255,0.08); }
+body.theme-dark .sb-item:hover { background:rgba(255,255,255,0.05); color:#f0f0f0; }
+body.theme-dark .sb-item.activo { background:linear-gradient(90deg, rgba(196,163,255,0.15), rgba(77,239,255,0.05)); color:#f0f0f0; border-left-color:#c4a3ff; }
+body.theme-dark .empresa-switcher { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+body.theme-dark .panel, body.theme-dark .kpi-card { background:#141414; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .input, body.theme-dark .select { background:#0f0f0f; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn:hover { background:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn.activo { background:rgba(179,136,255,0.2); }
+body.theme-dark .kanban-col { background:#0a0a0a; }
+body.theme-dark .kanban-card { background:#141414; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .modal { background:#141414; border-color:rgba(255,255,255,0.15); }
+body.theme-dark .fila { border-bottom-color: rgba(255,255,255,0.06); }
+body.theme-dark .color-row-card { background:#101010; }
+body.theme-dark .timeline-item { background:#101010; border-color:rgba(255,255,255,0.06); }
+body.theme-dark .timeline-item:hover { background:#161616; }
+body.theme-dark .stat-card { background:#101010; border-color:rgba(255,255,255,0.06); }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light .sidebar { background:#f7f7f5; border-right-color:#e9e9e7; }
+body.theme-light .topbar { background:#fbfbfa; border-bottom-color:#e9e9e7; }
+body.theme-light .logo-sidebar { border-bottom-color:#e9e9e7; }
+body.theme-light .sb-item { color:#57564f; }
+body.theme-light .sb-item:hover { background:rgba(0,0,0,0.04); color:#37352f; }
+body.theme-light .sb-item.activo { background:linear-gradient(90deg,rgba(107,70,193,0.15),rgba(11,122,140,0.08)); color:#37352f; border-left-color:#6b46c1; }
+body.theme-light .empresa-switcher { background:rgba(107,70,193,0.08); border-color:#e9e9e7; }
+body.theme-light .icon-btn { color:#57564f; }
+body.theme-light .icon-btn:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .icon-btn.activo { background:rgba(107,70,193,0.15); color:#6b46c1; }
+body.theme-light .panel, body.theme-light .kpi-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .input, body.theme-light .select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus, body.theme-light .select:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .select option { background:#fff; color:#37352f; }
+body.theme-light .kanban-col { background:#f7f7f5; }
+body.theme-light .kanban-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .modal { background:#fff; border-color:#d3d1cb; }
+body.theme-light .modal-header { border-bottom-color:#e9e9e7; }
+body.theme-light .modal-footer { border-top-color:#e9e9e7; }
+body.theme-light .modal-titulo { color:#37352f; }
+body.theme-light .toast { background:#fff; border-color:#d3d1cb; }
+body.theme-light .toast-msg { color:#37352f; }
+body.theme-light .fila { border-bottom-color: rgba(0,0,0,0.05); }
+body.theme-light .color-row-card { background:#fbfbfa; border-color:#e9e9e7; }
+body.theme-light .timeline-item { background:#fbfbfa; border-color:#e9e9e7; }
+body.theme-light .timeline-item:hover { background:#f7f7f5; }
+body.theme-light .stat-card { background:#fbfbfa; border-color:#e9e9e7; }
+
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-text-size-adjust: 100%; }
+.app-root { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
+
+.sidebar { width: 230px; background: var(--bg-3); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.25s ease; z-index: 100; }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+.logo-sidebar { display: flex; align-items: center; gap: 12px; padding: 18px; border-bottom: 1px solid var(--border); }
+.logo-icono { width: 42px; height: 42px; background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.logo-nombre { font-size: 15px; font-weight: 800; }
+.logo-sub { font-size: 10px; color: var(--text-mute); }
+.sidebar-nav { flex: 1; padding: 8px 10px 20px; }
+.sb-seccion { font-size: 9px; font-weight: 800; color: var(--text-mute); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 12px 6px; }
+.sb-item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 10px; font-size: 13px; color: var(--text-dim); font-weight: 600; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sb-item:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.sb-item.activo { background: linear-gradient(90deg, rgba(106,27,154,0.4), rgba(0,229,255,0.08)); color: var(--text); border-left: 3px solid var(--purple); }
+.sb-icono { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+
+/* RESPONSIVE v3.5 — backdrop para sidebar móvil */
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; opacity: 0; transition: opacity 0.25s ease; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.sidebar-backdrop.activo { display: block; opacity: 1; }
+
+.main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--border); min-height: var(--topbar-h); flex-shrink: 0; }
+
+/* RESPONSIVE v3.5 — hamburger */
+.hamburger { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 8px 10px; border-radius: 8px; transition: background 0.15s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.hamburger:hover { background: rgba(106,27,154,0.15); }
+.hamburger:active { background: rgba(106,27,154,0.25); }
+
+.empresa-switcher { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(106,27,154,0.2); border: 1px solid var(--border); border-radius: 10px; }
+.empresa-nombre { font-size: 12px; font-weight: 800; }
+.empresa-rol { font-size: 9px; color: var(--purple); font-weight: 700; }
+.topbar-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: transparent; border: none; color: var(--text-dim); font-size: 17px; cursor: pointer; padding: 10px; border-radius: 8px; transition: all 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: rgba(106,27,154,0.15); }
+.icon-btn:active { background: rgba(106,27,154,0.25); }
+.icon-btn.activo { background: rgba(106,27,154,0.3); color: var(--purple); }
+
+.content { flex: 1; overflow-y: auto; padding: 20px 24px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.page-titulo { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: var(--text-mute); }
+.page-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* TABS PRINCIPALES */
+.tabs-principales {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+  background: var(--bg-2);
+  padding: 6px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  max-width: fit-content;
+}
+.tab-principal {
+  padding: 10px 22px;
+  border-radius: 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s;
+  min-height: 44px;
+}
+.tab-principal:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.tab-principal.activo {
+  background: linear-gradient(135deg, var(--purple-deep), var(--cyan));
+  color: #fff;
+}
+
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; min-height: 44px; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--purple-deep), #8e24aa); color: #fff; }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan-deep), #00acc1); color: #fff; }
+.btn-green { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+.btn-orange { background: linear-gradient(135deg, #e65100, #f57c00); color: #fff; }
+.btn-red { background: linear-gradient(135deg, #b71c1c, #c62828); color: #fff; }
+.btn-ghost { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
+.btn-sm { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.input-label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.input, .select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; transition: all 0.15s; }
+.input:focus, .select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+.select { cursor: pointer; appearance: none; padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b388ff' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; }
+.select option { background: var(--card); color: var(--text); }
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 18px; }
+.kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; position: relative; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+.kpi-card:hover { transform: translateY(-2px); border-color: var(--cyan); }
+.kpi-card::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+.kpi-card.cyan::before { background: linear-gradient(180deg, var(--cyan), var(--cyan-deep)); }
+.kpi-card.purple::before { background: linear-gradient(180deg, var(--purple), var(--purple-deep)); }
+.kpi-card.orange::before { background: linear-gradient(180deg, var(--orange), #e65100); }
+.kpi-card.green::before { background: linear-gradient(180deg, var(--green), #2e7d32); }
+.kpi-card.red::before { background: linear-gradient(180deg, var(--red), #b71c1c); }
+.kpi-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+.kpi-label { font-size: 9px; color: var(--text-mute); font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; }
+.kpi-icono { font-size: 16px; opacity: 0.7; }
+.kpi-valor { font-size: 22px; font-weight: 900; line-height: 1; margin-bottom: 2px; }
+.kpi-valor.cyan { color: var(--cyan); }
+.kpi-valor.purple { color: var(--purple); }
+.kpi-valor.orange { color: var(--orange); }
+.kpi-valor.green { color: var(--green); }
+.kpi-valor.red { color: var(--red); }
+.kpi-cambio { font-size: 10px; color: var(--text-mute); font-weight: 700; }
+
+.filtros-bar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filtros-bar .input-search { flex: 1; min-width: 200px; position: relative; }
+.filtros-bar .input-search .input { padding-left: 38px; padding-top: 10px; padding-bottom: 10px; font-size: 13px; }
+.filtros-bar .input-search .icono { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-mute); font-size: 14px; pointer-events: none; }
+.filtros-bar select { padding: 10px 34px 10px 12px; font-size: 12px; max-width: 180px; }
+
+/* KANBAN */
+.kanban {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 20px;
+  min-height: calc(100vh - 380px);
+  align-items: flex-start;
+  -webkit-overflow-scrolling: touch;
+}
+.kanban::-webkit-scrollbar { height: 10px; }
+.kanban::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 5px; }
+
+.kanban-col {
+  flex: 1 1 260px;
+  min-width: 260px;
+  max-width: 320px;
+  border-radius: var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 200px;
+  border: 2px dashed transparent;
+  transition: all 0.15s;
+}
+.kanban-col.drag-over { border-color: var(--cyan); background: rgba(0,229,255,0.05); }
+
+.kanban-col-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px 8px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 4px;
+}
+.kanban-col-titulo {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.kanban-col-count {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.08);
+}
+body.theme-light .kanban-col-count { background: rgba(0,0,0,0.06); }
+
+.col-por-hacer .kanban-col-titulo { color: var(--text-dim); }
+.col-muestra .kanban-col-titulo { color: var(--yellow); }
+.col-proceso .kanban-col-titulo { color: var(--cyan); }
+.col-lista .kanban-col-titulo { color: var(--green); }
+.col-entregada .kanban-col-titulo { color: var(--text-mute); }
+
+.kanban-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  cursor: grab;
+  transition: all 0.15s;
+  position: relative;
+}
+.kanban-card:active { cursor: grabbing; }
+.kanban-card:hover { border-color: var(--cyan); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+.kanban-card.dragging { opacity: 0.4; transform: rotate(2deg); }
+.kanban-card.urgente { border-left: 4px solid var(--red); }
+.kanban-card.atrasado { background: linear-gradient(90deg, rgba(239,83,80,0.06), transparent); }
+
+.kanban-card-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.kanban-card-num {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--cyan);
+  font-family: 'Courier New', monospace;
+}
+.kanban-card-cliente {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 3px;
+  word-break: break-word;
+}
+.kanban-card-proyecto {
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+.kanban-card-pieza {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(0,229,255,0.15);
+  color: var(--cyan);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.kanban-card-meta {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--text-mute);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.kanban-card-meta .item { display: flex; align-items: center; gap: 3px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.badge-red { background: rgba(239,83,80,0.15); color: var(--red); }
+.badge-orange { background: rgba(255,167,38,0.15); color: var(--orange); }
+.badge-yellow { background: rgba(255,213,79,0.15); color: var(--yellow); }
+.badge-cyan { background: rgba(0,229,255,0.15); color: var(--cyan); }
+.badge-green { background: rgba(76,175,80,0.15); color: var(--green); }
+.badge-purple { background: rgba(179,136,255,0.15); color: var(--purple); }
+.badge-dim { background: rgba(255,255,255,0.06); color: var(--text-mute); }
+
+.asignado-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fff;
+  border: 2px solid var(--card);
+  margin-left: auto;
+}
+.avatar-jesus { background: linear-gradient(135deg, #6a1b9a, #b388ff); }
+.avatar-carlos { background: linear-gradient(135deg, #00838f, #00e5ff); }
+.avatar-nicole { background: linear-gradient(135deg, #c2185b, #ec407a); }
+.avatar-andres { background: linear-gradient(135deg, #e65100, #ffa726); }
+
+.kanban-col-vacio {
+  padding: 20px 10px;
+  text-align: center;
+  color: var(--text-mute);
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* TIMELINE */
+.timeline-container { display: flex; flex-direction: column; gap: 20px; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.stat-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.stat-card .stat-label {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+.stat-card .stat-valor {
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-card .stat-valor.cyan { color: var(--cyan); }
+.stat-card .stat-valor.purple { color: var(--purple); }
+.stat-card .stat-valor.green { color: var(--green); }
+.stat-card .stat-valor.orange { color: var(--orange); }
+.stat-card .stat-valor.red { color: var(--red); }
+.stat-card .stat-sub {
+  font-size: 11px;
+  color: var(--text-mute);
+  font-weight: 600;
+}
+
+.timeline-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timeline-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.timeline-item:hover { border-color: var(--cyan); transform: translateX(3px); }
+
+.timeline-fecha {
+  min-width: 70px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.timeline-fecha .dia {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--cyan);
+}
+.timeline-fecha .mes {
+  font-size: 10px;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.timeline-info { flex: 1; min-width: 200px; }
+.timeline-cliente { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 2px; }
+.timeline-proyecto { font-size: 12px; color: var(--text-dim); margin-bottom: 6px; }
+
+.timeline-etapas {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.etapa-punto {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  border: 2px solid var(--border);
+  background: transparent;
+  color: var(--text-mute);
+  flex-shrink: 0;
+}
+.etapa-punto.completada {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+.etapa-punto.actual {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(0,229,255,0.2);
+}
+.etapa-conector {
+  height: 2px;
+  width: 12px;
+  background: var(--border);
+}
+.etapa-conector.completado { background: var(--green); }
+
+.timeline-tiempo {
+  min-width: 80px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.timeline-tiempo .dias {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--text);
+}
+.timeline-tiempo .lbl {
+  font-size: 9px;
+  color: var(--text-mute);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.empty-timeline {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-mute);
+}
+.empty-timeline .icono { font-size: 60px; opacity: 0.3; margin-bottom: 14px; }
+.empty-timeline .titulo { font-size: 15px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; }
+
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+.modal-overlay.activo { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border-strong); border-radius: 16px; width: 100%; max-width: 640px; max-height: 90vh; display: flex; flex-direction: column; animation: modalIn 0.25s; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.modal-titulo { font-size: 17px; font-weight: 800; }
+.modal-close { background: transparent; border: none; color: var(--text-mute); font-size: 24px; cursor: pointer; line-height: 1; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { color: var(--red); }
+.modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+.fila { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; gap: 8px; }
+.fila:last-child { border-bottom: none; }
+.fila .label { color: var(--text-dim); }
+.fila .valor { color: var(--text); font-weight: 700; text-align: right; }
+
+.caja-info {
+  background: linear-gradient(135deg, rgba(0,229,255,0.05), rgba(106,27,154,0.08));
+  border: 1px solid rgba(0,229,255,0.25);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.caja-info .fila-grande {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+.caja-info .fila-grande .lbl { color: var(--text-dim); }
+.caja-info .fila-grande .val { color: var(--cyan); font-weight: 800; }
+
+.pigmento-row {
+  display: grid;
+  grid-template-columns: 1.4fr 70px 1fr;
+  gap: 6px;
+  margin-bottom: 6px;
+  align-items: center;
+}
+.pigmento-row .select, .pigmento-row .input { padding: 8px; font-size: 12px; }
+.pigmento-row .select { padding-right: 28px; background-position: right 8px center; background-size: 14px; }
+
+.color-row-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.color-row-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; flex-wrap: wrap; }
+
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; pointer-events: auto; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; font-weight: 600; }
+
+.empty { text-align: center; padding: 40px 20px; color: var(--text-mute); }
+.empty-icono { font-size: 50px; opacity: 0.3; margin-bottom: 12px; }
+
+/* MODO KIOSCO */
+body.kiosco { font-size: 19px; }
+body.kiosco .sidebar { display: none; }
+body.kiosco .hamburger { display: none !important; } /* RESPONSIVE v3.5 — sin sidebar no hace falta */
+body.kiosco .topbar { padding: 16px 24px; min-height: 72px; }
+body.kiosco .page-titulo { font-size: 32px; }
+body.kiosco .kpi-grid { grid-template-columns: repeat(5, 1fr); gap: 16px; }
+body.kiosco .kpi-valor { font-size: 32px; }
+body.kiosco .kpi-label { font-size: 11px; }
+body.kiosco .kanban { min-height: calc(100vh - 420px); }
+body.kiosco .kanban-col { min-width: 300px; }
+body.kiosco .kanban-card { padding: 16px; }
+body.kiosco .kanban-card-cliente { font-size: 16px; }
+body.kiosco .kanban-card-proyecto { font-size: 13px; }
+body.kiosco .btn { padding: 14px 22px; font-size: 15px; }
+body.kiosco .tab-principal { font-size: 15px; padding: 12px 26px; }
+
+/* ============================================================
+   RESPONSIVE v3.5 — Breakpoints
+   1024px (tablet) · 768px (móvil principal) · 480px (móvil chico)
+   ============================================================ */
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 18px 20px; }
+  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; }
+
+  /* Sidebar overlay */
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; height: 100dvh; width: 260px; max-width: 85vw; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar.abierto { transform: translateX(0); }
+
+  /* Topbar */
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .hamburger { display: flex; }
+  .empresa-switcher { padding: 6px 10px; }
+  .empresa-nombre { font-size: 11px; }
+  .empresa-rol { font-size: 8px; }
+  .topbar-acciones { gap: 2px; }
+  .icon-btn { font-size: 18px; padding: 8px; min-width: 40px; min-height: 40px; }
+
+  /* Content */
+  .content { padding: 16px; }
+
+  /* Page header */
+  .page-header { flex-direction: column; align-items: stretch; gap: 12px; margin-bottom: 14px; }
+  .page-titulo { font-size: 20px; }
+  .page-sub { font-size: 12px; }
+  .page-acciones { width: 100%; }
+  .page-acciones .btn { flex: 1; justify-content: center; }
+
+  /* Tabs principales */
+  .tabs-principales { max-width: 100%; overflow-x: auto; }
+  .tabs-principales::-webkit-scrollbar { display: none; }
+  .tab-principal { padding: 10px 16px; font-size: 12px; white-space: nowrap; }
+
+  /* KPIs 2 columnas */
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+  .kpi-card { padding: 12px 14px; }
+  .kpi-valor { font-size: 20px; }
+  .kpi-label { font-size: 9px; }
+
+  /* Filtros */
+  .filtros-bar { padding: 10px 12px; gap: 8px; }
+  .filtros-bar .input-search { min-width: 100%; flex: 1 1 100%; }
+  .filtros-bar select { flex: 1 1 calc(50% - 4px); max-width: none; font-size: 11px; padding: 10px 30px 10px 10px; }
+  .filtros-bar .btn { flex: 1 1 100%; justify-content: center; }
+  .filtros-bar .btn[style*="margin-left:auto"] { margin-left: 0 !important; }
+
+  /* Kanban */
+  .kanban { gap: 10px; min-height: calc(100vh - 420px); }
+  .kanban-col { flex: 0 0 260px; min-width: 260px; max-width: 260px; padding: 10px; }
+  .kanban-card { padding: 11px; }
+
+  /* Timeline */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+  .stat-card { padding: 12px 14px; }
+  .stat-card .stat-valor { font-size: 20px; }
+
+  .timeline-item { padding: 12px; gap: 10px; flex-wrap: wrap; }
+  .timeline-fecha { min-width: 54px; }
+  .timeline-fecha .dia { font-size: 17px; }
+  .timeline-info { min-width: 100%; flex: 1 1 100%; }
+  .timeline-cliente { font-size: 13px; }
+  .timeline-proyecto { font-size: 11px; }
+  .timeline-tiempo { min-width: auto; text-align: left; margin-left: auto; }
+  .timeline-tiempo .dias { font-size: 14px; }
+
+  /* Modales bottom-sheet */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal { max-width: 100%; max-height: 92vh; border-radius: 18px 18px 0 0; animation: modalSheet 0.28s ease; }
+  @keyframes modalSheet { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
+  .modal-header { padding: 16px 18px; }
+  .modal-titulo { font-size: 15px; }
+  .modal-body { padding: 16px 18px; }
+  .modal-footer { padding: 14px 18px; }
+  .modal-footer .btn { flex: 1 1 auto; justify-content: center; }
+
+  /* Fila y caja-info */
+  .fila { font-size: 12px; padding: 8px 0; }
+  .caja-info { padding: 12px; }
+  .caja-info .fila-grande { font-size: 13px; }
+
+  /* Formas */
+  .form-row.cols-2 { grid-template-columns: 1fr; }
+
+  /* Pigmento row en modal */
+  .pigmento-row { grid-template-columns: 1.4fr 60px 1fr; gap: 5px; }
+  .pigmento-row .select, .pigmento-row .input { font-size: 11px; padding: 7px; }
+
+  /* Toast abajo en móvil */
+  .toast-container { top: auto; bottom: 80px; left: 16px; right: 16px; }
+  .toast { min-width: auto; max-width: none; width: 100%; }
+
+  /* Botones */
+  .btn { padding: 12px 14px; font-size: 12px; }
+  .btn-sm { padding: 8px 12px; font-size: 11px; min-height: 38px; }
+
+  /* Modo kiosco en móvil: no colapsa tanto */
+  body.kiosco .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  body.kiosco .kpi-valor { font-size: 26px; }
+  body.kiosco .page-titulo { font-size: 24px; }
+}
+
+@media (max-width: 480px) {
+  .content { padding: 12px; }
+  .page-titulo { font-size: 18px; }
+
+  /* KPIs 1 columna */
+  .kpi-grid { grid-template-columns: 1fr; }
+  .kpi-card { padding: 12px; }
+
+  /* Kanban col más chico */
+  .kanban-col { flex: 0 0 230px; min-width: 230px; max-width: 230px; padding: 9px; }
+  .kanban-card { padding: 10px; }
+  .kanban-card-cliente { font-size: 12px; }
+  .kanban-card-proyecto { font-size: 10px; }
+
+  /* Stats 1 columna */
+  .stats-grid { grid-template-columns: 1fr; }
+
+  /* Timeline item más compacto */
+  .timeline-item { padding: 10px; }
+  .timeline-fecha .dia { font-size: 15px; }
+  .timeline-fecha .mes { font-size: 9px; }
+
+  /* Tabs más chicos */
+  .tab-principal { padding: 9px 12px; font-size: 11px; }
+
+  /* Modales */
+  .modal-header { padding: 14px 16px; }
+  .modal-body { padding: 14px 16px; }
+  .modal-footer { padding: 12px 16px; }
+
+  /* Pigmentos */
+  .pigmento-row { grid-template-columns: 1fr 50px 1fr; gap: 4px; }
+  .pigmento-row .select, .pigmento-row .input { font-size: 10px; padding: 6px; }
+
+  /* Filtros full width */
+  .filtros-bar select { flex: 1 1 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-root">
+  <!-- RESPONSIVE v3.5 — Backdrop para sidebar móvil -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="cerrarSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-sidebar">
+      <div class="logo-icono">🏛️</div>
+      <div><div class="logo-nombre">Cajuña Pro</div><div class="logo-sub">v3.0</div></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sb-seccion">Principal</div>
+      <div class="sb-item" onclick="irA('dashboard.html')"><span class="sb-icono">📊</span>Dashboard</div>
+      <div class="sb-item" onclick="irA('nueva-orden.html')"><span class="sb-icono">➕</span>Nueva Orden</div>
+      <div class="sb-item" onclick="irA('llenado-parcial.html')"><span class="sb-icono">📦</span>Llenado Parcial</div>
+      <div class="sb-item activo" onclick="irA('produccion.html')"><span class="sb-icono">🔨</span>Producción</div>
+
+      <div class="sb-seccion">Biblioteca</div>
+      <div class="sb-item" onclick="irA('moldes.html')"><span class="sb-icono">🗄️</span>Moldes</div>
+      <div class="sb-item" onclick="irA('mis-modelos.html')"><span class="sb-icono">💾</span>Mis Modelos</div>
+      <div class="sb-item" onclick="irA('recetas.html')"><span class="sb-icono">📖</span>Recetas</div>
+      <div class="sb-item" onclick="irA('archivo.html')"><span class="sb-icono">📁</span>Archivo</div>
+      <div class="sb-item" onclick="irA('museo.html')"><span class="sb-icono">🏛️</span>Museo Virtual</div>
+
+      <div class="sb-seccion">Análisis</div>
+      <div class="sb-item" onclick="irA('stock.html')"><span class="sb-icono">📦</span>Stock</div>
+      <div class="sb-item" onclick="irA('laboratorio.html')"><span class="sb-icono">🧪</span>Laboratorio</div>
+      <div class="sb-item" onclick="irA('reportes.html')"><span class="sb-icono">📈</span>Reportes</div>
+
+      <div class="sb-seccion">Sistema</div>
+      <div class="sb-item" onclick="irA('clientes.html')"><span class="sb-icono">👥</span>Clientes</div>
+      <div class="sb-item" onclick="irA('usuarios.html')"><span class="sb-icono">👤</span>Usuarios</div>
+      <div class="sb-item" onclick="irA('configuracion.html')"><span class="sb-icono">⚙️</span>Configuración</div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <!-- RESPONSIVE v3.5 — hamburger -->
+      <button class="hamburger" onclick="abrirSidebar()" aria-label="Abrir menú">☰</button>
+      <div class="empresa-switcher">
+        <span>🏢</span>
+        <div><div class="empresa-nombre">Cajuña</div><div class="empresa-rol">Admin</div></div>
+      </div>
+      <div class="topbar-acciones">
+        <button class="icon-btn" onclick="toggleKiosco()" id="btnKiosco" title="Modo kiosco">🖥️</button>
+        <button class="icon-btn" onclick="toggleManosSucias()" id="btnManos" title="Manos sucias">🧤</button>
+        <button class="icon-btn" onclick="toggleTema()" id="btnTema" title="Cambiar tema">🎨</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-titulo">🔨 Producción</div>
+          <div class="page-sub" id="subtitulo">Cargando...</div>
+        </div>
+        <div class="page-acciones">
+          <button class="btn btn-ghost btn-sm" onclick="cargarOrdenesDemo()">🎲 Demo</button>
+          <button class="btn btn-ghost btn-sm" onclick="location.href='nueva-orden.html'">➕ Nueva orden</button>
+        </div>
+      </div>
+
+      <!-- Tabs principales -->
+      <div class="tabs-principales">
+        <button class="tab-principal activo" data-tab="kanban" onclick="cambiarTabPrincipal('kanban')">
+          📋 Kanban <span style="opacity:0.7;font-size:10px;margin-left:4px;" id="tabKanbanCount">(0)</span>
+        </button>
+        <button class="tab-principal" data-tab="timeline" onclick="cambiarTabPrincipal('timeline')">
+          📅 Timeline <span style="opacity:0.7;font-size:10px;margin-left:4px;" id="tabTimelineCount">(0)</span>
+        </button>
+      </div>
+
+      <!-- ==================== TAB KANBAN ==================== -->
+      <div id="vistaKanban">
+        <!-- KPIs -->
+        <div class="kpi-grid">
+          <div class="kpi-card purple" onclick="filtrarPorEstado('por-hacer')">
+            <div class="kpi-top"><span class="kpi-label">Por hacer</span><span class="kpi-icono">📋</span></div>
+            <div class="kpi-valor purple" id="kpiPorHacer">0</div>
+            <div class="kpi-cambio">Órdenes nuevas</div>
+          </div>
+          <div class="kpi-card cyan" onclick="filtrarPorEstado('muestra')">
+            <div class="kpi-top"><span class="kpi-label">Muestra</span><span class="kpi-icono">🧪</span></div>
+            <div class="kpi-valor cyan" id="kpiMuestra">0</div>
+            <div class="kpi-cambio">Esperando aprobación</div>
+          </div>
+          <div class="kpi-card orange" onclick="filtrarPorEstado('proceso')">
+            <div class="kpi-top"><span class="kpi-label">En proceso</span><span class="kpi-icono">⚙️</span></div>
+            <div class="kpi-valor orange" id="kpiProceso">0</div>
+            <div class="kpi-cambio">En el taller ahora</div>
+          </div>
+          <div class="kpi-card green" onclick="filtrarPorEstado('lista')">
+            <div class="kpi-top"><span class="kpi-label">Listas</span><span class="kpi-icono">✓</span></div>
+            <div class="kpi-valor green" id="kpiLista">0</div>
+            <div class="kpi-cambio">Para entregar</div>
+          </div>
+          <div class="kpi-card red" onclick="filtrarUrgentes()">
+            <div class="kpi-top"><span class="kpi-label">Urgentes</span><span class="kpi-icono">🚨</span></div>
+            <div class="kpi-valor red" id="kpiUrgentes">0</div>
+            <div class="kpi-cambio">Prioridad alta</div>
+          </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filtros-bar">
+          <div class="input-search">
+            <span class="icono">🔍</span>
+            <input class="input" id="busqueda" placeholder="Buscar por cliente, proyecto, orden..." oninput="render()">
+          </div>
+          <select class="select" id="filtroCliente" onchange="render()">
+            <option value="">Todos los clientes</option>
+          </select>
+          <select class="select" id="filtroAsignado" onchange="render()">
+            <option value="">Todos los asignados</option>
+            <option value="Jesús">Jesús</option>
+            <option value="Carlos">Carlos</option>
+            <option value="Nicole">Nicole</option>
+            <option value="Andrés">Andrés</option>
+            <option value="Sin asignar">Sin asignar</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="limpiarFiltros()">↺ Limpiar</button>
+        </div>
+
+        <!-- Kanban -->
+        <div class="kanban" id="kanban"></div>
+      </div>
+
+      <!-- ==================== TAB TIMELINE ==================== -->
+      <div id="vistaTimeline" style="display:none;">
+        <!-- Filtros de período -->
+        <div class="filtros-bar">
+          <select class="select" id="filtroPeriodo" onchange="renderTimeline()" style="max-width:200px;">
+            <option value="todos">Todo el histórico</option>
+            <option value="hoy">Hoy</option>
+            <option value="semana">Últimos 7 días</option>
+            <option value="mes">Este mes</option>
+            <option value="30dias">Últimos 30 días</option>
+          </select>
+          <select class="select" id="filtroEstadoTimeline" onchange="renderTimeline()" style="max-width:200px;">
+            <option value="">Todos los estados</option>
+            <option value="por-hacer">Por hacer</option>
+            <option value="muestra">Muestra</option>
+            <option value="proceso">En proceso</option>
+            <option value="lista">Lista</option>
+            <option value="entregada">Entregada</option>
+          </select>
+          <select class="select" id="filtroClienteTimeline" onchange="renderTimeline()" style="max-width:200px;">
+            <option value="">Todos los clientes</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="limpiarFiltrosTimeline()">↺ Limpiar</button>
+          <button class="btn btn-cyan btn-sm" style="margin-left:auto;" onclick="compartirReporteTimeline()">📤 Compartir reporte</button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="statsTimeline"></div>
+
+        <!-- Lista -->
+        <div class="timeline-lista" id="timelineLista"></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)cerrarModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-titulo" id="modalTitulo">Modal</div>
+      <button class="modal-close" onclick="cerrarModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SIDEBAR MÓVIL — RESPONSIVE v3.5
+// ============================================================
+function abrirSidebar() {
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('sidebarBackdrop');
+  if (sb) sb.classList.add('abierto');
+  if (bd) bd.classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarSidebar() {
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('sidebarBackdrop');
+  if (sb) sb.classList.remove('abierto');
+  if (bd) bd.classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function irA(url) {
+  cerrarSidebar();
+  setTimeout(() => { location.href = url; }, 150);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarSidebar();
+});
+
+// ============================================================
+// CONSTANTES
+// ============================================================
+const CLAVE_ORDENES = 'cajupa_ordenes';
+const CLAVE_RECETAS = 'cajupa_recetas_v1';
+const CLAVE_PESOS = 'cajupa_pesos';
+const CLAVE_CUSTOM = 'cajupa_pesos_custom';
+
+const ESTADOS = [
+  { id: 'por-hacer',  icono: '📋', label: 'Por hacer',    color: 'text-dim', clase: 'col-por-hacer' },
+  { id: 'muestra',    icono: '🧪', label: 'Muestra',      color: 'yellow',   clase: 'col-muestra' },
+  { id: 'proceso',    icono: '⚙️', label: 'En proceso',   color: 'cyan',     clase: 'col-proceso' },
+  { id: 'lista',      icono: '✓',  label: 'Lista',        color: 'green',    clase: 'col-lista' },
+  { id: 'entregada',  icono: '📤', label: 'Entregada',    color: 'text-mute', clase: 'col-entregada' }
+];
+
+const ASIGNADOS = [
+  { nombre: 'Jesús',   inicial: 'J', avatar: 'avatar-jesus' },
+  { nombre: 'Carlos',  inicial: 'C', avatar: 'avatar-carlos' },
+  { nombre: 'Nicole',  inicial: 'N', avatar: 'avatar-nicole' },
+  { nombre: 'Andrés',  inicial: 'A', avatar: 'avatar-andres' }
+];
+
+// ============================================================
+// ESTADO
+// ============================================================
+let ordenes = [];
+let ordenActiva = null;
+let tabPrincipal = 'kanban';
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+}
+function toggleTema() {
+  let actual = localStorage.getItem('cajupa_tema') || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem('cajupa_tema', nuevo);
+  aplicarTema(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+function toggleManosSucias() {
+  const activo = document.body.classList.toggle('manos-sucias');
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+}
+function toggleKiosco() {
+  const activo = document.body.classList.toggle('kiosco');
+  document.getElementById('btnKiosco').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_kiosco', activo ? '1' : '0');
+  toast(activo ? '🖥️ Modo kiosco ON' : 'Modo kiosco OFF', 'info');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function hoyISO() { return new Date().toISOString().split('T')[0]; }
+function fmtFecha(iso) {
+  if (!iso) return '—';
+  const [y, m, d] = iso.split('T')[0].split('-');
+  return `${d}/${m}/${y.slice(2)}`;
+}
+function diasHasta(iso) {
+  if (!iso) return null;
+  return Math.round((new Date(iso) - new Date()) / 86400000);
+}
+function diasEntre(a, b) {
+  if (!a || !b) return null;
+  return Math.round((new Date(b) - new Date(a)) / 86400000);
+}
+function avatarDe(nombre) {
+  const a = ASIGNADOS.find(x => x.nombre === nombre);
+  return a ? a : { inicial: '?', avatar: 'avatar-jesus' };
+}
+
+// ============================================================
+// PERSISTENCIA
+// ============================================================
+function leerOrdenes() {
+  try {
+    const raw = localStorage.getItem(CLAVE_ORDENES);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return [];
+}
+function guardarOrdenes(data) {
+  localStorage.setItem(CLAVE_ORDENES, JSON.stringify(data));
+}
+function leerCustomEstructura() {
+  try {
+    const raw = localStorage.getItem(CLAVE_CUSTOM);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return { pigmentos: [], cucharas: [] };
+}
+function getPigmentosActivos() {
+  const base = ["Color", "Amarillo", "Azul", "Blanco", "Cemento Gris", "Marrón", "Negro",
+    "Rojo", "Verde Bycolor", "Verde Nacional", "Verde Vitofibras", "Naranja", "Vinotinto"];
+  const custom = leerCustomEstructura();
+  return [...base, ...(custom.pigmentos || [])];
+}
+function getCucharasActivas() {
+  const base = ["Cuch. 0.63", "Cuch. 1.25", "Cuch. 2.5", "Cuch. 15", "Gramos"];
+  const custom = leerCustomEstructura();
+  return [...base, ...(custom.cucharas || [])];
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  ordenes = leerOrdenes();
+  render();
+  renderTimeline();
+}
+
+function cambiarTabPrincipal(tab) {
+  tabPrincipal = tab;
+  document.querySelectorAll('.tab-principal').forEach(t => t.classList.remove('activo'));
+  document.querySelector(`.tab-principal[data-tab="${tab}"]`)?.classList.add('activo');
+  document.getElementById('vistaKanban').style.display = tab === 'kanban' ? 'block' : 'none';
+  document.getElementById('vistaTimeline').style.display = tab === 'timeline' ? 'block' : 'none';
+  if (tab === 'timeline') renderTimeline();
+}
+
+function actualizarSubtitulo() {
+  const total = ordenes.length;
+  const activas = ordenes.filter(o => o.estado !== 'entregada').length;
+  document.getElementById('subtitulo').textContent =
+    `${total} órdenes · ${activas} activas`;
+  document.getElementById('tabKanbanCount').textContent = `(${activas})`;
+  document.getElementById('tabTimelineCount').textContent = `(${total})`;
+}
+
+function render() {
+  renderKPIs();
+  renderKanban();
+  actualizarSubtitulo();
+  renderFiltroClientes();
+}
+
+function renderKPIs() {
+  const c = (estado) => ordenes.filter(o => o.estado === estado).length;
+  document.getElementById('kpiPorHacer').textContent = c('por-hacer');
+  document.getElementById('kpiMuestra').textContent = c('muestra');
+  document.getElementById('kpiProceso').textContent = c('proceso');
+  document.getElementById('kpiLista').textContent = c('lista');
+  document.getElementById('kpiUrgentes').textContent = ordenes.filter(o => o.prioridad === 'urgente' && o.estado !== 'entregada').length;
+}
+
+function renderFiltroClientes() {
+  const sel = document.getElementById('filtroCliente');
+  const valorActual = sel.value;
+  const clientes = [...new Set(ordenes.map(o => o.cliente).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">Todos los clientes</option>' +
+    clientes.map(c => `<option value="${c}">${c}</option>`).join('');
+  if (clientes.includes(valorActual)) sel.value = valorActual;
+
+  const selTL = document.getElementById('filtroClienteTimeline');
+  if (selTL) {
+    const valTL = selTL.value;
+    selTL.innerHTML = '<option value="">Todos los clientes</option>' +
+      clientes.map(c => `<option value="${c}">${c}</option>`).join('');
+    if (clientes.includes(valTL)) selTL.value = valTL;
+  }
+}
+
+function limpiarFiltros() {
+  document.getElementById('busqueda').value = '';
+  document.getElementById('filtroCliente').value = '';
+  document.getElementById('filtroAsignado').value = '';
+  render();
+}
+
+function filtrarPorEstado(estado) {
+  const col = document.querySelector(`.col-${estado}`);
+  if (col) col.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+function filtrarUrgentes() {
+  document.getElementById('filtroAsignado').value = '';
+  document.getElementById('filtroCliente').value = '';
+  document.getElementById('busqueda').value = '';
+  renderKanban(true);
+  toast('🚨 Mostrando solo urgentes', 'warning');
+}
+
+// ============================================================
+// RENDER KANBAN
+// ============================================================
+function renderKanban(soloUrgentes = false) {
+  const q = (document.getElementById('busqueda')?.value || '').toLowerCase().trim();
+  const clienteFiltro = document.getElementById('filtroCliente')?.value || '';
+  const asignadoFiltro = document.getElementById('filtroAsignado')?.value || '';
+
+  let filtradas = [...ordenes];
+
+  if (soloUrgentes) filtradas = filtradas.filter(o => o.prioridad === 'urgente' && o.estado !== 'entregada');
+  if (q) {
+    filtradas = filtradas.filter(o =>
+      (o.cliente || '').toLowerCase().includes(q) ||
+      (o.proyecto || '').toLowerCase().includes(q) ||
+      (o.id || '').toLowerCase().includes(q)
+    );
+  }
+  if (clienteFiltro) filtradas = filtradas.filter(o => o.cliente === clienteFiltro);
+  if (asignadoFiltro === 'Sin asignar') filtradas = filtradas.filter(o => !o.asignado);
+  else if (asignadoFiltro) filtradas = filtradas.filter(o => o.asignado === asignadoFiltro);
+
+  const cont = document.getElementById('kanban');
+  cont.innerHTML = ESTADOS.map(est => {
+    const ordenesCol = filtradas.filter(o => (o.estado || 'por-hacer') === est.id);
+    const cardsHTML = ordenesCol.length === 0
+      ? `<div class="kanban-col-vacio">Sin órdenes acá</div>`
+      : ordenesCol.map(o => renderTarjeta(o)).join('');
+
+    return `
+      <div class="kanban-col ${est.clase}" data-estado="${est.id}"
+           ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event, '${est.id}')">
+        <div class="kanban-col-head">
+          <div class="kanban-col-titulo">
+            <span>${est.icono}</span>
+            <span>${est.label}</span>
+          </div>
+          <span class="kanban-col-count">${ordenesCol.length}</span>
+        </div>
+        <div>${cardsHTML}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderTarjeta(o) {
+  const urgente = o.prioridad === 'urgente';
+  const atrasado = o.fechaEntrega && diasHasta(o.fechaEntrega) < 0 && o.estado !== 'entregada';
+  const dias = o.fechaEntrega ? diasHasta(o.fechaEntrega) : null;
+  const asignado = o.asignado ? avatarDe(o.asignado) : null;
+
+  let tiempoHTML = '';
+  if (dias !== null) {
+    if (dias < 0) tiempoHTML = `<span class="badge badge-red">⏰ ${Math.abs(dias)}d atrasado</span>`;
+    else if (dias === 0) tiempoHTML = `<span class="badge badge-orange">📅 Hoy</span>`;
+    else if (dias <= 3) tiempoHTML = `<span class="badge badge-orange">📅 ${dias}d</span>`;
+    else tiempoHTML = `<span class="badge badge-dim">📅 ${dias}d</span>`;
+  }
+
+  const cantPiezas = o.cantidadPiezas || 1;
+  const pct = o.pieza?.porcentaje || 100;
+
+  return `
+    <div class="kanban-card ${urgente ? 'urgente' : ''} ${atrasado ? 'atrasado' : ''}"
+         draggable="true"
+         ondragstart="onDragStart(event, '${o.id}')"
+         ondragend="onDragEnd(event)"
+         onclick="abrirDetalle('${o.id}')">
+      <div class="kanban-card-top">
+        <span class="kanban-card-num">${o.id}</span>
+        ${urgente ? '<span class="badge badge-red">🚨 Urgente</span>' : ''}
+      </div>
+      <div class="kanban-card-cliente">${o.cliente || 'Sin cliente'}</div>
+      <div class="kanban-card-proyecto">${o.proyecto || 'Sin proyecto'}</div>
+      ${o.pieza?.modeloCargado ? `<span class="kanban-card-pieza">${o.pieza.modeloCargado.emoji || '📦'} ${o.pieza.modeloCargado.nombre}</span>` : ''}
+      <div class="kanban-card-meta">
+        ${tiempoHTML}
+        <span class="badge badge-cyan">📦 ${cantPiezas} ${cantPiezas === 1 ? 'pza' : 'pzas'}</span>
+        ${pct < 100 ? `<span class="badge badge-purple">${pct}%</span>` : ''}
+        ${asignado ? `<div class="asignado-avatar ${asignado.avatar}" title="${o.asignado}">${asignado.inicial}</div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+// ============================================================
+// DRAG & DROP
+// ============================================================
+let ordenArrastrada = null;
+
+function onDragStart(e, id) {
+  ordenArrastrada = id;
+  e.target.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+function onDragEnd(e) {
+  e.target.classList.remove('dragging');
+  document.querySelectorAll('.kanban-col').forEach(c => c.classList.remove('drag-over'));
+}
+function onDragOver(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+}
+function onDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+function onDrop(e, nuevoEstado) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!ordenArrastrada) return;
+
+  const idx = ordenes.findIndex(x => x.id === ordenArrastrada);
+  if (idx === -1) return;
+
+  if (ordenes[idx].estado === nuevoEstado) { ordenArrastrada = null; return; }
+
+  ordenes[idx].estado = nuevoEstado;
+  ordenes[idx].fechaCambioEstado = hoyISO();
+  if (nuevoEstado === 'entregada') ordenes[idx].fechaEntregaReal = hoyISO();
+
+  guardarOrdenes(ordenes);
+  render();
+  renderTimeline();
+
+  const estLabel = ESTADOS.find(e => e.id === nuevoEstado)?.label || nuevoEstado;
+  toast(`✓ Movida a "${estLabel}"`, 'success');
+  ordenArrastrada = null;
+}
+
+// ============================================================
+// MODAL DETALLE
+// ============================================================
+function abrirDetalle(id) {
+  const o = ordenes.find(x => x.id === id);
+  if (!o) return;
+  ordenActiva = o;
+
+  const estadoActual = ESTADOS.find(e => e.id === (o.estado || 'por-hacer'));
+  const cant = o.cantidadPiezas || 1;
+  const pct = o.pieza?.porcentaje || 100;
+
+  const bodyHTML = `
+    <div class="caja-info">
+      <div class="fila-grande"><span class="lbl">Cliente</span><span class="val">${o.cliente || '—'}</span></div>
+      <div class="fila-grande"><span class="lbl">Proyecto</span><span class="val">${o.proyecto || '—'}</span></div>
+      <div class="fila-grande"><span class="lbl">Cantidad</span><span class="val">${cant} ${cant === 1 ? 'pieza' : 'piezas'}</span></div>
+      ${pct < 100 ? `<div class="fila-grande"><span class="lbl">Porcentaje</span><span class="val">${pct}%</span></div>` : ''}
+    </div>
+
+    <div class="fila"><span class="label">Orden</span><span class="valor">${o.id}</span></div>
+    <div class="fila"><span class="label">Categoría</span><span class="valor">${o.categoria || '—'}</span></div>
+    <div class="fila"><span class="label">Estado</span><span class="valor">${estadoActual?.icono || ''} ${estadoActual?.label || '—'}</span></div>
+    ${o.prioridad === 'urgente' ? `<div class="fila"><span class="label">Prioridad</span><span class="valor"><span class="badge badge-red">🚨 Urgente</span></span></div>` : ''}
+    <div class="fila"><span class="label">Asignado</span><span class="valor">${o.asignado || 'Sin asignar'}</span></div>
+    <div class="fila"><span class="label">Fecha creación</span><span class="valor">${fmtFecha(o.fecha)}</span></div>
+    ${o.fechaEntrega ? `<div class="fila"><span class="label">Entrega</span><span class="valor">${fmtFecha(o.fechaEntrega)}</span></div>` : ''}
+
+    ${o.pieza?.modeloCargado ? `
+      <div style="margin-top:14px;">
+        <div class="input-label" style="margin-bottom:8px;">💾 Modelo base</div>
+        <div style="padding:10px 12px;background:rgba(0,229,255,0.05);border:1px dashed rgba(0,229,255,0.3);border-radius:8px;font-size:12px;">
+          ${o.pieza.modeloCargado.emoji || '📦'} <strong>${o.pieza.modeloCargado.nombre}</strong>
+          <span style="color:var(--text-mute);"> · ${(o.pieza.modeloCargado.tipo || '3d').toUpperCase()}</span>
+        </div>
+      </div>
+    ` : ''}
+
+    ${o.mezcla ? `
+      <div style="margin-top:14px;">
+        <div class="input-label" style="margin-bottom:8px;">🧪 Mezcla</div>
+        <div style="padding:10px 12px;background:rgba(106,27,154,0.08);border:1px solid rgba(106,27,154,0.25);border-radius:8px;font-size:12px;">
+          <strong>${o.mezcla}</strong>
+          ${o.factor ? `<span style="color:var(--text-mute);"> · Factor ${o.factor}</span>` : ''}
+        </div>
+      </div>
+    ` : ''}
+
+    ${(o.colores && o.colores.length > 0) ? `
+      <div style="margin-top:14px;">
+        <div class="input-label" style="margin-bottom:8px;">🎨 Colores (${o.colores.length})</div>
+        ${o.colores.map(c => {
+          const pigT = (c.pigmentosTabla || []).filter(p => p.pigmento !== 'Color' && p.cantidad);
+          const pigL = (c.pigmentosLibres || []).filter(p => p.pigmento !== 'Color' && p.cantidad);
+          return `
+            <div style="padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <span style="width:16px;height:16px;border-radius:4px;background:${c.hex};display:inline-block;border:1px solid var(--border);"></span>
+                <strong style="font-size:13px;">${c.nombre}</strong>
+                <span style="margin-left:auto;font-size:12px;color:var(--cyan);font-weight:800;">${c.pct}%</span>
+              </div>
+              ${pigT.map(p => `<div style="font-size:11px;color:var(--text-dim);padding-left:24px;">• ${p.pigmento}: ${p.cantidad} × ${p.cuchara}</div>`).join('')}
+              ${pigL.map(p => `<div style="font-size:11px;color:var(--text-dim);padding-left:24px;">• ${p.pigmento}: ${p.cantidad} ${p.unidad} <em>(libre)</em></div>`).join('')}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    ` : ''}
+
+    ${(o.piedras && o.piedras.length > 0) ? `
+      <div style="margin-top:14px;">
+        <div class="input-label" style="margin-bottom:8px;">🪨 Piedras</div>
+        <div style="padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text-dim);">
+          ${o.piedras.join(' · ')}
+        </div>
+      </div>
+    ` : ''}
+
+    <div style="margin-top:14px;">
+      <div class="input-label" style="margin-bottom:8px;">📝 Notas del maestro</div>
+      <textarea class="input" id="notasMaestro" rows="2" placeholder="Observaciones, ajustes, tips..." style="resize:vertical;font-family:inherit;font-size:13px;">${o.notasMaestro || ''}</textarea>
+    </div>
+  `;
+
+  const botones = [
+    { txt: '🗑 Eliminar', class: 'btn-red', fn: eliminarOrden },
+    { txt: '👤 Asignar', class: 'btn-ghost', fn: abrirAsignar },
+    { txt: '📝 Registrar mezcla', class: 'btn-cyan', fn: abrirRegistrarMezcla },
+    { txt: '📥 Mover a...', class: 'btn-primary', fn: abrirMoverEstado }
+  ];
+
+  abrirModal(`${estadoActual?.icono || '📋'} ${o.cliente} — ${o.proyecto}`, bodyHTML, botones, '660px');
+
+  setTimeout(() => {
+    const ta = document.getElementById('notasMaestro');
+    if (ta) {
+      ta.addEventListener('blur', () => {
+        const idx = ordenes.findIndex(x => x.id === id);
+        if (idx !== -1) {
+          ordenes[idx].notasMaestro = ta.value;
+          guardarOrdenes(ordenes);
+        }
+      });
+    }
+  }, 30);
+}
+
+// ============================================================
+// MOVER ESTADO
+// ============================================================
+function abrirMoverEstado() {
+  const o = ordenActiva;
+  if (!o) return;
+
+  abrirModal('📥 Mover a...', `
+    <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px;">Elegí el nuevo estado para esta orden:</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      ${ESTADOS.map(est => `
+        <button class="btn ${est.id === o.estado ? 'btn-primary' : 'btn-ghost'}" style="justify-content:flex-start;padding:14px 16px;" onclick="moverOrden('${o.id}', '${est.id}')">
+          ${est.icono} ${est.label}
+          ${est.id === o.estado ? ' <span style="font-size:10px;opacity:0.8;">(actual)</span>' : ''}
+        </button>
+      `).join('')}
+    </div>
+  `, [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: () => abrirDetalle(o.id) }
+  ], '480px');
+}
+
+function moverOrden(id, nuevoEstado) {
+  const idx = ordenes.findIndex(x => x.id === id);
+  if (idx === -1) return;
+  ordenes[idx].estado = nuevoEstado;
+  ordenes[idx].fechaCambioEstado = hoyISO();
+  if (nuevoEstado === 'entregada') ordenes[idx].fechaEntregaReal = hoyISO();
+  guardarOrdenes(ordenes);
+  cerrarModal();
+  render();
+  renderTimeline();
+  const label = ESTADOS.find(e => e.id === nuevoEstado)?.label || nuevoEstado;
+  toast(`✓ Movida a "${label}"`, 'success');
+}
+
+// ============================================================
+// ASIGNAR
+// ============================================================
+function abrirAsignar() {
+  const o = ordenActiva;
+  if (!o) return;
+
+  abrirModal('👤 Asignar orden', `
+    <p style="font-size:13px;color:var(--text-dim);margin-bottom:16px;">¿Quién está trabajando en esta orden?</p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      ${ASIGNADOS.map(a => {
+        const activo = o.asignado === a.nombre;
+        return `
+          <button class="btn ${activo ? 'btn-primary' : 'btn-ghost'}" style="justify-content:flex-start;padding:12px 16px;" onclick="asignarOrden('${o.id}', '${a.nombre}')">
+            <div class="asignado-avatar ${a.avatar}" style="margin-left:0;margin-right:10px;">${a.inicial}</div>
+            <span style="font-weight:700;">${a.nombre}</span>
+            ${activo ? '<span style="margin-left:auto;font-size:10px;">(asignado)</span>' : ''}
+          </button>
+        `;
+      }).join('')}
+      ${o.asignado ? `<button class="btn btn-ghost" style="justify-content:flex-start;color:var(--red);border-color:var(--red);" onclick="asignarOrden('${o.id}', null)">✕ Quitar asignación</button>` : ''}
+    </div>
+  `, [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: () => abrirDetalle(o.id) }
+  ], '420px');
+}
+
+function asignarOrden(id, nombre) {
+  const idx = ordenes.findIndex(x => x.id === id);
+  if (idx === -1) return;
+  ordenes[idx].asignado = nombre;
+  guardarOrdenes(ordenes);
+  cerrarModal();
+  render();
+  toast(nombre ? `✓ Asignada a ${nombre}` : '✓ Asignación quitada', 'success');
+  setTimeout(() => abrirDetalle(id), 200);
+}
+
+// ============================================================
+// REGISTRAR MEZCLA
+// ============================================================
+let mezclaTemporal = null;
+
+function abrirRegistrarMezcla() {
+  const o = ordenActiva;
+  if (!o) return;
+
+  const colorBase = (o.colores && o.colores[0]) || null;
+  const pigT = colorBase?.pigmentosTabla || Array(5).fill(null).map(() => ({ pigmento: 'Color', cantidad: '', cuchara: 'Cuch. 0.63' }));
+  const pigL = colorBase?.pigmentosLibres || Array(5).fill(null).map(() => ({ pigmento: 'Color', cantidad: '', unidad: 'g' }));
+
+  mezclaTemporal = {
+    colores: [{
+      nombre: colorBase?.nombre || 'Blanco',
+      hex: colorBase?.hex || '#ffffff',
+      pct: colorBase?.pct || 100,
+      pigmentosTabla: JSON.parse(JSON.stringify(pigT)),
+      pigmentosLibres: JSON.parse(JSON.stringify(pigL))
+    }],
+    notas: ''
+  };
+
+  renderModalRegistrarMezcla();
+}
+
+function renderModalRegistrarMezcla() {
+  const o = ordenActiva;
+  if (!o) return;
+
+  const pigmentos = getPigmentosActivos();
+  const cucharas = getCucharasActivas();
+  const color = mezclaTemporal.colores[0];
+
+  const pigTHTML = color.pigmentosTabla.map((p, j) => `
+    <div class="pigmento-row">
+      <select class="select" onchange="setMezclaPigT(${j}, 'pigmento', this.value)">
+        ${pigmentos.map(x => `<option ${x === p.pigmento ? 'selected' : ''}>${x}</option>`).join('')}
+      </select>
+      <input type="number" class="input" value="${p.cantidad}" placeholder="0" min="0" step="0.25" oninput="setMezclaPigT(${j}, 'cantidad', this.value)">
+      <select class="select" onchange="setMezclaPigT(${j}, 'cuchara', this.value)">
+        ${cucharas.map(x => `<option ${x === p.cuchara ? 'selected' : ''}>${x}</option>`).join('')}
+      </select>
+    </div>
+  `).join('');
+
+  const pigLHTML = color.pigmentosLibres.map((p, j) => `
+    <div class="pigmento-row" style="grid-template-columns:1.4fr 70px 60px;">
+      <select class="select" onchange="setMezclaPigL(${j}, 'pigmento', this.value)">
+        ${pigmentos.map(x => `<option ${x === p.pigmento ? 'selected' : ''}>${x}</option>`).join('')}
+      </select>
+      <input type="number" class="input" value="${p.cantidad}" placeholder="0" min="0" step="0.1" oninput="setMezclaPigL(${j}, 'cantidad', this.value)">
+      <select class="select" onchange="setMezclaPigL(${j}, 'unidad', this.value)">
+        <option value="g" ${p.unidad === 'g' ? 'selected' : ''}>g</option>
+        <option value="kg" ${p.unidad === 'kg' ? 'selected' : ''}>kg</option>
+      </select>
+    </div>
+  `).join('');
+
+  const bodyHTML = `
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;line-height:1.6;">
+      Registrá los pigmentos <strong>reales que usaste</strong>. Al guardar se crea una receta vinculada a esta orden.
+    </p>
+
+    <div class="color-row-card">
+      <div class="color-row-head">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="width:16px;height:16px;border-radius:4px;background:${color.hex};display:inline-block;border:1px solid var(--border);"></span>
+          <strong style="font-size:13px;">${color.nombre}</strong>
+        </div>
+        <span style="font-size:12px;color:var(--cyan);font-weight:800;">${color.pct}%</span>
+      </div>
+
+      <div style="font-size:11px;font-weight:800;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin:10px 0 6px;">🎨 Pigmentos (tabla)</div>
+      ${pigTHTML}
+
+      <div style="font-size:11px;font-weight:800;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin:14px 0 6px;">🎨 Pigmentos libres</div>
+      ${pigLHTML}
+    </div>
+
+    <div class="input-group" style="margin-top:14px;">
+      <label class="input-label">Nombre para guardar como receta</label>
+      <input class="input" id="nombreRecetaMezcla" placeholder="Ej: Frutero verde real" value="${o.proyecto || ''} V.${Date.now().toString().slice(-2)}">
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">📝 Notas de la mezcla</label>
+      <textarea class="input" id="notasMezcla" rows="2" placeholder="Observaciones de la mezcla real..." style="resize:vertical;font-family:inherit;font-size:13px;"></textarea>
+    </div>
+  `;
+
+  abrirModal(`📝 Registrar mezcla — ${o.cliente}`, bodyHTML, [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: () => abrirDetalle(o.id) },
+    { txt: '💾 Guardar y crear receta', class: 'btn-primary', fn: guardarMezclaReal }
+  ], '680px');
+}
+
+function setMezclaPigT(j, campo, valor) { mezclaTemporal.colores[0].pigmentosTabla[j][campo] = valor; }
+function setMezclaPigL(j, campo, valor) { mezclaTemporal.colores[0].pigmentosLibres[j][campo] = valor; }
+
+function guardarMezclaReal() {
+  const o = ordenActiva;
+  if (!o) return;
+
+  const nombreReceta = document.getElementById('nombreRecetaMezcla').value.trim() || 'Receta sin nombre';
+  const notas = document.getElementById('notasMezcla').value.trim();
+
+  const color = mezclaTemporal.colores[0];
+  const pigT = color.pigmentosTabla.filter(p => p.pigmento !== 'Color' && p.cantidad);
+  const pigL = color.pigmentosLibres.filter(p => p.pigmento !== 'Color' && p.cantidad);
+
+  const recetas = JSON.parse(localStorage.getItem(CLAVE_RECETAS) || '[]');
+  const receta = {
+    id: Date.now(),
+    nombre: nombreReceta,
+    cliente: o.cliente || '',
+    tipo: o.mezcla || 'Concreto',
+    emoji: '🧪',
+    colores: [{
+      nombre: color.nombre,
+      hex: color.hex,
+      pct: color.pct,
+      pigmentosTabla: pigT,
+      pigmentosLibres: pigL
+    }],
+    piedras: o.piedras || [],
+    notas: notas || `Registrada desde la orden ${o.id}`,
+    vecesUsado: 0, ultimoUso: null,
+    favorita: false,
+    fecha: hoyISO(),
+    autor: 'Taller',
+    ordenOrigen: o.id,
+    esRegistroTaller: true
+  };
+  recetas.push(receta);
+  localStorage.setItem(CLAVE_RECETAS, JSON.stringify(recetas));
+
+  const idx = ordenes.findIndex(x => x.id === o.id);
+  if (idx !== -1) {
+    ordenes[idx].mezclaRegistrada = true;
+    ordenes[idx].recetaGenerada = receta.id;
+    ordenes[idx].fechaMezcla = hoyISO();
+    guardarOrdenes(ordenes);
+  }
+
+  cerrarModal();
+  render();
+  renderTimeline();
+  toast(`✓ Mezcla registrada · Receta "${nombreReceta}" guardada`, 'success');
+}
+
+// ============================================================
+// ELIMINAR ORDEN
+// ============================================================
+function eliminarOrden() {
+  const o = ordenActiva;
+  if (!o) return;
+  if (!confirm(`¿Eliminar la orden "${o.id}" de ${o.cliente}?\n\nEsta acción no se puede deshacer.`)) return;
+  ordenes = ordenes.filter(x => x.id !== o.id);
+  guardarOrdenes(ordenes);
+  cerrarModal();
+  render();
+  renderTimeline();
+  toast('Orden eliminada', 'info');
+}
+
+// ============================================================
+// TIMELINE
+// ============================================================
+function limpiarFiltrosTimeline() {
+  document.getElementById('filtroPeriodo').value = 'todos';
+  document.getElementById('filtroEstadoTimeline').value = '';
+  document.getElementById('filtroClienteTimeline').value = '';
+  renderTimeline();
+}
+
+function filtrarOrdenesTimeline() {
+  const periodo = document.getElementById('filtroPeriodo').value;
+  const estadoFiltro = document.getElementById('filtroEstadoTimeline').value;
+  const clienteFiltro = document.getElementById('filtroClienteTimeline').value;
+
+  const ahora = new Date();
+  const hoy = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate());
+
+  let filtradas = [...ordenes];
+
+  if (periodo === 'hoy') {
+    filtradas = filtradas.filter(o => {
+      const f = o.fecha ? new Date(o.fecha) : null;
+      return f && f >= hoy;
+    });
+  } else if (periodo === 'semana') {
+    const hace7 = new Date(hoy.getTime() - 7 * 86400000);
+    filtradas = filtradas.filter(o => o.fecha && new Date(o.fecha) >= hace7);
+  } else if (periodo === 'mes') {
+    const inicioMes = new Date(ahora.getFullYear(), ahora.getMonth(), 1);
+    filtradas = filtradas.filter(o => o.fecha && new Date(o.fecha) >= inicioMes);
+  } else if (periodo === '30dias') {
+    const hace30 = new Date(hoy.getTime() - 30 * 86400000);
+    filtradas = filtradas.filter(o => o.fecha && new Date(o.fecha) >= hace30);
+  }
+
+  if (estadoFiltro) filtradas = filtradas.filter(o => o.estado === estadoFiltro);
+  if (clienteFiltro) filtradas = filtradas.filter(o => o.cliente === clienteFiltro);
+
+  return filtradas;
+}
+
+function renderTimeline() {
+  const filtradas = filtrarOrdenesTimeline();
+
+  filtradas.sort((a, b) => {
+    const fa = a.fecha ? new Date(a.fecha) : new Date(0);
+    const fb = b.fecha ? new Date(b.fecha) : new Date(0);
+    return fb - fa;
+  });
+
+  renderStatsTimeline(filtradas);
+  renderListaTimeline(filtradas);
+}
+
+function renderStatsTimeline(ordenesFiltradas) {
+  const cont = document.getElementById('statsTimeline');
+
+  const total = ordenesFiltradas.length;
+  const entregadas = ordenesFiltradas.filter(o => o.estado === 'entregada').length;
+  const activas = total - entregadas;
+  const urgentes = ordenesFiltradas.filter(o => o.prioridad === 'urgente' && o.estado !== 'entregada').length;
+
+  const entregadasConFecha = ordenesFiltradas.filter(o => o.estado === 'entregada' && o.fecha && o.fechaEntregaReal);
+  const tiempoPromedio = entregadasConFecha.length > 0
+    ? Math.round(entregadasConFecha.reduce((s, o) => s + diasEntre(o.fecha, o.fechaEntregaReal), 0) / entregadasConFecha.length)
+    : null;
+
+  const atrasadas = ordenesFiltradas.filter(o =>
+    o.estado !== 'entregada' && o.fechaEntrega && diasHasta(o.fechaEntrega) < 0
+  ).length;
+
+  cont.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-label">Total del período</div>
+      <div class="stat-valor cyan">${total}</div>
+      <div class="stat-sub">${activas} activas · ${entregadas} entregadas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Urgentes</div>
+      <div class="stat-valor ${urgentes > 0 ? 'orange' : 'green'}">${urgentes}</div>
+      <div class="stat-sub">${urgentes > 0 ? 'Necesitan atención' : 'Todo tranquilo'}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Atrasadas</div>
+      <div class="stat-valor ${atrasadas > 0 ? 'red' : 'green'}">${atrasadas}</div>
+      <div class="stat-sub">${atrasadas > 0 ? 'Vencidas' : 'Al día'}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Tiempo promedio</div>
+      <div class="stat-valor purple">${tiempoPromedio !== null ? tiempoPromedio + 'd' : '—'}</div>
+      <div class="stat-sub">${entregadasConFecha.length > 0 ? 'De creación a entrega' : 'Sin datos suficientes'}</div>
+    </div>
+  `;
+}
+
+function renderListaTimeline(ordenesFiltradas) {
+  const cont = document.getElementById('timelineLista');
+
+  if (ordenesFiltradas.length === 0) {
+    cont.innerHTML = `
+      <div class="empty-timeline">
+        <div class="icono">📅</div>
+        <div class="titulo">Sin órdenes en este período</div>
+        <div style="font-size:12px;">Probá cambiar los filtros o cargar órdenes demo</div>
+      </div>
+    `;
+    return;
+  }
+
+  const meses = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+
+  cont.innerHTML = ordenesFiltradas.map(o => {
+    const f = o.fecha ? new Date(o.fecha) : new Date();
+    const dia = f.getDate();
+    const mes = meses[f.getMonth()];
+    const estado = ESTADOS.find(e => e.id === o.estado);
+
+    const ordenEstados = ['por-hacer', 'muestra', 'proceso', 'lista', 'entregada'];
+    const idxActual = ordenEstados.indexOf(o.estado || 'por-hacer');
+
+    const etapasHTML = ordenEstados.map((est, i) => {
+      const estInfo = ESTADOS.find(e => e.id === est);
+      let clase = 'etapa-punto';
+      if (i < idxActual) clase += ' completada';
+      else if (i === idxActual) clase += ' actual';
+      const conector = i < ordenEstados.length - 1
+        ? `<div class="etapa-conector ${i < idxActual ? 'completado' : ''}"></div>`
+        : '';
+      return `<div class="${clase}" title="${estInfo.label}">${estInfo.icono}</div>${conector}`;
+    }).join('');
+
+    const diasTotales = diasEntre(o.fecha, o.fechaEntregaReal || hoyISO());
+    const tiempoHTML = diasTotales !== null && diasTotales >= 0
+      ? `<div class="dias">${diasTotales}d</div><div class="lbl">${o.estado === 'entregada' ? 'Entrega' : 'Desde inicio'}</div>`
+      : '';
+
+    return `
+      <div class="timeline-item" onclick="abrirDetalle('${o.id}')">
+        <div class="timeline-fecha">
+          <div class="dia">${dia}</div>
+          <div class="mes">${mes}</div>
+        </div>
+        <div class="timeline-info">
+          <div class="timeline-cliente">${o.cliente || 'Sin cliente'}</div>
+          <div class="timeline-proyecto">${o.proyecto || '—'} · <span style="color:var(--text-mute);">${o.id}</span></div>
+          <div class="timeline-etapas">${etapasHTML}</div>
+        </div>
+        <div class="timeline-tiempo">${tiempoHTML}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function compartirReporteTimeline() {
+  const filtradas = filtrarOrdenesTimeline();
+  const periodo = document.getElementById('filtroPeriodo').value;
+
+  const etiquetasPeriodo = {
+    'todos': 'Todo el histórico',
+    'hoy': 'Hoy',
+    'semana': 'Últimos 7 días',
+    'mes': 'Este mes',
+    '30dias': 'Últimos 30 días'
+  };
+
+  const total = filtradas.length;
+  const entregadas = filtradas.filter(o => o.estado === 'entregada').length;
+  const activas = total - entregadas;
+  const urgentes = filtradas.filter(o => o.prioridad === 'urgente' && o.estado !== 'entregada').length;
+  const atrasadas = filtradas.filter(o =>
+    o.estado !== 'entregada' && o.fechaEntrega && diasHasta(o.fechaEntrega) < 0
+  ).length;
+
+  const porEstado = {};
+  ESTADOS.forEach(e => porEstado[e.label] = filtradas.filter(o => o.estado === e.id).length);
+
+  const porCliente = {};
+  filtradas.forEach(o => {
+    if (o.cliente) porCliente[o.cliente] = (porCliente[o.cliente] || 0) + 1;
+  });
+  const topClientes = Object.entries(porCliente).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+  let texto = `📊 *REPORTE DE PRODUCCIÓN — CAJUÑA PRO*\n`;
+  texto += `📅 Período: ${etiquetasPeriodo[periodo]}\n`;
+  texto += `🕐 Generado: ${new Date().toLocaleString('es-VE')}\n`;
+  texto += `\n━━━━━━━━━━━━━━━━━━━━\n\n`;
+  texto += `📈 *RESUMEN*\n`;
+  texto += `• Total: ${total} órdenes\n`;
+  texto += `• Entregadas: ${entregadas} ✓\n`;
+  texto += `• Activas: ${activas} ⚙️\n`;
+  texto += `• Urgentes: ${urgentes} 🚨\n`;
+  texto += `• Atrasadas: ${atrasadas} ⏰\n`;
+  texto += `\n📋 *POR ESTADO*\n`;
+  ESTADOS.forEach(e => {
+    if (porEstado[e.label] > 0) {
+      texto += `• ${e.icono} ${e.label}: ${porEstado[e.label]}\n`;
+    }
+  });
+  if (topClientes.length > 0) {
+    texto += `\n👥 *TOP CLIENTES*\n`;
+    topClientes.forEach(([nombre, cant]) => {
+      texto += `• ${nombre}: ${cant}\n`;
+    });
+  }
+  texto += `\n_Generado por Cajúa Pro_`;
+
+  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+  toast('📤 Abriendo WhatsApp...', 'success');
+}
+
+// ============================================================
+// DATOS DEMO
+// ============================================================
+function cargarOrdenesDemo() {
+  const existentes = leerOrdenes();
+  if (existentes.length > 0) {
+    if (!confirm('Ya hay órdenes cargadas. ¿Agregar 8 órdenes demo más?')) return;
+  }
+
+  const demo = [
+    { cliente: 'Granitos Andinos', proyecto: 'Torre Bloque', categoria: 'Torres', estado: 'por-hacer', prioridad: 'urgente', cantidadPiezas: 1, pieza: { porcentaje: 100 }, fechaEntrega: new Date(Date.now() + 86400000 * 1).toISOString().split('T')[0], asignado: 'Carlos', mezcla: 'Concreto', factor: 1.9, piedras: ['Blanca Especial #0'], colores: [{ nombre: 'Blanco', hex: '#ffffff', pct: 100, pigmentosTabla: [], pigmentosLibres: [] }] },
+    { cliente: 'Andrés León', proyecto: 'Lavamanos Naranja', categoria: 'Lavamanos', estado: 'muestra', cantidadPiezas: 1, pieza: { porcentaje: 100 }, fechaEntrega: new Date(Date.now() + 86400000 * 3).toISOString().split('T')[0], asignado: 'Nicole', mezcla: 'Concreto', factor: 1.9, piedras: ['Blanca Especial #1'], colores: [{ nombre: 'Naranja', hex: '#ff6b35', pct: 60, pigmentosTabla: [{ pigmento: 'Amarillo', cantidad: '2', cuchara: 'Cuch. 2.5' }, { pigmento: 'Rojo', cantidad: '1', cuchara: 'Cuch. 1.25' }], pigmentosLibres: [] }] },
+    { cliente: 'Mármoles del Caribe', proyecto: 'Tope Cocina', categoria: 'Topes y Bases', estado: 'proceso', cantidadPiezas: 2, pieza: { porcentaje: 100 }, fechaEntrega: new Date(Date.now() + 86400000 * 5).toISOString().split('T')[0], asignado: 'Jesús', mezcla: 'Concreto', factor: 1.9, piedras: ['Marfil #1'] },
+    { cliente: 'Nicole Tovar', proyecto: 'Fruteros verdes', categoria: 'Piezas Utilitarias', estado: 'por-hacer', cantidadPiezas: 50, pieza: { porcentaje: 80, modeloCargado: { nombre: 'Frutero', tipo: '3d', emoji: '🍎' } }, fechaEntrega: new Date(Date.now() + 86400000 * 7).toISOString().split('T')[0], asignado: 'Andrés', mezcla: 'Concreto', factor: 1.9 },
+    { cliente: 'José Pérez', proyecto: 'Platos grandes', categoria: 'Piezas Utilitarias', estado: 'lista', cantidadPiezas: 10, pieza: { porcentaje: 100 }, fechaEntrega: new Date(Date.now() - 86400000 * 1).toISOString().split('T')[0], asignado: 'Nicole', mezcla: 'Concreto', factor: 1.9, fechaEntregaReal: hoyISO() },
+    { cliente: 'Mármoles del Caribe', proyecto: 'Bandeja #1', categoria: 'Piezas Utilitarias', estado: 'entregada', cantidadPiezas: 3, pieza: { porcentaje: 100 }, fecha: new Date(Date.now() - 86400000 * 10).toISOString().split('T')[0], fechaEntrega: new Date(Date.now() - 86400000 * 5).toISOString().split('T')[0], fechaEntregaReal: new Date(Date.now() - 86400000 * 5).toISOString().split('T')[0], asignado: 'Andrés', mezcla: 'Resina', factor: 1.9 },
+    { cliente: 'Andrés León', proyecto: 'Maceta M x10', categoria: 'Piezas Utilitarias', estado: 'proceso', cantidadPiezas: 10, pieza: { porcentaje: 100, modeloCargado: { nombre: 'Maceta M', tipo: '3d', emoji: '🪴' } }, fechaEntrega: new Date(Date.now() + 86400000 * 2).toISOString().split('T')[0], asignado: 'Nicole', mezcla: 'Concreto', factor: 1.9, fecha: new Date(Date.now() - 86400000 * 3).toISOString().split('T')[0] },
+    { cliente: 'Granitos Andinos', proyecto: 'Muestra mármol', categoria: 'Muestras', estado: 'entregada', cantidadPiezas: 20, pieza: { porcentaje: 100 }, fecha: new Date(Date.now() - 86400000 * 15).toISOString().split('T')[0], fechaEntrega: new Date(Date.now() - 86400000 * 12).toISOString().split('T')[0], fechaEntregaReal: new Date(Date.now() - 86400000 * 11).toISOString().split('T')[0], asignado: 'Jesús', mezcla: 'Concreto', factor: 1.9 }
+  ];
+
+  const nuevas = demo.map((d, i) => ({
+    id: 'ORD-2026-' + String(Math.floor(Math.random() * 9000) + 1000),
+    ...d,
+    fecha: d.fecha || hoyISO(),
+    hora: '10:' + String(10 + i).padStart(2, '0'),
+    factor: d.factor || 1.9,
+    colores: d.colores || [],
+    piedras: d.piedras || [],
+    descontado: false,
+    formatoImpresion: 'carta',
+    notas: ''
+  }));
+
+  ordenes = [...existentes, ...nuevas];
+  guardarOrdenes(ordenes);
+  render();
+  renderTimeline();
+  toast(`🎲 ${nuevas.length} órdenes demo cargadas`, 'success');
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function abrirModal(titulo, cuerpo, botones = [], maxWidth = '640px') {
+  document.getElementById('modalTitulo').textContent = titulo;
+  document.getElementById('modalBody').innerHTML = cuerpo;
+  document.getElementById('modalFooter').innerHTML = botones.map((b, i) =>
+    `<button class="btn ${b.class}" onclick="window._modalBtns[${i}]()">${b.txt}</button>`
+  ).join('');
+  window._modalBtns = botones.map(b => b.fn);
+  const modal = document.querySelector('.modal');
+  modal.style.maxWidth = maxWidth;
+  document.getElementById('modalOverlay').classList.add('activo');
+}
+function cerrarModal() {
+  document.getElementById('modalOverlay').classList.remove('activo');
+  ordenActiva = null;
+  mezclaTemporal = null;
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo = 'info') {
+  const iconos = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'toastIn 0.3s ease reverse';
+    setTimeout(() => el.remove(), 300);
+  }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+aplicarTema(localStorage.getItem('cajupa_tema') || 'brand');
+if (localStorage.getItem('cajupa_manos') === '1') {
+  document.body.classList.add('manos-sucias');
+  document.getElementById('btnManos').classList.add('activo');
+}
+if (localStorage.getItem('cajupa_kiosco') === '1') {
+  document.body.classList.add('kiosco');
+  document.getElementById('btnKiosco').classList.add('activo');
+}
+
+init();
+
+if (ordenes.length === 0) {
+  setTimeout(() => toast('👋 Cargá órdenes o probá el botón Demo', 'info'), 500);
+} else {
+  setTimeout(() => toast(`🔨 Producción con ${ordenes.length} órdenes`, 'info'), 300);
+}
+
+window.addEventListener('storage', (e) => {
+  if (e.key === CLAVE_ORDENES) {
+    ordenes = leerOrdenes();
+    render();
+    renderTimeline();
+  }
+});
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro v3.0 — Llenado Parcial</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+  --topbar-h: 60px;
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .sidebar { background:#0a0a0a; border-right-color:rgba(255,255,255,0.08); }
+body.theme-dark .topbar { background:#0a0a0a; border-bottom-color:rgba(255,255,255,0.08); }
+body.theme-dark .sb-item:hover { background:rgba(255,255,255,0.05); color:#f0f0f0; }
+body.theme-dark .sb-item.activo { background:linear-gradient(90deg, rgba(196,163,255,0.15), rgba(77,239,255,0.05)); color:#f0f0f0; border-left-color:#c4a3ff; }
+body.theme-dark .empresa-switcher { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+body.theme-dark .panel { background:#141414; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .input, body.theme-dark .select { background:#0f0f0f; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn:hover { background:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn.activo { background:rgba(179,136,255,0.2); }
+body.theme-dark .resultado-box { background:linear-gradient(135deg,rgba(77,239,255,0.05),rgba(196,163,255,0.08)); border-color:rgba(77,239,255,0.2); }
+body.theme-dark .molde-cilindro .nivel-label { background:#242424; }
+body.theme-dark .parte-check { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); }
+body.theme-dark .parte-check.activa { background:rgba(0,229,255,0.1); }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light .sidebar { background:#f7f7f5; border-right-color:#e9e9e7; }
+body.theme-light .topbar { background:#fbfbfa; border-bottom-color:#e9e9e7; }
+body.theme-light .logo-sidebar { border-bottom-color:#e9e9e7; }
+body.theme-light .sb-item { color:#57564f; }
+body.theme-light .sb-item:hover { background:rgba(0,0,0,0.04); color:#37352f; }
+body.theme-light .sb-item.activo { background:linear-gradient(90deg,rgba(107,70,193,0.15),rgba(11,122,140,0.08)); color:#37352f; border-left-color:#6b46c1; }
+body.theme-light .empresa-switcher { background:rgba(107,70,193,0.08); border-color:#e9e9e7; }
+body.theme-light .icon-btn { color:#57564f; }
+body.theme-light .icon-btn:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .icon-btn.activo { background:rgba(107,70,193,0.15); color:#6b46c1; }
+body.theme-light .panel { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .input, body.theme-light .select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus, body.theme-light .select:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .select option { background:#fff; color:#37352f; }
+body.theme-light .resultado-box { background:linear-gradient(135deg,rgba(11,122,140,0.05),rgba(107,70,193,0.06)); border-color:rgba(11,122,140,0.25); }
+body.theme-light .molde-cilindro .nivel-label { background:#fff; }
+body.theme-light .estado-box.warning { background:rgba(217,115,13,0.08); }
+body.theme-light .toast { background:#fff; border-color:#d3d1cb; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+body.theme-light .toast-msg { color:#37352f; }
+body.theme-light .parte-check { background:#fbfbfa; border-color:#e9e9e7; }
+body.theme-light .parte-check.activa { background:rgba(11,122,140,0.08); border-color:#0b7a8c; }
+
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-text-size-adjust: 100%; }
+.app-root { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
+
+.sidebar { width: 230px; background: var(--bg-3); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.25s ease; z-index: 100; }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+.logo-sidebar { display: flex; align-items: center; gap: 12px; padding: 18px; border-bottom: 1px solid var(--border); }
+.logo-icono { width: 42px; height: 42px; background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.logo-nombre { font-size: 15px; font-weight: 800; }
+.logo-sub { font-size: 10px; color: var(--text-mute); }
+.sidebar-nav { flex: 1; padding: 8px 10px 20px; }
+.sb-seccion { font-size: 9px; font-weight: 800; color: var(--text-mute); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 12px 6px; }
+.sb-item { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px; font-size: 14px; color: var(--text-dim); font-weight: 600; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sb-item:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.sb-item.activo { background: linear-gradient(90deg, rgba(106,27,154,0.4), rgba(0,229,255,0.08)); color: var(--text); border-left: 3px solid var(--purple); }
+.sb-icono { font-size: 17px; width: 24px; text-align: center; flex-shrink: 0; }
+
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; opacity: 0; transition: opacity 0.25s ease; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.sidebar-backdrop.activo { display: block; opacity: 1; }
+
+.main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--border); min-height: var(--topbar-h); flex-shrink: 0; }
+.hamburger { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 8px 10px; border-radius: 8px; transition: background 0.15s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.hamburger:hover { background: rgba(106,27,154,0.15); }
+.hamburger:active { background: rgba(106,27,154,0.25); }
+.empresa-switcher { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(106,27,154,0.2); border: 1px solid var(--border); border-radius: 10px; }
+.empresa-nombre { font-size: 12px; font-weight: 800; }
+.empresa-rol { font-size: 9px; color: var(--purple); font-weight: 700; }
+.topbar-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: transparent; border: none; color: var(--text-dim); font-size: 17px; cursor: pointer; padding: 10px; border-radius: 8px; transition: all 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: rgba(106,27,154,0.15); }
+.icon-btn:active { background: rgba(106,27,154,0.25); }
+.icon-btn.activo { background: rgba(106,27,154,0.3); color: var(--purple); }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-titulo { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: var(--text-mute); }
+.page-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; min-height: 44px; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--purple-deep), #8e24aa); color: #fff; }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan-deep), #00acc1); color: #fff; }
+.btn-green { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+.btn-orange { background: linear-gradient(135deg, #e65100, #f57c00); color: #fff; }
+.btn-ghost { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
+.btn-sm { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.input-label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.input, .select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; }
+.input:focus, .select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+.select { cursor: pointer; appearance: none; padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b388ff' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; }
+.select option { background: var(--card); color: var(--text); }
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+
+.resultado-box { background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(106,27,154,0.1)); border: 1px solid rgba(0,229,255,0.3); border-radius: var(--radius); padding: 18px; margin-top: 16px; }
+.resultado-titulo { font-size: 11px; font-weight: 800; color: var(--cyan); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; }
+
+.molde-cilindro-wrapper { position: relative; height: 320px; display: flex; align-items: flex-end; justify-content: center; padding: 30px 0; }
+.molde-cilindro { position: relative; width: 180px; height: 240px; }
+.molde-cilindro .cilindro-base { position: absolute; inset: 0; border: 2px solid var(--cyan); border-radius: 50% / 8%; background: rgba(0,229,255,0.05); overflow: hidden; }
+.molde-cilindro .cilindro-llenado { position: absolute; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(0,229,255,0.8), rgba(0,229,255,0.35)); transition: height 0.15s; border-top: 3px solid var(--cyan); box-shadow: 0 0 20px rgba(0,229,255,0.5); }
+.molde-cilindro .cilindro-top { position: absolute; top: -14px; left: 0; right: 0; height: 28px; border: 2px solid var(--cyan); border-radius: 50%; background: rgba(0,229,255,0.15); }
+.molde-cilindro .nivel-label { position: absolute; right: -90px; font-size: 15px; font-weight: 800; color: var(--cyan); background: var(--card); padding: 5px 12px; border-radius: 8px; border: 1px solid var(--cyan); }
+
+.estado-box { padding: 14px 16px; border-radius: var(--radius-sm); border-left: 4px solid; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; }
+.estado-box.warning { background: rgba(255,167,38,0.1); border-color: var(--orange); }
+.estado-box .icono { font-size: 22px; flex-shrink: 0; }
+.estado-box .info { flex: 1; }
+.estado-box .titulo { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+.estado-box .desc { font-size: 12px; color: var(--text-dim); }
+.estado-box.warning .titulo { color: var(--orange); }
+
+.pct-input-wrapper { display: flex; align-items: center; gap: 10px; }
+.pct-input-wrapper input[type=range] { flex: 1; min-height: 44px; }
+.pct-input-wrapper input[type=number] { width: 80px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 10px 8px; font-size: 13px; color: var(--text); font-family: inherit; outline: none; text-align: center; font-weight: 700; }
+
+.partes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.parte-check { display: flex; align-items: center; gap: 8px; padding: 14px 12px; background: rgba(255,255,255,0.05); border: 2px solid var(--border); border-radius: 10px; cursor: pointer; transition: all 0.15s; min-height: 52px; }
+.parte-check.activa { border-color: var(--cyan); background: rgba(0,229,255,0.1); }
+.parte-check input { cursor: pointer; width: 18px; height: 18px; }
+.parte-check span { font-weight: 700; font-size: 13px; }
+
+.material-linea { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+.material-linea:last-child { border-bottom: none; }
+.material-linea .lbl { color: var(--text-dim); }
+.material-linea .val { color: var(--cyan); font-weight: 700; }
+.material-linea.total { border-top: 2px solid rgba(0,229,255,0.4); margin-top: 8px; padding-top: 14px; font-weight: 800; font-size: 16px; }
+.material-linea.total .lbl { color: var(--purple); }
+.material-linea.total .val { color: var(--purple); }
+
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; pointer-events: auto; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; font-weight: 600; }
+
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 20px; }
+}
+
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; }
+
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; height: 100dvh; width: 260px; max-width: 85vw; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar.abierto { transform: translateX(0); }
+
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .hamburger { display: flex; }
+  .empresa-switcher { padding: 6px 10px; }
+  .empresa-nombre { font-size: 11px; }
+  .empresa-rol { font-size: 8px; }
+  .topbar-acciones { gap: 2px; }
+  .icon-btn { font-size: 18px; padding: 8px; min-width: 40px; min-height: 40px; }
+
+  .content { padding: 16px; }
+
+  .page-header { flex-direction: column; align-items: stretch; margin-bottom: 16px; }
+  .page-titulo { font-size: 22px; }
+  .page-sub { font-size: 12px; }
+
+  .panel { padding: 16px; }
+
+  .form-row.cols-2 { grid-template-columns: 1fr; }
+
+  .molde-cilindro-wrapper { height: 260px; padding: 20px 0; }
+  .molde-cilindro { width: 140px; height: 200px; }
+  .molde-cilindro .nivel-label { right: -70px; font-size: 13px; padding: 4px 10px; }
+
+  .partes-grid { grid-template-columns: 1fr; }
+
+  .toast-container { top: auto; bottom: 80px; left: 16px; right: 16px; }
+  .toast { min-width: auto; max-width: none; width: 100%; }
+
+  .btn { padding: 12px 16px; font-size: 13px; }
+  .btn-sm { padding: 8px 12px; font-size: 11px; min-height: 38px; }
+}
+
+@media (max-width: 480px) {
+  .content { padding: 12px; }
+  .page-titulo { font-size: 20px; }
+  .pct-input-wrapper input[type=number] { width: 70px; }
+  .molde-cilindro-wrapper { height: 220px; }
+  .molde-cilindro { width: 120px; height: 170px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-root">
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="cerrarSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-sidebar">
+      <div class="logo-icono">🏛️</div>
+      <div><div class="logo-nombre">Cajuña Pro</div><div class="logo-sub">v3.0</div></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sb-seccion">Principal</div>
+      <div class="sb-item" onclick="irA('dashboard.html')"><span class="sb-icono">📊</span>Dashboard</div>
+      <div class="sb-item" onclick="irA('nueva-orden.html')"><span class="sb-icono">➕</span>Nueva Orden</div>
+      <div class="sb-item activo" onclick="irA('llenado-parcial.html')"><span class="sb-icono">📦</span>Llenado Parcial</div>
+      <div class="sb-item" onclick="irA('produccion.html')"><span class="sb-icono">🔨</span>Producción</div>
+
+      <div class="sb-seccion">Biblioteca</div>
+      <div class="sb-item" onclick="irA('moldes.html')"><span class="sb-icono">🗄️</span>Moldes</div>
+      <div class="sb-item" onclick="irA('mis-modelos.html')"><span class="sb-icono">💾</span>Mis Modelos</div>
+      <div class="sb-item" onclick="irA('recetas.html')"><span class="sb-icono">📖</span>Recetas</div>
+      <div class="sb-item" onclick="irA('archivo.html')"><span class="sb-icono">📁</span>Archivo</div>
+      <div class="sb-item" onclick="irA('museo.html')"><span class="sb-icono">🏛️</span>Museo Virtual</div>
+
+      <div class="sb-seccion">Análisis</div>
+      <div class="sb-item" onclick="irA('stock.html')"><span class="sb-icono">📦</span>Stock</div>
+      <div class="sb-item" onclick="irA('laboratorio.html')"><span class="sb-icono">🧪</span>Laboratorio</div>
+      <div class="sb-item" onclick="irA('reportes.html')"><span class="sb-icono">📈</span>Reportes</div>
+
+      <div class="sb-seccion">Sistema</div>
+      <div class="sb-item" onclick="irA('clientes.html')"><span class="sb-icono">👥</span>Clientes</div>
+      <div class="sb-item" onclick="irA('usuarios.html')"><span class="sb-icono">👤</span>Usuarios</div>
+      <div class="sb-item" onclick="irA('configuracion.html')"><span class="sb-icono">⚙️</span>Configuración</div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="hamburger" onclick="abrirSidebar()" aria-label="Abrir menú">☰</button>
+      <div class="empresa-switcher">
+        <span>🏢</span>
+        <div><div class="empresa-nombre">Cajuña</div><div class="empresa-rol">Admin</div></div>
+      </div>
+      <div class="topbar-acciones">
+        <button class="icon-btn" onclick="toggleManosSucias()" id="btnManos" title="Manos sucias">🧤</button>
+        <button class="icon-btn" onclick="toggleTema()" id="btnTema" title="Cambiar tema">🎨</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-titulo">📦 Llenado Parcial</div>
+          <div class="page-sub">Si piden "2 dedos menos" o llenar hasta cierto nivel</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="form-row cols-2">
+          <div class="input-group">
+            <label class="input-label">Molde</label>
+            <select class="select" id="moldeSelect" onchange="cargarMolde(this.value)">
+              <option value="">— Seleccionar molde —</option>
+            </select>
+            <div id="avisoMoldes" style="font-size:11px;color:var(--text-mute);margin-top:6px;display:none;">
+              ⚠️ No hay moldes guardados. <a href="moldes.html" style="color:var(--cyan);">Crealos en Moldes →</a>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Mezcla</label>
+            <select class="select" id="mezclaLlenado" onchange="renderLlenado()">
+              <option>Concreto</option>
+              <option>Resina</option>
+              <option>Aliven</option>
+              <option>Yeso</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="controlLlenado" style="display:none;">
+          <div class="molde-cilindro-wrapper">
+            <div class="molde-cilindro">
+              <div class="cilindro-base"><div class="cilindro-llenado" id="cilindroLlenado" style="height:100%;"></div></div>
+              <div class="cilindro-top"></div>
+              <div class="nivel-label" id="nivelLabel">100%</div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Modo de llenado</label>
+            <select class="select" id="modoLlenado" onchange="cambiarModoLlenado(this.value)">
+              <option value="porcentaje">Por porcentaje</option>
+              <option value="partes">Por partes (3)</option>
+            </select>
+          </div>
+
+          <div id="controlPorcentaje">
+            <div class="input-group">
+              <label class="input-label">Nivel de llenado</label>
+              <div class="pct-input-wrapper">
+                <input type="range" id="sliderLlenado" min="10" max="100" value="100" oninput="syncPct(this.value)">
+                <input type="number" id="sliderLlenadoNum" min="10" max="100" value="100" oninput="syncPct(this.value)">
+              </div>
+            </div>
+          </div>
+
+          <div id="controlPartes" style="display:none;">
+            <label class="input-label" style="margin-bottom:10px;">Seleccioná las partes a llenar</label>
+            <div class="partes-grid">
+              <label class="parte-check activa" id="parteBaseLabel">
+                <input type="checkbox" id="parteBase" checked onchange="toggleParte(this, 'base')">
+                <span>Base</span>
+              </label>
+              <label class="parte-check activa" id="parteMediaLabel">
+                <input type="checkbox" id="parteMedia" checked onchange="toggleParte(this, 'media')">
+                <span>Media</span>
+              </label>
+              <label class="parte-check" id="parteSuperiorLabel">
+                <input type="checkbox" id="parteSuperior" onchange="toggleParte(this, 'superior')">
+                <span>Superior</span>
+              </label>
+            </div>
+            <div class="estado-box warning">
+              <div class="icono">ℹ️</div>
+              <div class="info"><div class="titulo">Cómo funciona</div><div class="desc">Cada parte equivale al 33.3% del volumen total. 1 parte = 33%, 2 partes = 66%, 3 partes = 100%.</div></div>
+            </div>
+          </div>
+
+          <div class="resultado-box">
+            <div class="resultado-titulo">Cálculo del llenado</div>
+            <div class="material-linea">
+              <span class="lbl">Volumen total</span><span class="val" id="llenVolTotal">— ml</span>
+            </div>
+            <div class="material-linea">
+              <span class="lbl">Nivel</span><span class="val" id="llenNivel" style="color:var(--yellow);">100%</span>
+            </div>
+            <div class="material-linea total">
+              <span class="lbl">VOLUMEN A USAR</span><span class="val" id="llenVolFinal">— ml</span>
+            </div>
+          </div>
+
+          <div class="resultado-box" style="margin-top:16px;">
+            <div class="resultado-titulo">Materiales · <span id="tipoMezclaLlenado">Concreto</span></div>
+            <div id="resultadoLlenadoMat"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SIDEBAR MÓVIL
+// ============================================================
+function abrirSidebar() {
+  document.getElementById('sidebar').classList.add('abierto');
+  document.getElementById('sidebarBackdrop').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarSidebar() {
+  document.getElementById('sidebar').classList.remove('abierto');
+  document.getElementById('sidebarBackdrop').classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function irA(url) {
+  cerrarSidebar();
+  setTimeout(() => { location.href = url; }, 150);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarSidebar();
+});
+
+// ============================================================
+// ESTADO
+// ============================================================
+const estado = {
+  moldeActual: null,
+  moldeNombre: null,
+  moldeEmoji: null,
+  factor: 1.90
+};
+
+let modoLlenadoActual = 'porcentaje';
+const partesLlenado = { base: true, media: true, superior: false };
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+}
+function toggleTema() {
+  let actual = localStorage.getItem('cajupa_tema') || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem('cajupa_tema', nuevo);
+  aplicarTema(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+function toggleManosSucias() {
+  const activo = document.body.classList.toggle('manos-sucias');
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+}
+
+// ============================================================
+// CARGA DE MOLDES (con fallback a demo)
+// ============================================================
+function getMoldesDemo() {
+  return [
+    { id: 1, nombre: 'Plato Perro Kuma', volumenMl: 1800, emoji: '🐕', categoria: 'Platos', vecesUsado: 12, favorito: true },
+    { id: 2, nombre: 'Aplique', volumenMl: 1600, emoji: '🔲', categoria: 'Apliques', vecesUsado: 3 },
+    { id: 3, nombre: 'Hexágonos', volumenMl: 500, emoji: '⬡', categoria: 'Apliques', vecesUsado: 7 },
+    { id: 4, nombre: 'Base Cafetera', volumenMl: 1800, emoji: '☕', categoria: 'Bases', vecesUsado: 4 },
+    { id: 5, nombre: 'Fontana', volumenMl: 110, emoji: '⛲', categoria: 'Especiales', vecesUsado: 2 },
+    { id: 6, nombre: 'Maceta M', volumenMl: 900, emoji: '🪴', categoria: 'Macetas', vecesUsado: 9, favorito: true }
+  ];
+}
+
+function cargarMoldesDeStorage() {
+  try {
+    const raw = localStorage.getItem('cajupa_moldes_v1');
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (Array.isArray(data) && data.length > 0) return data;
+    }
+  } catch(e) {}
+  return getMoldesDemo();
+}
+
+function inicializarSelectMoldes() {
+  const sel = document.getElementById('moldeSelect');
+  const aviso = document.getElementById('avisoMoldes');
+  const moldes = cargarMoldesDeStorage();
+
+  sel.innerHTML = '<option value="">— Seleccionar molde —</option>';
+
+  if (moldes.length === 0) {
+    aviso.style.display = 'block';
+    return;
+  }
+  aviso.style.display = 'none';
+
+  moldes.sort((a,b) => {
+    if (a.favorito !== b.favorito) return b.favorito ? 1 : -1;
+    return (b.vecesUsado || 0) - (a.vecesUsado || 0);
+  });
+
+  moldes.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = `${m.emoji || '🗄️'} ${m.nombre} · ${m.volumenMl} ml`;
+    opt.dataset.volumen = m.volumenMl;
+    opt.dataset.nombre = m.nombre;
+    opt.dataset.emoji = m.emoji || '🗄️';
+    sel.appendChild(opt);
+  });
+}
+
+function cargarMolde(id) {
+  if (!id) {
+    document.getElementById('controlLlenado').style.display = 'none';
+    estado.moldeActual = null;
+    return;
+  }
+  const sel = document.getElementById('moldeSelect');
+  const opt = sel.options[sel.selectedIndex];
+  const vol = parseFloat(opt.dataset.volumen) || 0;
+  if (vol <= 0) {
+    toast('⚠️ Molde sin volumen válido', 'warning');
+    return;
+  }
+  estado.moldeActual = vol;
+  estado.moldeNombre = opt.dataset.nombre;
+  estado.moldeEmoji = opt.dataset.emoji;
+  document.getElementById('controlLlenado').style.display = 'block';
+  renderLlenado();
+  registrarUsoMolde(id);
+}
+
+function registrarUsoMolde(id) {
+  try {
+    const raw = localStorage.getItem('cajupa_moldes_v1');
+    if (!raw) return;
+    const moldes = JSON.parse(raw);
+    const m = moldes.find(x => String(x.id) === String(id));
+    if (m) {
+      m.vecesUsado = (m.vecesUsado || 0) + 1;
+      m.ultimoUso = new Date().toISOString().split('T')[0];
+      localStorage.setItem('cajupa_moldes_v1', JSON.stringify(moldes));
+    }
+  } catch(e) {}
+}
+
+// ============================================================
+// LLENADO PARCIAL
+// ============================================================
+function cambiarModoLlenado(v) {
+  modoLlenadoActual = v;
+  document.getElementById('controlPorcentaje').style.display = v === 'porcentaje' ? 'block' : 'none';
+  document.getElementById('controlPartes').style.display = v === 'partes' ? 'block' : 'none';
+  renderLlenado();
+}
+
+function toggleParte(el, nombre) {
+  partesLlenado[nombre] = el.checked;
+  const label = document.getElementById('parte' + nombre.charAt(0).toUpperCase() + nombre.slice(1) + 'Label');
+  if (el.checked) label.classList.add('activa');
+  else label.classList.remove('activa');
+  renderLlenado();
+}
+
+function syncPct(valor) {
+  valor = Math.max(10, Math.min(100, parseFloat(valor) || 100));
+  document.getElementById('sliderLlenado').value = valor;
+  document.getElementById('sliderLlenadoNum').value = valor;
+  renderLlenado();
+}
+
+function calcularMaterialesPorTipo(volumen, tipo, factor) {
+  if (tipo === 'Concreto') {
+    const pesoTotal = volumen * factor;
+    const cem = pesoTotal * 0.5, pie = pesoTotal * 0.5;
+    const mar = cem * 0.3, agua = cem * 0.35;
+    return [
+      { lbl: 'Cemento', val: cem }, { lbl: 'Piedra', val: pie },
+      { lbl: 'Marmolina', val: mar }, { lbl: 'Agua', val: agua }
+    ];
+  } else if (tipo === 'Resina') {
+    const pesoTotal = volumen * factor;
+    const res = pesoTotal * 0.3, pie = pesoTotal * 0.5, mar = pesoTotal * 0.2;
+    const cat = res * 0.02;
+    return [
+      { lbl: 'Resina', val: res }, { lbl: 'Catalizador', val: cat },
+      { lbl: 'Piedra', val: pie }, { lbl: 'Marmolina', val: mar }
+    ];
+  }
+  return null;
+}
+
+function renderLlenado() {
+  if (!estado.moldeActual) return;
+  let pct = 100;
+  if (modoLlenadoActual === 'porcentaje') {
+    pct = parseFloat(document.getElementById('sliderLlenado')?.value) || 100;
+  } else {
+    const count = (partesLlenado.base ? 1 : 0) + (partesLlenado.media ? 1 : 0) + (partesLlenado.superior ? 1 : 0);
+    pct = (count / 3) * 100;
+  }
+  document.getElementById('cilindroLlenado').style.height = pct + '%';
+  document.getElementById('nivelLabel').textContent = pct.toFixed(0) + '%';
+  const volTotal = estado.moldeActual;
+  const volFinal = volTotal * (pct/100);
+  document.getElementById('llenVolTotal').textContent = volTotal + ' ml';
+  document.getElementById('llenNivel').textContent = pct.toFixed(0) + '%';
+  document.getElementById('llenVolFinal').textContent = volFinal.toFixed(0) + ' ml';
+  const tipo = document.getElementById('mezclaLlenado').value;
+  document.getElementById('tipoMezclaLlenado').textContent = tipo;
+  const cont = document.getElementById('resultadoLlenadoMat');
+  const materiales = calcularMaterialesPorTipo(volFinal, tipo, estado.factor);
+  if (materiales === null) {
+    cont.innerHTML = `<div class="estado-box warning" style="margin:0;"><div class="icono">⚠️</div><div class="info"><div class="titulo">Fórmula no configurada para ${tipo}</div><div class="desc">Andrés y Jesús deben definir la fórmula</div></div></div>`;
+    return;
+  }
+  const fmt = g => g >= 1000 ? (g/1000).toFixed(2) + ' kg' : g.toFixed(1) + ' g';
+  const total = materiales.reduce((s,m) => s + m.val, 0);
+  cont.innerHTML = materiales.map(m => `
+    <div class="material-linea">
+      <span class="lbl">${m.lbl}</span><span class="val">${fmt(m.val)}</span>
+    </div>
+  `).join('') + `
+    <div class="material-linea total">
+      <span class="lbl">PESO TOTAL</span><span class="val">${fmt(total)}</span>
+    </div>
+  `;
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo='info') {
+  const iconos = { success:'✓', error:'✕', warning:'⚠', info:'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => { el.style.animation = 'toastIn 0.3s ease reverse'; setTimeout(() => el.remove(), 300); }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+aplicarTema(localStorage.getItem('cajupa_tema') || 'brand');
+if (localStorage.getItem('cajupa_manos') === '1') {
+  document.body.classList.add('manos-sucias');
+  document.getElementById('btnManos').classList.add('activo');
+}
+inicializarSelectMoldes();
+
+window.addEventListener('storage', (e) => {
+  if (e.key === 'cajupa_moldes_v1') inicializarSelectMoldes();
+});
+
+setTimeout(() => toast('👋 Llenado Parcial listo', 'info'), 300);
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

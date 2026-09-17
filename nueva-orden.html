@@ -1,0 +1,2945 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro v3.0 — Nueva Orden</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+  --topbar-h: 60px;
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .sidebar { background:#0a0a0a; border-right-color:rgba(255,255,255,0.08); }
+body.theme-dark .topbar { background:#0a0a0a; border-bottom-color:rgba(255,255,255,0.08); }
+body.theme-dark .sb-item:hover { background:rgba(255,255,255,0.05); color:#f0f0f0; }
+body.theme-dark .sb-item.activo { background:linear-gradient(90deg, rgba(196,163,255,0.15), rgba(77,239,255,0.05)); color:#f0f0f0; border-left-color:#c4a3ff; }
+body.theme-dark .empresa-switcher { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+body.theme-dark .panel { background:#141414; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .input, body.theme-dark .select { background:#0f0f0f; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn:hover { background:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn.activo { background:rgba(179,136,255,0.2); }
+body.theme-dark .wizard-steps { background:#0a0a0a; }
+body.theme-dark .wizard-step .num { background:rgba(255,255,255,0.08); }
+body.theme-dark .visor-3d { background:linear-gradient(180deg,#000000,#141414); }
+body.theme-dark .resultado-box { background:linear-gradient(135deg,rgba(77,239,255,0.05),rgba(196,163,255,0.08)); border-color:rgba(77,239,255,0.2); }
+body.theme-dark .modal { background:#141414; border-color:rgba(255,255,255,0.15); }
+body.theme-dark .color-item { background:#101010; }
+body.theme-dark .color-row-card { background:#101010; }
+body.theme-dark .plantilla-preview { background:linear-gradient(180deg,#000000,#141414); }
+body.theme-dark .pigmento-row .input, body.theme-dark .pigmento-row .select,
+body.theme-dark .pigmento-row-libre .input, body.theme-dark .pigmento-row-libre .select { background:rgba(255,255,255,0.04); }
+body.theme-dark .modelo-cargado-box { background:rgba(77,239,255,0.06); border-color:rgba(77,239,255,0.3); }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light .sidebar { background:#f7f7f5; border-right-color:#e9e9e7; }
+body.theme-light .topbar { background:#fbfbfa; border-bottom-color:#e9e9e7; }
+body.theme-light .logo-sidebar { border-bottom-color:#e9e9e7; }
+body.theme-light .sb-item { color:#57564f; }
+body.theme-light .sb-item:hover { background:rgba(0,0,0,0.04); color:#37352f; }
+body.theme-light .sb-item.activo { background:linear-gradient(90deg,rgba(107,70,193,0.15),rgba(11,122,140,0.08)); color:#37352f; border-left-color:#6b46c1; }
+body.theme-light .empresa-switcher { background:rgba(107,70,193,0.08); border-color:#e9e9e7; }
+body.theme-light .icon-btn { color:#57564f; }
+body.theme-light .icon-btn:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .icon-btn.activo { background:rgba(107,70,193,0.15); color:#6b46c1; }
+body.theme-light .panel { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .input, body.theme-light .select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus, body.theme-light .select:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .select option { background:#fff; color:#37352f; }
+body.theme-light .resultado-box { background:linear-gradient(135deg,rgba(11,122,140,0.05),rgba(107,70,193,0.06)); border-color:rgba(11,122,140,0.25); }
+body.theme-light .wizard-steps { background:#f7f7f5; }
+body.theme-light .wizard-step .num { background:#e9e9e7; color:#57564f; }
+body.theme-light .wizard-step.activo .num { background:linear-gradient(135deg,#6b46c1,#0b7a8c); color:#fff; }
+body.theme-light .visor-3d { background:linear-gradient(180deg,#f5f5f3,#e9e9e7); border-color:rgba(11,122,140,0.25); }
+body.theme-light .plantilla-preview { background:linear-gradient(180deg,#f5f5f3,#e9e9e7); }
+body.theme-light .modal { background:#fff; border-color:#d3d1cb; }
+body.theme-light .modal-header { border-bottom-color:#e9e9e7; }
+body.theme-light .modal-footer { border-top-color:#e9e9e7; }
+body.theme-light .modal-titulo { color:#37352f; }
+body.theme-light .colores-tab { color:#9b9a97; }
+body.theme-light .colores-tab.activo { color:#0b7a8c; border-bottom-color:#0b7a8c; }
+body.theme-light .color-item { background:#fbfbfa; border-color:#e9e9e7; }
+body.theme-light .color-item:hover { border-color:#6b46c1; }
+body.theme-light .color-nombre { color:#37352f; }
+body.theme-light .formato-opcion { background:#fff; border-color:#e9e9e7; }
+body.theme-light .formato-opcion.activo { border-color:#0b7a8c; background:rgba(11,122,140,0.06); }
+body.theme-light .piedra-row .select, body.theme-light .piedra-row .input { background:#fff; }
+body.theme-light .color-row-card { background:#fbfbfa; border-color:#e9e9e7; }
+body.theme-light .estado-box.ok { background:rgba(15,123,62,0.08); }
+body.theme-light .estado-box.warning { background:rgba(217,115,13,0.08); }
+body.theme-light .toast { background:#fff; border-color:#d3d1cb; box-shadow:0 10px 30px rgba(0,0,0,0.15); }
+body.theme-light .toast-msg { color:#37352f; }
+body.theme-light .canvas-container { background:#fff; border-color:#e9e9e7; }
+body.theme-light .tool-btn { background:rgba(0,0,0,0.03); border-color:#e9e9e7; color:#37352f; }
+body.theme-light .tool-btn.activo { background:linear-gradient(135deg,#6b46c1,#0b7a8c); color:#fff; }
+body.theme-light .tool-select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .visor-3d-overlay button { background:rgba(255,255,255,0.9); border-color:rgba(0,0,0,0.15); color:#37352f; }
+body.theme-light .visor-3d-info { background:rgba(255,255,255,0.95); color:#37352f; border-color:rgba(0,0,0,0.1); }
+body.theme-light .visor-3d-info strong { color:#0b7a8c; }
+body.theme-light .visor-3d-etiqueta { color:#0b7a8c; }
+body.theme-light .preview-hoja-wrapper { background:#d3d1cb; }
+body.theme-light .pigmento-row .input, body.theme-light .pigmento-row .select,
+body.theme-light .pigmento-row-libre .input, body.theme-light .pigmento-row-libre .select { background:#fff; }
+body.theme-light .modelo-cargado-box { background:rgba(11,122,140,0.06); border-color:rgba(11,122,140,0.3); }
+
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-text-size-adjust: 100%; }
+.app-root { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
+
+.sidebar { width: 230px; background: var(--bg-3); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.25s ease; z-index: 100; }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+.logo-sidebar { display: flex; align-items: center; gap: 12px; padding: 18px; border-bottom: 1px solid var(--border); }
+.logo-icono { width: 42px; height: 42px; background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.logo-nombre { font-size: 15px; font-weight: 800; }
+.logo-sub { font-size: 10px; color: var(--text-mute); }
+.sidebar-nav { flex: 1; padding: 8px 10px 20px; }
+.sb-seccion { font-size: 9px; font-weight: 800; color: var(--text-mute); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 12px 6px; }
+.sb-item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 10px; font-size: 13px; color: var(--text-dim); font-weight: 600; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sb-item:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.sb-item.activo { background: linear-gradient(90deg, rgba(106,27,154,0.4), rgba(0,229,255,0.08)); color: var(--text); border-left: 3px solid var(--purple); }
+.sb-icono { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; opacity: 0; transition: opacity 0.25s ease; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.sidebar-backdrop.activo { display: block; opacity: 1; }
+
+.main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--border); min-height: var(--topbar-h); flex-shrink: 0; }
+
+.hamburger { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 8px 10px; border-radius: 8px; transition: background 0.15s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.hamburger:hover { background: rgba(106,27,154,0.15); }
+.hamburger:active { background: rgba(106,27,154,0.25); }
+
+.empresa-switcher { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(106,27,154,0.2); border: 1px solid var(--border); border-radius: 10px; }
+.empresa-nombre { font-size: 12px; font-weight: 800; }
+.empresa-rol { font-size: 9px; color: var(--purple); font-weight: 700; }
+.topbar-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: transparent; border: none; color: var(--text-dim); font-size: 17px; cursor: pointer; padding: 10px; border-radius: 8px; transition: all 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: rgba(106,27,154,0.15); }
+.icon-btn:active { background: rgba(106,27,154,0.25); }
+.icon-btn.activo { background: rgba(106,27,154,0.3); color: var(--purple); }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+.screen { display: none; }
+.screen.activo { display: block; }
+.page-titulo { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: var(--text-mute); margin-bottom: 22px; }
+
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+.panel-titulo { font-size: 15px; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.panel-sub { font-size: 11px; color: var(--text-mute); margin-bottom: 14px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; min-height: 44px; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--purple-deep), #8e24aa); color: #fff; }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan-deep), #00acc1); color: #fff; }
+.btn-green { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+.btn-orange { background: linear-gradient(135deg, #e65100, #f57c00); color: #fff; }
+.btn-ghost { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
+.btn-sm { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.input-label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.input-label .opcional { color: var(--text-mute); font-weight: 500; text-transform: none; letter-spacing: 0; font-size: 10px; }
+.input, .select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; }
+.input:focus, .select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+.select { cursor: pointer; appearance: none; padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b388ff' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; }
+.select option { background: var(--card); color: var(--text); }
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+/* CLIENTES v3.5 — botón para crear cliente desde el wizard */
+.cliente-selector-wrap { display: flex; gap: 8px; align-items: flex-start; }
+.cliente-selector-wrap .select { flex: 1; }
+.cliente-selector-wrap .btn { flex-shrink: 0; }
+
+.chip { display: inline-flex; align-items: center; gap: 5px; padding: 8px 14px; border-radius: 14px; font-size: 11px; font-weight: 700; margin-right: 6px; margin-bottom: 6px; cursor: pointer; min-height: 40px; }
+.chip:hover { transform: translateY(-1px); }
+.chip-cyan { background: rgba(0,229,255,0.15); color: var(--cyan); border: 1px solid rgba(0,229,255,0.35); }
+.chip-gray { background: rgba(150,150,150,0.15); color: var(--text-dim); border: 1px solid rgba(150,150,150,0.35); }
+
+.wizard-steps { display: flex; gap: 4px; margin-bottom: 24px; background: var(--bg-2); border-radius: var(--radius); padding: 6px; overflow-x: auto; }
+.wizard-steps::-webkit-scrollbar { display: none; }
+.wizard-step { flex: 1; padding: 12px 8px; border-radius: var(--radius-sm); background: transparent; text-align: center; cursor: pointer; font-size: 11px; font-weight: 700; color: var(--text-mute); border: none; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 90px; }
+.wizard-step .num { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+.wizard-step.activo { background: rgba(106,27,154,0.2); color: var(--text); }
+.wizard-step.activo .num { background: linear-gradient(135deg, var(--purple), var(--cyan)); color: #fff; }
+.wizard-step.completado .num { background: var(--green); color: #fff; }
+.wizard-panel { display: none; }
+.wizard-panel.activo { display: block; }
+
+.wizard-actions { display: flex; gap: 10px; }
+.wizard-actions > .btn { min-width: 110px; }
+
+.canvas-container { background: #fff; border-radius: var(--radius); padding: 12px; border: 2px solid var(--border); margin-bottom: 14px; }
+#canvas2d { width: 100%; height: 400px; background: #fff; border-radius: 8px; touch-action: none; display: block;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="black" stroke-width="1.5"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>') 2 26, crosshair; }
+.canvas-toolbar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+.tool-btn { padding: 8px 12px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; display: inline-flex; align-items: center; gap: 6px; min-height: 40px; }
+.tool-btn:hover { background: rgba(106,27,154,0.15); }
+.tool-btn.activo { background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); color: #fff; border-color: transparent; }
+.tool-color { width: 28px; height: 28px; border-radius: 6px; border: 2px solid var(--border); cursor: pointer; }
+.tool-color.activo { border-color: var(--cyan); transform: scale(1.15); }
+.tool-sep { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
+.tool-select { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; color: var(--text); font-size: 11px; font-weight: 700; font-family: inherit; cursor: pointer; outline: none; }
+.tool-select option { background: var(--card); }
+
+.visor-3d { position: relative; height: 480px; border-radius: var(--radius); overflow: hidden; border: 1px solid rgba(0,229,255,0.25); background: linear-gradient(180deg, #0d0d1a, #131324); margin-bottom: 16px; }
+.visor-3d::before { content: ""; position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(0,229,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.08) 1px, transparent 1px);
+  background-size: 32px 32px; pointer-events: none; z-index: 1; }
+#canvas3d { width: 100%; height: 100%; display: block; cursor: grab; position: relative; z-index: 2; }
+.visor-3d-overlay { position: absolute; top: 16px; left: 16px; display: flex; gap: 6px; z-index: 10; flex-wrap: wrap; max-width: calc(100% - 32px); }
+.visor-3d-overlay button { background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; min-height: 36px; }
+.visor-3d-info { position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.75); padding: 10px 14px; border-radius: 8px; font-size: 12px; color: #fff; border: 1px solid rgba(255,255,255,0.15); z-index: 10; }
+.visor-3d-info strong { color: var(--cyan); }
+.visor-3d-etiqueta { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 800; letter-spacing: 2px; color: var(--cyan); text-transform: uppercase; z-index: 10; pointer-events: none; }
+.visor-3d-vacio { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: var(--text-mute); z-index: 5; }
+.visor-3d-vacio .icono { font-size: 60px; opacity: 0.3; margin-bottom: 12px; }
+
+.plantilla-preview { background: linear-gradient(180deg, #0d0d1a, #131324); border-radius: 12px; padding: 30px; margin-bottom: 14px; text-align: center; border: 1px solid rgba(0,229,255,0.2); }
+.plantilla-preview .nombre-preview { font-size: 16px; font-weight: 800; color: var(--cyan); margin-top: 14px; }
+.plantilla-preview .dimensiones { font-size: 12px; color: var(--text-dim); margin-top: 4px; font-family: 'Courier New', monospace; }
+
+.modelo-cargado-box { background: rgba(0,229,255,0.06); border: 2px solid rgba(0,229,255,0.3); border-radius: 12px; padding: 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 14px; }
+.modelo-cargado-box .emoji { font-size: 40px; flex-shrink: 0; }
+.modelo-cargado-box .info { flex: 1; min-width: 0; }
+.modelo-cargado-box .nombre { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 2px; }
+.modelo-cargado-box .meta { font-size: 11px; color: var(--text-mute); }
+.modelo-cargado-box .badge-tipo { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.modelo-cargado-box .badge-tipo.tipo-3d { background: rgba(0,229,255,0.15); color: var(--cyan); }
+.modelo-cargado-box .badge-tipo.tipo-2d { background: rgba(179,136,255,0.15); color: var(--purple); }
+.modelo-cargado-box .thumb { width: 70px; height: 70px; border-radius: 10px; background: #fff; overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); }
+.modelo-cargado-box .thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+.resultado-box { background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(106,27,154,0.1)); border: 1px solid rgba(0,229,255,0.3); border-radius: var(--radius); padding: 18px; margin-top: 16px; }
+.resultado-titulo { font-size: 11px; font-weight: 800; color: var(--cyan); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; }
+
+.mat-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+.mat-grid.header { color: var(--cyan); font-weight: 800; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 8px 0 12px; }
+.mat-grid:last-child { border-bottom: none; }
+.mat-grid .mat-label { color: var(--text-dim); }
+.mat-grid .mat-uno { color: var(--text); font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.mat-grid .mat-total { color: var(--cyan); font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.mat-grid.total-row { border-top: 2px solid rgba(0,229,255,0.4); margin-top: 8px; padding-top: 14px; font-weight: 800; font-size: 16px; }
+.mat-grid.total-row .mat-label { color: var(--purple); font-weight: 800; }
+.mat-grid.total-row .mat-uno { color: var(--purple); }
+.mat-grid.total-row .mat-total { color: var(--purple); }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+.modal-overlay.activo { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border-strong); border-radius: 16px; width: 100%; max-width: 560px; max-height: 85vh; display: flex; flex-direction: column; }
+.modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.modal-titulo { font-size: 17px; font-weight: 800; }
+.modal-close { background: transparent; border: none; color: var(--text-mute); font-size: 24px; cursor: pointer; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { color: var(--red); }
+.modal-body { padding: 22px 24px; overflow-y: auto; flex: 1; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+.colores-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.colores-tab { padding: 12px 18px; background: transparent; border: none; color: var(--text-mute); font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.colores-tab.activo { color: var(--cyan); border-bottom-color: var(--cyan); }
+.colores-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.color-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; }
+.color-item:hover { border-color: var(--cyan); transform: translateY(-1px); }
+.color-swatch { width: 22px; height: 22px; border-radius: 5px; border: 2px solid var(--border); flex-shrink: 0; }
+.color-nombre { flex: 1; font-size: 12px; font-weight: 600; }
+.color-star { font-size: 16px; cursor: pointer; }
+.color-star.activa { color: var(--yellow); }
+.color-star:not(.activa) { color: var(--text-mute); opacity: 0.4; }
+
+.preview-hoja-wrapper { background: #222; padding: 30px; border-radius: 12px; display: flex; justify-content: center; margin: 20px 0; overflow-x: auto; }
+.preview-hoja {
+  background: #ffffff; color: #111;
+  padding: 15mm 15mm;
+  font-family: 'Courier New', monospace;
+  box-shadow: 0 0 40px rgba(0,0,0,0.6);
+  position: relative;
+  transition: all 0.3s ease;
+}
+.preview-hoja[data-formato="carta"]  { width: 216mm; min-height: 279mm; }
+.preview-hoja[data-formato="oficio"] { width: 216mm; min-height: 330mm; }
+.preview-hoja[data-formato="a4"]     { width: 210mm; min-height: 297mm; }
+.preview-hoja[data-formato="legal"]  { width: 216mm; min-height: 356mm; }
+.preview-hoja .etiqueta-formato {
+  position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
+  background: var(--cyan); color: #000; padding: 4px 14px; border-radius: 20px;
+  font-size: 11px; font-weight: 800; font-family: 'Inter', sans-serif; letter-spacing: 1px;
+}
+.preview-hoja .encabezado { border-bottom: 3px solid #111; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; }
+.preview-hoja .logo-print { font-size: 24px; font-weight: 900; }
+.preview-hoja .subtitulo-print { font-size: 10px; color: #666; margin-top: 3px; }
+.preview-hoja .orden-info { text-align: right; font-size: 11px; }
+.preview-hoja .orden-numero { font-size: 18px; font-weight: 900; color: #6a1b9a; }
+.preview-hoja .seccion-print { margin-bottom: 16px; }
+.preview-hoja .seccion-titulo-print { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; color: #666; border-bottom: 1px dashed #999; padding-bottom: 4px; margin-bottom: 8px; }
+.preview-hoja .grid-print { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.preview-hoja .grid-print-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.preview-hoja .item-print { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px dotted #ddd; font-size: 12px; }
+.preview-hoja .item-print .lbl-print { color: #555; }
+.preview-hoja .item-print .val-print { font-weight: 700; color: #111; }
+.preview-hoja .dibujo-print { border: 2px solid #333; border-radius: 6px; padding: 15px; background: #fafafa; text-align: center; min-height: 200px; display: flex; align-items: center; justify-content: center; }
+.preview-hoja .dibujo-print img { max-width: 100%; max-height: 260px; }
+.preview-hoja .firma { margin-top: 30px; padding-top: 15px; border-top: 2px solid #111; display: flex; justify-content: space-between; font-size: 11px; }
+.preview-hoja .firma-linea { border-top: 1px solid #333; width: 180px; padding-top: 4px; text-align: center; }
+.preview-hoja .color-circulo { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1px solid #333; vertical-align: middle; margin-right: 6px; }
+.preview-hoja .info-formato { margin-top: 20px; text-align: center; font-size: 9px; color: #999; font-family: 'Inter', sans-serif; }
+.preview-hoja .pigmento-linea { font-size: 11px; color: #333; padding: 2px 0; }
+.preview-hoja .pigmento-linea strong { color: #111; }
+
+.formato-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+.formato-opcion { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: var(--card); border: 2px solid var(--border); border-radius: 10px; cursor: pointer; font-size: 12px; font-weight: 700; min-height: 44px; }
+.formato-opcion.activo { border-color: var(--cyan); background: rgba(0,229,255,0.08); }
+.formato-opcion input { cursor: pointer; }
+
+.piedra-row { display: grid; grid-template-columns: 1fr 100px 40px; gap: 10px; margin-bottom: 10px; align-items: center; }
+.piedra-row .input, .piedra-row .select { padding: 10px 12px; font-size: 13px; }
+
+.estado-box { padding: 14px 16px; border-radius: var(--radius-sm); border-left: 4px solid; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; }
+.estado-box.ok { background: rgba(76,175,80,0.1); border-color: var(--green); }
+.estado-box.warning { background: rgba(255,167,38,0.1); border-color: var(--orange); }
+.estado-box .icono { font-size: 22px; flex-shrink: 0; }
+.estado-box .info { flex: 1; }
+.estado-box .titulo { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+.estado-box .desc { font-size: 12px; color: var(--text-dim); }
+.estado-box.ok .titulo { color: var(--green); }
+.estado-box.warning .titulo { color: var(--orange); }
+
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; pointer-events: auto; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; font-weight: 600; }
+
+.pct-input-wrapper { display: flex; align-items: center; gap: 10px; }
+.pct-input-wrapper input[type=range] { flex: 1; min-height: 44px; }
+.pct-input-wrapper input[type=number] { width: 70px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 8px; font-size: 13px; color: var(--text); font-family: inherit; outline: none; text-align: center; font-weight: 700; }
+
+.color-row-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+.color-row-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; gap: 8px; flex-wrap: wrap; }
+.color-row-info { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.color-row-pct { font-weight: 800; color: var(--cyan); font-size: 15px; }
+
+.pigmentos-seccion {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+}
+.pigmentos-titulo {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pigmentos-titulo .hint {
+  color: var(--text-mute);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 10px;
+  margin-left: auto;
+}
+.pigmento-row {
+  display: grid;
+  grid-template-columns: 1.4fr 70px 1.2fr;
+  gap: 6px;
+  margin-bottom: 6px;
+  align-items: center;
+}
+.pigmento-row-libre {
+  display: grid;
+  grid-template-columns: 1.4fr 70px 60px;
+  gap: 6px;
+  margin-bottom: 6px;
+  align-items: center;
+}
+.pigmento-row .select,
+.pigmento-row .input,
+.pigmento-row-libre .select,
+.pigmento-row-libre .input {
+  padding: 7px 8px;
+  font-size: 11px;
+  border-radius: 6px;
+}
+.pigmento-row .select,
+.pigmento-row-libre .select {
+  background-position: right 8px center;
+  background-size: 14px;
+  padding-right: 28px;
+}
+.pigmento-conversion {
+  font-size: 9px;
+  color: var(--orange);
+  margin-top: 2px;
+  font-weight: 700;
+}
+.resumen-pigmentos {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: rgba(0,229,255,0.05);
+  border: 1px dashed rgba(0,229,255,0.3);
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.resumen-pigmentos strong { color: var(--cyan); }
+
+/* ============================================================
+   RESPONSIVE v3.5
+   ============================================================ */
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 20px; }
+  .visor-3d { height: 420px; }
+}
+
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; }
+
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; height: 100dvh; width: 260px; max-width: 85vw; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar.abierto { transform: translateX(0); }
+
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .hamburger { display: flex; }
+  .empresa-switcher { padding: 6px 10px; }
+  .empresa-nombre { font-size: 11px; }
+  .empresa-rol { font-size: 8px; }
+  .topbar-acciones { gap: 2px; }
+  .icon-btn { font-size: 18px; padding: 8px; min-width: 40px; min-height: 40px; }
+
+  .content { padding: 16px; }
+  .page-titulo { font-size: 20px; }
+  .page-sub { font-size: 12px; margin-bottom: 16px; }
+
+  .panel { padding: 16px; }
+  .panel-titulo { font-size: 14px; }
+  .panel-sub { font-size: 10px; }
+
+  .form-row.cols-2, .form-row.cols-3 { grid-template-columns: 1fr; }
+
+  .wizard-steps { gap: 2px; padding: 4px; margin-bottom: 18px; }
+  .wizard-step { min-width: 76px; font-size: 10px; padding: 10px 6px; }
+  .wizard-step .num { width: 24px; height: 24px; font-size: 11px; }
+
+  .wizard-actions { flex-wrap: wrap; }
+  .wizard-actions > .btn { flex: 1 1 120px !important; min-width: 120px; }
+
+  .canvas-toolbar { gap: 4px; padding: 8px 0; }
+  .tool-btn { padding: 8px 10px; font-size: 11px; min-height: 40px; }
+  .tool-color { width: 32px; height: 32px; }
+  .tool-sep { display: none; }
+  #canvas2d { height: 300px; }
+
+  .visor-3d { height: 320px; }
+  .visor-3d-overlay { top: 10px; left: 10px; gap: 4px; }
+  .visor-3d-overlay button { padding: 7px 10px; font-size: 10px; min-height: 34px; }
+  .visor-3d-info { top: 10px; right: 10px; font-size: 11px; padding: 8px 10px; }
+  .visor-3d-etiqueta { font-size: 9px; letter-spacing: 1.5px; top: 12px; }
+  .visor-3d-vacio .icono { font-size: 44px; }
+
+  .modelo-cargado-box { flex-wrap: wrap; gap: 10px; }
+  .modelo-cargado-box .thumb { width: 54px; height: 54px; }
+
+  .plantilla-preview { padding: 20px 14px; }
+
+  .pigmento-row { grid-template-columns: 1.4fr 60px 1fr; gap: 5px; }
+  .pigmento-row-libre { grid-template-columns: 1.4fr 60px 50px; gap: 5px; }
+
+  .mat-grid { grid-template-columns: 1.6fr 1fr 1fr; font-size: 12px; gap: 6px; }
+  .mat-grid.header { font-size: 10px; letter-spacing: 0.5px; }
+  .mat-grid.total-row { font-size: 14px; }
+
+  .preview-hoja-wrapper { padding: 12px; }
+  .preview-hoja { width: 100% !important; min-height: auto; padding: 12mm 10mm; }
+  .preview-hoja .encabezado { flex-direction: column; gap: 10px; }
+  .preview-hoja .orden-info { text-align: left; }
+  .preview-hoja .grid-print { grid-template-columns: 1fr; }
+  .preview-hoja .grid-print-3 { grid-template-columns: 1fr; }
+  .preview-hoja .dibujo-print { min-height: 160px; padding: 10px; }
+  .preview-hoja .dibujo-print img { max-height: 200px; }
+  .preview-hoja .firma { flex-direction: column; gap: 20px; }
+  .preview-hoja .firma-linea { width: 100%; }
+  .preview-hoja .etiqueta-formato { position: static; transform: none; display: inline-block; margin-bottom: 12px; }
+
+  .formato-selector { gap: 6px; }
+  .formato-opcion { padding: 10px 12px; font-size: 11px; flex: 1 1 calc(50% - 6px); min-width: 130px; justify-content: center; }
+
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal { max-width: 100%; max-height: 92vh; border-radius: 18px 18px 0 0; }
+  .modal-header { padding: 16px 20px; }
+  .modal-titulo { font-size: 15px; }
+  .modal-body { padding: 16px 18px; }
+  .modal-footer { padding: 14px 18px; }
+  .modal-footer .btn { flex: 1 1 auto; justify-content: center; }
+
+  .colores-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .colores-tabs::-webkit-scrollbar { display: none; }
+  .colores-tab { padding: 10px 14px; font-size: 12px; white-space: nowrap; }
+
+  .colores-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+
+  .toast-container { top: auto; bottom: 80px; left: 16px; right: 16px; }
+  .toast { min-width: auto; max-width: none; width: 100%; }
+
+  .btn { padding: 12px 14px; font-size: 12px; }
+  .btn-sm { padding: 8px 10px; font-size: 11px; min-height: 38px; }
+  .chip { padding: 8px 14px; min-height: 42px; }
+
+  .piedra-row { grid-template-columns: 1fr 80px 40px; gap: 8px; }
+
+  .page-header { flex-direction: column; align-items: stretch; gap: 12px; }
+
+  /* CLIENTES v3.5 — el botón de nuevo cliente se apila en móvil */
+  .cliente-selector-wrap { flex-direction: column; }
+  .cliente-selector-wrap .btn { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .content { padding: 12px; }
+  .page-titulo { font-size: 18px; }
+
+  .wizard-step { min-width: 68px; padding: 8px 4px; font-size: 9px; }
+  .wizard-step .num { width: 22px; height: 22px; font-size: 10px; }
+
+  #canvas2d { height: 240px; }
+  .visor-3d { height: 260px; }
+  .visor-3d-info { font-size: 10px; padding: 6px 8px; }
+  .visor-3d-overlay button { padding: 6px 8px; font-size: 9px; }
+
+  .panel { padding: 12px; }
+  .pct-input-wrapper input[type=number] { width: 60px; }
+
+  .pigmento-row { grid-template-columns: 1fr 50px 1fr; gap: 4px; }
+  .pigmento-row-libre { grid-template-columns: 1fr 50px 44px; gap: 4px; }
+  .pigmento-row .select, .pigmento-row .input,
+  .pigmento-row-libre .select, .pigmento-row-libre .input { font-size: 10px; padding: 6px; }
+
+  .preview-hoja { padding: 8mm 6mm; }
+  .preview-hoja .logo-print { font-size: 18px; }
+  .preview-hoja .orden-numero { font-size: 14px; }
+
+  .formato-opcion { flex: 1 1 100%; }
+}
+
+@media print {
+  body { background: #fff !important; }
+  body * { visibility: hidden; }
+  #previewImpresion, #previewImpresion * { visibility: visible; }
+  #previewImpresion { position: absolute; top: 0; left: 0; width: 100%; box-shadow: none; padding: 10mm; }
+  .preview-hoja-wrapper { background: transparent !important; padding: 0 !important; }
+  .etiqueta-formato { display: none !important; }
+  .info-formato { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-root">
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="cerrarSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-sidebar">
+      <div class="logo-icono">🏛️</div>
+      <div><div class="logo-nombre">Cajuña Pro</div><div class="logo-sub">v3.0</div></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sb-seccion">Principal</div>
+      <div class="sb-item" onclick="irA('dashboard.html')"><span class="sb-icono">📊</span>Dashboard</div>
+      <div class="sb-item activo" onclick="irA('nueva-orden.html')"><span class="sb-icono">➕</span>Nueva Orden</div>
+      <div class="sb-item" onclick="irA('llenado-parcial.html')"><span class="sb-icono">📦</span>Llenado Parcial</div>
+      <div class="sb-item" onclick="irA('produccion.html')"><span class="sb-icono">🔨</span>Producción</div>
+
+      <div class="sb-seccion">Biblioteca</div>
+      <div class="sb-item" onclick="irA('moldes.html')"><span class="sb-icono">🗄️</span>Moldes</div>
+      <div class="sb-item" onclick="irA('mis-modelos.html')"><span class="sb-icono">💾</span>Mis Modelos</div>
+      <div class="sb-item" onclick="irA('recetas.html')"><span class="sb-icono">📖</span>Recetas</div>
+      <div class="sb-item" onclick="irA('archivo.html')"><span class="sb-icono">📁</span>Archivo</div>
+      <div class="sb-item" onclick="irA('museo.html')"><span class="sb-icono">🏛️</span>Museo Virtual</div>
+
+      <div class="sb-seccion">Análisis</div>
+      <div class="sb-item" onclick="irA('stock.html')"><span class="sb-icono">📦</span>Stock</div>
+      <div class="sb-item" onclick="irA('laboratorio.html')"><span class="sb-icono">🧪</span>Laboratorio</div>
+      <div class="sb-item" onclick="irA('reportes.html')"><span class="sb-icono">📈</span>Reportes</div>
+
+      <div class="sb-seccion">Sistema</div>
+      <div class="sb-item" onclick="irA('clientes.html')"><span class="sb-icono">👥</span>Clientes</div>
+      <div class="sb-item" onclick="irA('usuarios.html')"><span class="sb-icono">👤</span>Usuarios</div>
+      <div class="sb-item" onclick="irA('configuracion.html')"><span class="sb-icono">⚙️</span>Configuración</div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="hamburger" onclick="abrirSidebar()" aria-label="Abrir menú">☰</button>
+      <div class="empresa-switcher">
+        <span>🏢</span>
+        <div><div class="empresa-nombre">Cajuña</div><div class="empresa-rol">Admin</div></div>
+      </div>
+      <div class="topbar-acciones">
+        <button class="icon-btn" onclick="toggleManosSucias()" id="btnManos">🧤</button>
+        <button class="icon-btn" onclick="toggleTema()" id="btnTema">🎨</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="screen activo" data-screen-content="nueva-orden">
+        <div class="page-titulo">➕ Nueva Orden</div>
+        <div class="page-sub">Completá los 5 pasos</div>
+
+        <div class="wizard-steps">
+          <button class="wizard-step activo" onclick="irPaso(1)"><span class="num">1</span><span>Cliente</span></button>
+          <button class="wizard-step" onclick="irPaso(2)"><span class="num">2</span><span>Pieza</span></button>
+          <button class="wizard-step" onclick="irPaso(3)"><span class="num">3</span><span>Mezcla</span></button>
+          <button class="wizard-step" onclick="irPaso(4)"><span class="num">4</span><span>Colores</span></button>
+          <button class="wizard-step" onclick="irPaso(5)"><span class="num">5</span><span>Imprimir</span></button>
+        </div>
+
+        <div class="wizard-panel activo" data-wpanel="1">
+          <div class="panel">
+            <div class="panel-titulo">👤 Paso 1: Cliente y proyecto</div>
+            <div class="form-row cols-2">
+              <div class="input-group">
+                <label class="input-label">Cliente</label>
+                <!-- CLIENTES v3.5 — Select se llena desde cajupa_clientes_v1 -->
+                <div class="cliente-selector-wrap">
+                  <select class="select" id="ordCliente">
+                    <option value="">— Cargando clientes... —</option>
+                  </select>
+                  <button class="btn btn-ghost btn-sm" onclick="irA('clientes.html')" title="Administrar clientes">👥</button>
+                </div>
+                <div id="avisoClientes" style="font-size:11px;color:var(--text-mute);margin-top:6px;display:none;">
+                  ⚠️ No hay clientes guardados. <a href="clientes.html" style="color:var(--cyan);">Crealos en Clientes →</a>
+                </div>
+              </div>
+              <div class="input-group">
+                <label class="input-label">Categoría</label>
+                <select class="select" id="ordCategoria">
+                  <option>Lavamanos</option><option>Torres</option><option>Topes y Bases</option><option>Piezas Utilitarias</option><option>Muestras</option><option>Personalizados</option>
+                </select>
+              </div>
+            </div>
+            <div class="input-group"><label class="input-label">Proyecto / Orden</label><input class="input" id="ordProyecto" value="Nueva pieza"></div>
+            <div class="form-row cols-2">
+              <div class="input-group"><label class="input-label">Fecha de creación</label><input type="date" class="input" id="ordFecha"></div>
+              <div class="input-group"><label class="input-label">Hora de creación</label><input type="time" class="input" id="ordHora" value="10:30"></div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Fecha de entrega <span class="opcional">(opcional)</span></label>
+              <div style="display:flex;gap:8px;">
+                <input type="date" class="input" id="ordFechaEntrega" style="flex:1;">
+                <button class="btn btn-ghost btn-sm" onclick="document.getElementById('ordFechaEntrega').value='';">✕</button>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width:100%;" onclick="irPaso(2)">Siguiente → Pieza</button>
+        </div>
+
+        <div class="wizard-panel" data-wpanel="2">
+          <div class="panel">
+            <div class="panel-titulo">📐 Paso 2: Pieza y medidas</div>
+
+            <div id="modeloAutoCargadoBox" style="display:none;"></div>
+
+            <div class="input-group">
+              <label class="input-label">Método de carga</label>
+              <select class="select" id="metodoSelect" onchange="cambiarMetodo(this.value)">
+                <option value="plantilla">📋 Plantilla predeterminada</option>
+                <option value="dibujo" selected>✏️ Dibujar 2D</option>
+                <option value="modelo">📁 Cargar modelo 3D</option>
+                <option value="guardado">💾 Modelo guardado</option>
+                <option value="medidas">📏 Medidas manuales</option>
+              </select>
+            </div>
+
+            <div id="panel-plantilla" style="display:none;">
+              <div class="input-group">
+                <label class="input-label">Elegí una plantilla</label>
+                <select class="select" id="plantillaSelect" onchange="cargarPlantilla(this.value)">
+                  <option value="">— Seleccionar —</option>
+                  <option value="pastilla40">Pastilla 40 · 400×270×110 mm</option>
+                  <option value="pastilla60">Pastilla 60 · 600×400×150 mm</option>
+                  <option value="piola40">Piola 40 · Ø400×180 mm</option>
+                  <option value="bloque">Bloque · 450×350×150 mm</option>
+                  <option value="torreBloque">Torre Bloque · 450×350×900 mm</option>
+                  <option value="torrePiola">Torre Piola · Ø400×910 mm</option>
+                  <option value="curiaraGrande">Curiara Grande · 1860×550×900 mm</option>
+                  <option value="mesaPlanta">Mesa Planta · 1400×605×345 mm</option>
+                  <option value="platoKuma">Plato Perro Kuma · Ø227×90 mm</option>
+                  <option value="frutero">Frutero · Ø360×70 mm</option>
+                  <option value="muestra10">Muestra 10×10</option>
+                  <option value="muestra15">Muestra 15×15</option>
+                  <option value="muestra20">Muestra 20×20</option>
+                </select>
+              </div>
+              <div id="plantillaPreview"></div>
+            </div>
+
+            <div id="panel-dibujo" style="display:block;">
+              <div class="canvas-container">
+                <div class="canvas-toolbar">
+                  <button class="tool-btn activo" data-tool="lapiz" onclick="setTool('lapiz',this)">✏️ Lápiz</button>
+                  <button class="tool-btn" data-tool="linea" onclick="setTool('linea',this)">📏 Línea</button>
+                  <button class="tool-btn" data-tool="rectangulo" onclick="setTool('rectangulo',this)">▭ Rect.</button>
+                  <button class="tool-btn" data-tool="circulo" onclick="setTool('circulo',this)">◯ Círculo</button>
+                  <button class="tool-btn" data-tool="flecha" onclick="setTool('flecha',this)">➡️ Flecha</button>
+                  <button class="tool-btn" data-tool="cota" onclick="setTool('cota',this)">📐 Cota</button>
+                  <button class="tool-btn" data-tool="texto" onclick="setTool('texto',this)">🅰️ Texto</button>
+                  <button class="tool-btn" data-tool="borrador" onclick="setTool('borrador',this)">🧽 Borrador</button>
+                  <div class="tool-sep"></div>
+                  <button class="tool-btn" onclick="undoDibujo()">↶</button>
+                  <button class="tool-btn" onclick="redoDibujo()">↷</button>
+                  <button class="tool-btn" onclick="limpiarCanvas()">🗑️</button>
+                  <div class="tool-sep"></div>
+                  <div class="tool-color activo" style="background:#000;" onclick="setColor('#000',this)"></div>
+                  <div class="tool-color" style="background:#ef5350;" onclick="setColor('#ef5350',this)"></div>
+                  <div class="tool-color" style="background:#42a5f5;" onclick="setColor('#42a5f5',this)"></div>
+                  <div class="tool-color" style="background:#4caf50;" onclick="setColor('#4caf50',this)"></div>
+                  <div class="tool-sep"></div>
+                  <select class="tool-select" onchange="estado.modoDibujo=this.value;">
+                    <option value="hibrido">Híbrido</option>
+                    <option value="libre">Libre</option>
+                    <option value="perfecto">Perfecto</option>
+                  </select>
+                  <label style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim);font-weight:700;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid var(--border);cursor:pointer;">
+                    <input type="checkbox" onchange="estado.snapGrid=this.checked;"> Snap
+                  </label>
+                </div>
+                <canvas id="canvas2d"></canvas>
+              </div>
+              <div class="form-row cols-3">
+                <div class="input-group"><label class="input-label">Profundidad / Espesor (mm)</label><input type="number" class="input" id="profundidad" value="150"></div>
+                <div class="input-group"><label class="input-label">Escala (mm por pixel)</label><input type="number" class="input" id="escala" value="2" step="0.1"></div>
+                <div class="input-group"><label class="input-label">Escala visible</label><div class="input" style="font-weight:800;color:var(--cyan);" id="escalaVisible">1 px = 2 mm</div></div>
+              </div>
+              <button class="btn btn-cyan" style="width:100%;" onclick="convertirA3D()">🔄 Convertir dibujo a 3D</button>
+              <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="guardarDibujo2DComoModelo()">💾 Guardar dibujo en Mis Modelos</button>
+            </div>
+
+            <div id="panel-modelo" style="display:none;">
+              <div style="border:2px dashed var(--border);border-radius:12px;padding:30px;text-align:center;cursor:pointer;" onclick="cargarModeloDemo()">
+                <div style="font-size:48px;opacity:0.5;margin-bottom:10px;">📦</div>
+                <div style="font-size:13px;font-weight:700;">Arrastrá un archivo .glb / .stl / .obj</div>
+              </div>
+              <div class="form-row cols-2" style="margin-top:14px;">
+                <div class="input-group"><label class="input-label">Volumen (ml)</label><input type="number" class="input" id="modeloVolumen" placeholder="Ej: 1800"></div>
+                <div class="input-group"><label class="input-label">Nombre</label><input class="input" id="modeloNombre" placeholder="Ej: Plato Perro"></div>
+              </div>
+              <button class="btn btn-green" style="width:100%;" onclick="guardarModelo()">💾 Guardar modelo</button>
+            </div>
+
+            <div id="panel-guardado" style="display:none;">
+              <div class="input-group">
+                <label class="input-label">Elegí un modelo guardado</label>
+                <select class="select" id="modeloGuardadoSelect" onchange="cargarModeloGuardado(this.value)">
+                  <option value="">— Seleccionar —</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="panel-medidas" style="display:none;">
+              <div class="input-group">
+                <label class="input-label">Forma</label>
+                <select class="select" id="formaSelect" onchange="actualizarForma(this.value)">
+                  <option value="rectangular">Rectangular</option>
+                  <option value="redonda">Redonda</option>
+                  <option value="hueca">Cilindro hueco</option>
+                  <option value="eliptica">Elíptica</option>
+                </select>
+              </div>
+              <div id="camposMedidas"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-titulo">🪨 Piedras</div>
+            <div class="panel-sub">Elegí el tipo y el número de grano</div>
+            <div id="listaPiedras"></div>
+            <button class="btn btn-ghost btn-sm" style="margin-top:12px;" onclick="agregarPiedra()">➕ Agregar piedra</button>
+          </div>
+
+          <div class="panel">
+            <div class="panel-titulo">🔮 Vista 3D</div>
+            <div class="panel-sub">Arrastrá para rotar · Rueda para zoom</div>
+            <div class="visor-3d">
+              <div class="visor-3d-etiqueta">● RENDER EN VIVO</div>
+              <div class="visor-3d-overlay">
+                <button onclick="toggleAutoRotate()" id="btnAuto">⏸ Auto-rotar</button>
+                <button onclick="resetVista()">🔄 Reiniciar</button>
+                <button onclick="cambiarMaterial()">🎨 Material</button>
+                <button onclick="ver2DModal()">📐 Ver 2D</button>
+              </div>
+              <div class="visor-3d-info" id="info3D">Volumen: <strong>0 cm³</strong><br>Peso est.: <strong>0 g</strong></div>
+              <canvas id="canvas3d"></canvas>
+              <div class="visor-3d-vacio" id="vacio3d">
+                <div class="icono">🔮</div>
+                <div>Seleccioná una plantilla o dibujá</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-titulo">📷 Galería de fotos</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <div style="width:80px;height:80px;background:rgba(255,255,255,0.05);border:2px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--text-mute);cursor:pointer;" onclick="toast('📷 Foto agregada','success')">+</div>
+            </div>
+          </div>
+
+          <div class="wizard-actions">
+            <button class="btn btn-ghost" style="flex:1;" onclick="irPaso(1)">← Atrás</button>
+            <button class="btn btn-primary" style="flex:2;" onclick="irPaso(3)">Siguiente → Mezcla</button>
+          </div>
+        </div>
+
+        <div class="wizard-panel" data-wpanel="3">
+          <div class="panel">
+            <div class="panel-titulo">🧪 Paso 3: Tipo de mezcla</div>
+            <div style="margin-bottom:16px;">
+              <span class="chip chip-cyan" data-mezcla="Concreto" onclick="selMezcla('Concreto',this)">🏗️ Concreto</span>
+              <span class="chip chip-gray" data-mezcla="Resina" onclick="selMezcla('Resina',this)">💧 Resina</span>
+              <span class="chip chip-gray" data-mezcla="Aliven" onclick="selMezcla('Aliven',this)">☁️ Aliven</span>
+              <span class="chip chip-gray" data-mezcla="Yeso" onclick="selMezcla('Yeso',this)">⬜ Yeso</span>
+            </div>
+
+            <div class="form-row cols-2">
+              <div class="input-group">
+                <label class="input-label">📦 Cantidad de piezas a fabricar</label>
+                <input type="number" class="input" id="cantidadPiezas" value="1" min="1" oninput="calcMateriales()">
+              </div>
+              <div class="input-group">
+                <label class="input-label">📐 Porcentaje del modelo</label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <input type="range" id="porcentajeModeloSlider" min="10" max="100" value="100"
+                         oninput="syncPorcentaje(this.value)" style="flex:1;min-height:44px;">
+                  <input type="number" class="input" id="porcentajeModelo" value="100" min="10" max="100"
+                         oninput="syncPorcentaje(this.value)" style="width:80px;text-align:center;">
+                </div>
+              </div>
+            </div>
+
+            <div id="resumenVolumenes" style="margin-bottom:12px;"></div>
+
+            <div id="camposMezcla"></div>
+            <div class="resultado-box">
+              <div class="resultado-titulo">Materiales · <span id="tipoMezclaTexto">Concreto</span></div>
+              <div id="resultadoMat"></div>
+            </div>
+          </div>
+          <div class="wizard-actions">
+            <button class="btn btn-ghost" style="flex:1;" onclick="irPaso(2)">← Atrás</button>
+            <button class="btn btn-primary" style="flex:2;" onclick="irPaso(4)">Siguiente → Colores</button>
+          </div>
+        </div>
+
+        <div class="wizard-panel" data-wpanel="4">
+          <div class="panel">
+            <div class="panel-titulo">🎨 Paso 4: Colores y pigmentos</div>
+            <div class="panel-sub">Cada color tiene su % y sus pigmentos. El límite total es 100%.</div>
+            <div style="margin-bottom:16px;display:flex;flex-wrap:wrap;gap:6px;">
+              <button class="btn btn-ghost btn-sm" onclick="abrirSelectorColores()">➕ Agregar color</button>
+              <button class="btn btn-ghost btn-sm" onclick="resetColores()">↺ Reiniciar</button>
+              <button class="btn btn-ghost btn-sm" onclick="distribuirEquitativo()">⚖️ Equitativo</button>
+              <button class="btn btn-primary btn-sm" onclick="guardarComoReceta()" style="margin-left:auto;">💾 Guardar como receta</button>
+            </div>
+            <div id="coloresLista"></div>
+            <div style="height:14px;border-radius:7px;overflow:hidden;display:flex;margin-top:16px;background:rgba(255,255,255,0.05);">
+              <div id="barraColores" style="display:flex;width:100%;height:100%;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:13px;">
+              <span style="color:var(--text-dim);">Total</span>
+              <span id="totalColores" style="font-weight:800;color:var(--green);">100%</span>
+            </div>
+          </div>
+          <div class="wizard-actions">
+            <button class="btn btn-ghost" style="flex:1;" onclick="irPaso(3)">← Atrás</button>
+            <button class="btn btn-primary" style="flex:2;" onclick="irPaso(5)">Siguiente → Imprimir</button>
+          </div>
+        </div>
+
+        <div class="wizard-panel" data-wpanel="5">
+          <div class="panel">
+            <div class="panel-titulo">🖨️ Paso 5: Vista previa</div>
+            <div class="panel-sub">Elegí el formato de impresión</div>
+            <div class="formato-selector">
+              <label class="formato-opcion activo" data-formato-op="carta">
+                <input type="radio" name="formatoPrint" value="carta" checked onchange="setFormatoImpresion('carta')"> Carta (216×279)
+              </label>
+              <label class="formato-opcion" data-formato-op="oficio">
+                <input type="radio" name="formatoPrint" value="oficio" onchange="setFormatoImpresion('oficio')"> Oficio (216×330)
+              </label>
+              <label class="formato-opcion" data-formato-op="a4">
+                <input type="radio" name="formatoPrint" value="a4" onchange="setFormatoImpresion('a4')"> A4 (210×297)
+              </label>
+              <label class="formato-opcion" data-formato-op="legal">
+                <input type="radio" name="formatoPrint" value="legal" onchange="setFormatoImpresion('legal')"> Legal (216×356)
+              </label>
+            </div>
+            <div style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn btn-ghost btn-sm" onclick="vistaPrevia='2d';renderPreview();">📐 Ver 2D</button>
+              <button class="btn btn-ghost btn-sm" onclick="vistaPrevia='3d';renderPreview();">🔮 Ver 3D</button>
+              <button class="btn btn-ghost btn-sm" onclick="renderPreview();">🔄 Refrescar</button>
+            </div>
+            <div class="preview-hoja-wrapper">
+              <div class="preview-hoja" id="previewImpresion" data-formato="carta"></div>
+            </div>
+          </div>
+          <div class="wizard-actions">
+            <button class="btn btn-ghost" style="flex:1;" onclick="irPaso(4)">← Atrás</button>
+            <button class="btn btn-orange" style="flex:1;" onclick="exportarSheets()">📊 Sheets</button>
+            <button class="btn btn-primary" style="flex:1;" onclick="exportarNotion()">📝 Notion</button>
+            <button class="btn btn-cyan" style="flex:1;" onclick="imprimirAhora()">🖨️ Imprimir</button>
+            <button class="btn btn-green" style="flex:1;" onclick="guardarOrden()">💾 Guardar</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalColores" onclick="if(event.target===this)cerrarSelectorColores()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-titulo">🎨 Seleccionar color</div>
+      <button class="modal-close" onclick="cerrarSelectorColores()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="colores-tabs">
+        <button class="colores-tab activo" onclick="switchTabColores('predeterminados', this)">Predeterminados</button>
+        <button class="colores-tab" onclick="switchTabColores('nuevos', this)">Nuevos</button>
+        <button class="colores-tab" onclick="switchTabColores('favoritos', this)">⭐ Favoritos</button>
+      </div>
+      <div id="listaPredeterminados" class="colores-grid"></div>
+      <div id="listaNuevos" class="colores-grid" style="display:none;"></div>
+      <div id="listaFavoritos" class="colores-grid" style="display:none;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="abrirCrearColor()">➕ Crear nuevo</button>
+      <button class="btn btn-primary btn-sm" onclick="cerrarSelectorColores()">Listo</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalCrearColor" onclick="if(event.target===this)cerrarCrearColor()">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-header">
+      <div class="modal-titulo">➕ Crear color</div>
+      <button class="modal-close" onclick="cerrarCrearColor()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="input-group"><label class="input-label">Nombre</label><input class="input" id="nuevoColorNombre" placeholder="Ej: Terracota Mawari"></div>
+      <div class="input-group"><label class="input-label">Color de referencia</label><input type="color" class="input" id="nuevoColorHex" value="#c66b4e" style="height:50px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="cerrarCrearColor()">Cancelar</button>
+      <button class="btn btn-primary" onclick="guardarNuevoColor()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalVer2D" onclick="if(event.target===this)cerrarVer2D()">
+  <div class="modal" style="max-width:800px;">
+    <div class="modal-header">
+      <div class="modal-titulo">📐 Vista 2D del dibujo</div>
+      <button class="modal-close" onclick="cerrarVer2D()">×</button>
+    </div>
+    <div class="modal-body" style="background:#fff;text-align:center;">
+      <div id="contenidoVer2D"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="cerrarVer2D()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SIDEBAR MÓVIL — RESPONSIVE v3.5
+// ============================================================
+function abrirSidebar() {
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('sidebarBackdrop');
+  if (sb) sb.classList.add('abierto');
+  if (bd) bd.classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarSidebar() {
+  const sb = document.getElementById('sidebar');
+  const bd = document.getElementById('sidebarBackdrop');
+  if (sb) sb.classList.remove('abierto');
+  if (bd) bd.classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function irA(url) {
+  cerrarSidebar();
+  setTimeout(() => { location.href = url; }, 150);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarSidebar();
+});
+
+// ============================================================
+// CLIENTES v3.5 — Carga del select de clientes
+// ============================================================
+const CLAVE_CLIENTES = 'cajupa_clientes_v1';
+
+function leerClientes() {
+  try {
+    const raw = localStorage.getItem(CLAVE_CLIENTES);
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (Array.isArray(data)) return data;
+    }
+  } catch(e) {}
+  return [];
+}
+
+function inicializarSelectClientes() {
+  const sel = document.getElementById('ordCliente');
+  const aviso = document.getElementById('avisoClientes');
+  if (!sel) return;
+
+  const clientes = leerClientes();
+
+  if (clientes.length === 0) {
+    sel.innerHTML = '<option value="">— Sin clientes guardados —</option>';
+    if (aviso) aviso.style.display = 'block';
+    return;
+  }
+
+  if (aviso) aviso.style.display = 'none';
+
+  // Ordenar: favoritos primero, luego alfabético
+  clientes.sort((a, b) => {
+    if (a.favorito !== b.favorito) return b.favorito ? 1 : -1;
+    return (a.nombre || '').localeCompare(b.nombre || '');
+  });
+
+  // Guardar selección previa
+  const valorActual = sel.value;
+
+  sel.innerHTML = '<option value="">— Seleccionar cliente —</option>' +
+    clientes.map(c => {
+      const fav = c.favorito ? '⭐ ' : '';
+      return `<option value="${c.nombre}">${fav}${c.nombre}</option>`;
+    }).join('');
+
+  // Restaurar si sigue existiendo
+  if (valorActual && clientes.some(c => c.nombre === valorActual)) {
+    sel.value = valorActual;
+  }
+}
+
+// ============================================================
+// CONSTANTES
+// ============================================================
+const LISTA_PIGMENTOS = [
+  "Color", "Amarillo", "Azul", "Blanco", "Cemento Gris", "Marrón", "Negro",
+  "Rojo", "Verde Bycolor", "Verde Nacional", "Verde Vitofibras", "Naranja", "Vinotinto"
+];
+const LISTA_CUCHARAS = ["Cuch. 0.63", "Cuch. 1.25", "Cuch. 2.5", "Cuch. 15", "Gramos"];
+const CLAVE_TABLA_PESOS = 'cajupa_pesos';
+const CLAVE_CUSTOM_ESTRUCTURA = 'cajupa_pesos_custom';
+
+const TABLA_PESOS_DEFAULT = {
+  "Rojo": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 1.40, "Cuch. 2.5": 1.67, "Cuch. 15": 10.02 },
+  "Amarillo": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 1.45, "Cuch. 2.5": 1.90, "Cuch. 15": 11.40 },
+  "Azul": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 1.20, "Cuch. 2.5": 1.90, "Cuch. 15": 11.40 },
+  "Marrón": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 0.90, "Cuch. 2.5": 2.20, "Cuch. 15": 13.20 },
+  "Negro": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 0.96, "Cuch. 2.5": 1.84, "Cuch. 15": 11.04 },
+  "Blanco": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 1.00, "Cuch. 2.5": 2.00, "Cuch. 15": 12.00 },
+  "Cemento Gris": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 0.96, "Cuch. 2.5": 1.84, "Cuch. 15": 11.04 },
+  "Verde Nacional": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 1.05, "Cuch. 2.5": 2.70, "Cuch. 15": 16.20 },
+  "Verde Bycolor": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 1.00, "Cuch. 2.5": 2.32, "Cuch. 15": 13.92 },
+  "Verde Vitofibras": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 0.93, "Cuch. 2.5": 1.60, "Cuch. 15": 9.60 },
+  "Naranja": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 1.40, "Cuch. 2.5": 1.67, "Cuch. 15": 10.02 },
+  "Vinotinto": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 0.90, "Cuch. 2.5": 2.20, "Cuch. 15": 13.20 }
+};
+
+function leerTablaPesos() {
+  try {
+    const raw = localStorage.getItem(CLAVE_TABLA_PESOS);
+    if (raw) {
+      const data = JSON.parse(raw);
+      const result = JSON.parse(JSON.stringify(TABLA_PESOS_DEFAULT));
+      for (const pig in data) {
+        if (!result[pig]) result[pig] = {};
+        for (const c in data[pig]) result[pig][c] = data[pig][c];
+      }
+      return result;
+    }
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(TABLA_PESOS_DEFAULT));
+}
+
+function leerCustomEstructura() {
+  try {
+    const raw = localStorage.getItem(CLAVE_CUSTOM_ESTRUCTURA);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return { pigmentos: [], cucharas: [] };
+}
+
+function getPigmentosActivos() {
+  const custom = leerCustomEstructura();
+  return [...LISTA_PIGMENTOS, ...(custom.pigmentos || [])];
+}
+
+function getCucharasActivas() {
+  const custom = leerCustomEstructura();
+  return [...LISTA_CUCHARAS, ...(custom.cucharas || [])];
+}
+
+function hoyISO() { return new Date().toISOString().split('T')[0]; }
+
+// ============================================================
+// ESTADO
+// ============================================================
+function nuevoColorVacio(nombre, hex, pct) {
+  return {
+    nombre, hex, pct,
+    pigmentosTabla: Array(5).fill(null).map(() => ({ pigmento: 'Color', cantidad: '', cuchara: 'Cuch. 0.63' })),
+    pigmentosLibres: Array(5).fill(null).map(() => ({ pigmento: 'Color', cantidad: '', unidad: 'g' }))
+  };
+}
+
+const estado = {
+  paso: 1, herramienta: 'lapiz', color: '#000000', grosor: 3,
+  modoDibujo: 'hibrido', snapGrid: false,
+  dibujando: false, startPoint: null, points: [], savedImage: null,
+  undoStack: [], redoStack: [],
+  volumen: 0, peso: 0, mezcla: 'Concreto',
+  formatoImpresion: 'carta',
+  porcentajeModelo: 100,
+  modeloCargado: null,
+  colores: [
+    nuevoColorVacio('Naranja', '#ff6b35', 60),
+    nuevoColorVacio('Rojo', '#ef5350', 40)
+  ],
+  coloresNuevos: JSON.parse(localStorage.getItem('cajupa_colores_nuevos') || '[]'),
+  coloresFavoritos: JSON.parse(localStorage.getItem('cajupa_colores_fav') || '[]'),
+  factor: 1.90, cotas: [],
+  piedras: [{ nombre: 'Blanca Especial', grano: '0' }]
+};
+
+const PIEDRAS_CATALOGO = [
+  'Blanca Especial','Blanco Gris','Verde','Piedra Negra','Piedra Verde','Piedra Blanca',
+  'Marfil','Sepia','Roja','Hueso','Arenilla Negra','Arenilla Blanca','Arenilla Roja'
+];
+
+const COLORES_PREDETERMINADOS = [
+  { nombre: 'Rojo', hex: '#ef5350' }, { nombre: 'Naranja', hex: '#ff6b35' },
+  { nombre: 'Amarillo', hex: '#ffd54f' }, { nombre: 'Verde Lima', hex: '#cddc39' },
+  { nombre: 'Verde', hex: '#4caf50' }, { nombre: 'Verde Oscuro', hex: '#2e7d32' },
+  { nombre: 'Turquesa', hex: '#26c6da' }, { nombre: 'Cian', hex: '#00e5ff' },
+  { nombre: 'Azul Claro', hex: '#42a5f5' }, { nombre: 'Azul', hex: '#1565c0' },
+  { nombre: 'Azul Oscuro', hex: '#0d47a1' }, { nombre: 'Índigo', hex: '#3f51b5' },
+  { nombre: 'Violeta', hex: '#9c27b0' }, { nombre: 'Morado', hex: '#7b1fa2' },
+  { nombre: 'Rosa', hex: '#ec407a' }, { nombre: 'Fucsia', hex: '#e91e63' },
+  { nombre: 'Café', hex: '#795548' }, { nombre: 'Marrón', hex: '#8d6e63' },
+  { nombre: 'Gris', hex: '#9e9e9e' }, { nombre: 'Gris Oscuro', hex: '#424242' },
+  { nombre: 'Negro', hex: '#000000' }, { nombre: 'Blanco', hex: '#ffffff' },
+  { nombre: 'Beige', hex: '#d7ccc8' }, { nombre: 'Crema', hex: '#fff8e1' },
+  { nombre: 'Dorado', hex: '#ffc107' }, { nombre: 'Plateado', hex: '#b0bec5' },
+  { nombre: 'Terracota', hex: '#c66b4e' }, { nombre: 'Mostaza', hex: '#d4a017' }
+];
+
+const MATERIALES_3D = [
+  { nombre: 'Cian Metálico', color: 0x4dd0e1, metalness: 0.6, roughness: 0.25 },
+  { nombre: 'Mármol Blanco', color: 0xf5f5f5, metalness: 0.05, roughness: 0.5 },
+  { nombre: 'Granito Gris', color: 0x888888, metalness: 0.3, roughness: 0.6 },
+  { nombre: 'Concreto', color: 0xd0d0d0, metalness: 0, roughness: 0.85 },
+  { nombre: 'Resina Naranja', color: 0xff6b35, metalness: 0.4, roughness: 0.3 },
+  { nombre: 'Verde Bosque', color: 0x2e7d32, metalness: 0.3, roughness: 0.5 },
+  { nombre: 'Oro', color: 0xffd54f, metalness: 0.9, roughness: 0.15 }
+];
+
+const PLANTILLAS = {
+  pastilla40: { nombre: 'Pastilla 40', largo: 400, ancho: 270, alto: 110, forma: 'rectangular' },
+  pastilla60: { nombre: 'Pastilla 60', largo: 600, ancho: 400, alto: 150, forma: 'rectangular' },
+  piola40: { nombre: 'Piola 40', diametro: 400, alto: 180, forma: 'redonda' },
+  bloque: { nombre: 'Bloque', largo: 450, ancho: 350, alto: 150, forma: 'rectangular' },
+  torreBloque: { nombre: 'Torre Bloque', largo: 450, ancho: 350, alto: 900, forma: 'rectangular', hueca: true },
+  torrePiola: { nombre: 'Torre Piola', diametro: 400, alto: 910, forma: 'redonda', hueca: true },
+  curiaraGrande: { nombre: 'Curiara Grande', largo: 1860, ancho: 550, alto: 900, forma: 'rectangular', hueca: true },
+  mesaPlanta: { nombre: 'Mesa Planta', largo: 1400, ancho: 605, alto: 345, forma: 'rectangular', hueca: true },
+  platoKuma: { nombre: 'Plato Perro Kuma', diametro: 227, alto: 90, forma: 'redonda' },
+  frutero: { nombre: 'Frutero', diametro: 360, alto: 70, forma: 'redonda' },
+  muestra10: { nombre: 'Muestra 10x10', largo: 100, ancho: 100, alto: 15, forma: 'rectangular' },
+  muestra15: { nombre: 'Muestra 15x15', largo: 150, ancho: 150, alto: 15, forma: 'rectangular' },
+  muestra20: { nombre: 'Muestra 20x20', largo: 200, ancho: 200, alto: 15, forma: 'rectangular' }
+};
+
+let vistaPrevia = '2d';
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+}
+
+function toggleTema() {
+  let actual = localStorage.getItem('cajupa_tema') || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem('cajupa_tema', nuevo);
+  aplicarTema(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+
+function toggleManosSucias() {
+  const activo = document.body.classList.toggle('manos-sucias');
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+}
+
+function irPaso(n) {
+  estado.paso = n;
+  document.querySelectorAll('.wizard-step').forEach((s, i) => {
+    s.classList.remove('activo', 'completado');
+    if (i+1 === n) s.classList.add('activo');
+    else if (i+1 < n) s.classList.add('completado');
+  });
+  document.querySelectorAll('.wizard-panel').forEach(p => p.classList.remove('activo'));
+  document.querySelector(`[data-wpanel="${n}"]`)?.classList.add('activo');
+  document.querySelector('.content').scrollTop = 0;
+  if (n === 3) { renderCamposMezcla(); calcMateriales(); }
+  if (n === 4) renderColores();
+  if (n === 5) renderPreview();
+  if (n === 2) {
+    setTimeout(() => { initCanvas(); initThree(); }, 250);
+    setTimeout(() => { initCanvas(); initThree(); }, 600);
+  }
+}
+
+// ============================================================
+// SINCRONIZAR PORCENTAJE
+// ============================================================
+function syncPorcentaje(valor) {
+  valor = Math.max(10, Math.min(100, parseInt(valor) || 100));
+  const slider = document.getElementById('porcentajeModeloSlider');
+  const num = document.getElementById('porcentajeModelo');
+  if (slider) slider.value = valor;
+  if (num) num.value = valor;
+  estado.porcentajeModelo = valor;
+  calcMateriales();
+}
+
+// ============================================================
+// CANVAS 2D
+// ============================================================
+let canvas, ctx;
+let canvasListo = false;
+
+function initCanvas() {
+  const c = document.getElementById('canvas2d');
+  if (!c) return;
+  const rect = c.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) { setTimeout(initCanvas, 150); return; }
+  canvas = c;
+  const w = Math.floor(rect.width), h = Math.floor(rect.height);
+  if (canvas.width !== w || canvas.height !== h) {
+    let backup = null;
+    if (canvasListo && ctx && canvas.width > 0) {
+      try { backup = ctx.getImageData(0, 0, canvas.width, canvas.height); } catch(e) {}
+    }
+    canvas.width = w;
+    canvas.height = h;
+    ctx = canvas.getContext('2d');
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (backup) { try { ctx.putImageData(backup, 0, 0); } catch(e) {} }
+    guardarUndo();
+  } else if (!ctx) {
+    ctx = canvas.getContext('2d');
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  }
+  if (!canvasListo) {
+    canvas.addEventListener('mousedown', onDown);
+    canvas.addEventListener('mousemove', onMove);
+    canvas.addEventListener('mouseup', onUp);
+    canvas.addEventListener('mouseleave', onUp);
+    canvas.addEventListener('touchstart', onTouchStart, {passive:false});
+    canvas.addEventListener('touchmove', onTouchMove, {passive:false});
+    canvas.addEventListener('touchend', onUp);
+    canvasListo = true;
+  }
+}
+function getPos(e) {
+  const r = canvas.getBoundingClientRect();
+  let p = { x: e.clientX - r.left, y: e.clientY - r.top };
+  if (estado.snapGrid) { p.x = Math.round(p.x / 20) * 20; p.y = Math.round(p.y / 20) * 20; }
+  return p;
+}
+function onDown(e) {
+  if (estado.herramienta === 'texto') {
+    const p = getPos(e);
+    const texto = prompt('Escribí el texto:');
+    if (texto) { ctx.font = `${estado.grosor * 4 + 8}px Inter, sans-serif`; ctx.fillStyle = estado.color; ctx.fillText(texto, p.x, p.y); guardarUndo(); }
+    return;
+  }
+  estado.dibujando = true;
+  estado.startPoint = getPos(e);
+  estado.points = [estado.startPoint];
+  estado.savedImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
+}
+function onTouchStart(e) { e.preventDefault(); const t = e.touches[0]; onDown({ clientX: t.clientX, clientY: t.clientY }); }
+function onMove(e) {
+  if (!estado.dibujando) return;
+  const p = getPos(e);
+  if (estado.herramienta === 'lapiz') {
+    estado.points.push(p);
+    ctx.putImageData(estado.savedImage, 0, 0);
+    if (estado.modoDibujo === 'libre') drawLibre(estado.points);
+    else if (estado.modoDibujo === 'perfecto') drawPerfecto(estado.points);
+    else drawHibrido(estado.points);
+  } else if (['linea','rectangulo','circulo','flecha'].includes(estado.herramienta)) {
+    ctx.putImageData(estado.savedImage, 0, 0);
+    drawShape(estado.startPoint, p, estado.herramienta);
+  } else if (estado.herramienta === 'cota') {
+    ctx.putImageData(estado.savedImage, 0, 0);
+    drawCotaPreview(estado.startPoint, p);
+  } else if (estado.herramienta === 'borrador') {
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = estado.grosor * 4;
+    ctx.beginPath(); ctx.moveTo(estado.startPoint.x, estado.startPoint.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+    estado.startPoint = p;
+  }
+}
+function onTouchMove(e) { e.preventDefault(); const t = e.touches[0]; onMove({ clientX: t.clientX, clientY: t.clientY }); }
+function onUp(e) {
+  if (!estado.dibujando) return;
+  estado.dibujando = false;
+  if (estado.herramienta === 'cota') {
+    const p1 = estado.startPoint;
+    const p2 = getPos(e || { clientX: p1.x, clientY: p1.y });
+    ctx.putImageData(estado.savedImage, 0, 0);
+    const distPx = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+    if (distPx > 10) {
+      const valor = prompt('Medida real (mm):', Math.round(distPx * (parseFloat(document.getElementById('escala').value) || 2)).toString());
+      if (valor) { drawCotaFinal(p1, p2, valor); estado.cotas.push({ valor }); }
+    }
+  } else if (estado.herramienta === 'lapiz' && estado.points.length > 1) {
+    ctx.putImageData(estado.savedImage, 0, 0);
+    if (estado.modoDibujo === 'libre') drawLibre(estado.points);
+    else if (estado.modoDibujo === 'perfecto') drawPerfecto(estado.points);
+    else drawHibrido(estado.points);
+  }
+  estado.points = [];
+  guardarUndo();
+}
+function drawLibre(points) {
+  if (points.length < 2) return;
+  ctx.strokeStyle = estado.color; ctx.lineWidth = estado.grosor;
+  ctx.beginPath(); ctx.moveTo(points[0].x, points[0].y);
+  for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+  ctx.stroke();
+}
+function drawHibrido(points) {
+  if (points.length < 2) return;
+  ctx.strokeStyle = estado.color; ctx.lineWidth = estado.grosor;
+  ctx.beginPath(); ctx.moveTo(points[0].x, points[0].y);
+  for (let i = 1; i < points.length - 1; i++) {
+    const mid = { x: (points[i].x + points[i+1].x)/2, y: (points[i].y + points[i+1].y)/2 };
+    ctx.quadraticCurveTo(points[i].x, points[i].y, mid.x, mid.y);
+  }
+  ctx.lineTo(points[points.length-1].x, points[points.length-1].y);
+  ctx.stroke();
+}
+function drawPerfecto(points) {
+  if (points.length < 2) return;
+  ctx.strokeStyle = estado.color; ctx.lineWidth = estado.grosor;
+  const first = points[0], last = points[points.length-1];
+  let maxDesvio = 0;
+  for (const p of points) { const d = distPerp(p, first, last); if (d > maxDesvio) maxDesvio = d; }
+  ctx.beginPath();
+  if (maxDesvio < 8) { ctx.moveTo(first.x, first.y); ctx.lineTo(last.x, last.y); }
+  else {
+    ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 1; i < points.length - 1; i++) {
+      const mid = { x: (points[i].x + points[i+1].x)/2, y: (points[i].y + points[i+1].y)/2 };
+      ctx.quadraticCurveTo(points[i].x, points[i].y, mid.x, mid.y);
+    }
+    ctx.lineTo(points[points.length-1].x, points[points.length-1].y);
+  }
+  ctx.stroke();
+}
+function distPerp(p, a, b) {
+  const dx = b.x - a.x, dy = b.y - a.y;
+  const len = Math.sqrt(dx*dx + dy*dy);
+  if (len === 0) return Math.hypot(p.x - a.x, p.y - a.y);
+  return Math.abs((p.x - a.x)*dy - (p.y - a.y)*dx) / len;
+}
+function drawShape(start, end, tipo) {
+  ctx.strokeStyle = estado.color; ctx.lineWidth = estado.grosor;
+  ctx.beginPath();
+  if (tipo === 'linea') { ctx.moveTo(start.x, start.y); ctx.lineTo(end.x, end.y); }
+  else if (tipo === 'rectangulo') ctx.rect(start.x, start.y, end.x-start.x, end.y-start.y);
+  else if (tipo === 'circulo') {
+    const rx = Math.abs(end.x-start.x)/2, ry = Math.abs(end.y-start.y)/2;
+    ctx.ellipse((start.x+end.x)/2, (start.y+end.y)/2, rx, ry, 0, 0, Math.PI*2);
+  } else if (tipo === 'flecha') {
+    const angle = Math.atan2(end.y - start.y, end.x - start.x);
+    const len = 15;
+    ctx.moveTo(start.x, start.y); ctx.lineTo(end.x, end.y);
+    ctx.moveTo(end.x, end.y); ctx.lineTo(end.x - len * Math.cos(angle - Math.PI/6), end.y - len * Math.sin(angle - Math.PI/6));
+    ctx.moveTo(end.x, end.y); ctx.lineTo(end.x - len * Math.cos(angle + Math.PI/6), end.y - len * Math.sin(angle + Math.PI/6));
+  }
+  ctx.stroke();
+}
+function drawCotaPreview(start, end) {
+  ctx.strokeStyle = estado.color; ctx.lineWidth = 1.5;
+  const dx = end.x - start.x, dy = end.y - start.y;
+  const len = Math.sqrt(dx*dx + dy*dy);
+  const px = -dy/len * 10, py = dx/len * 10;
+  ctx.beginPath();
+  ctx.moveTo(start.x, start.y); ctx.lineTo(end.x, end.y);
+  ctx.moveTo(start.x - px, start.y - py); ctx.lineTo(start.x + px, start.y + py);
+  ctx.moveTo(end.x - px, end.y - py); ctx.lineTo(end.x + px, end.y + py);
+  ctx.stroke();
+}
+function drawCotaFinal(start, end, valor) {
+  ctx.strokeStyle = estado.color; ctx.lineWidth = 1.5;
+  const dx = end.x - start.x, dy = end.y - start.y;
+  const len = Math.sqrt(dx*dx + dy*dy);
+  const ux = dx/len, uy = dy/len;
+  const px = -uy * 10, py = ux * 10;
+  ctx.beginPath();
+  ctx.moveTo(start.x, start.y); ctx.lineTo(end.x, end.y);
+  ctx.moveTo(start.x - px, start.y - py); ctx.lineTo(start.x + px, start.y + py);
+  ctx.moveTo(end.x - px, end.y - py); ctx.lineTo(end.x + px, end.y + py);
+  const arrowLen = 10;
+  ctx.moveTo(start.x + ux*arrowLen - px/2, start.y + uy*arrowLen - py/2);
+  ctx.lineTo(start.x + ux*arrowLen + px/2, start.y + uy*arrowLen + py/2);
+  ctx.moveTo(end.x - ux*arrowLen - px/2, end.y - uy*arrowLen - py/2);
+  ctx.lineTo(end.x - ux*arrowLen + px/2, end.y - uy*arrowLen + py/2);
+  ctx.stroke();
+  const midX = (start.x + end.x) / 2, midY = (start.y + end.y) / 2;
+  ctx.font = 'bold 13px Inter, sans-serif';
+  const txt = valor + ' mm';
+  const txtW = ctx.measureText(txt).width;
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(midX - txtW/2 - 4, midY - 10, txtW + 8, 20);
+  ctx.fillStyle = estado.color;
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(txt, midX, midY);
+  ctx.textAlign = 'start'; ctx.textBaseline = 'alphabetic';
+}
+function setTool(t, btn) {
+  estado.herramienta = t;
+  document.querySelectorAll('.tool-btn[data-tool]').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
+}
+function setColor(c, el) {
+  estado.color = c;
+  document.querySelectorAll('.tool-color').forEach(e => e.classList.remove('activo'));
+  el.classList.add('activo');
+}
+function guardarUndo() {
+  if (!canvas) return;
+  estado.undoStack.push(canvas.toDataURL());
+  if (estado.undoStack.length > 20) estado.undoStack.shift();
+  estado.redoStack = [];
+}
+function undoDibujo() {
+  if (estado.undoStack.length < 2) return;
+  estado.redoStack.push(estado.undoStack.pop());
+  const img = new Image();
+  img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
+  img.src = estado.undoStack[estado.undoStack.length - 1];
+}
+function redoDibujo() {
+  if (estado.redoStack.length === 0) return;
+  const data = estado.redoStack.pop();
+  estado.undoStack.push(data);
+  const img = new Image();
+  img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); };
+  img.src = data;
+}
+function limpiarCanvas() {
+  if (!canvas) return;
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  estado.cotas = [];
+  guardarUndo();
+  if (mesh && scene) { scene.remove(mesh); mesh.geometry.dispose(); mesh.material.dispose(); mesh = null; }
+  document.getElementById('vacio3d').style.display = 'block';
+}
+
+document.addEventListener('input', (e) => {
+  if (e.target && e.target.id === 'escala') {
+    const val = parseFloat(e.target.value) || 2;
+    const el = document.getElementById('escalaVisible');
+    if (el) el.textContent = `1 px = ${val} mm`;
+  }
+});
+
+// ============================================================
+// THREE.JS
+// ============================================================
+let scene, camera, renderer, controls, mesh;
+let autoRotate = true;
+let materialIndex = 0;
+
+function initThree() {
+  const canvasEl = document.getElementById('canvas3d');
+  if (!canvasEl) return;
+  const cont = canvasEl.parentElement;
+  const w = cont.clientWidth, h = cont.clientHeight;
+  if (w === 0 || h === 0) { setTimeout(initThree, 150); return; }
+  if (renderer) {
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h, false);
+    return;
+  }
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(45, w/h, 0.1, 5000);
+  camera.position.set(250, 220, 320);
+  renderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: true });
+  renderer.setSize(w, h, false);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  controls = new THREE.OrbitControls(camera, canvasEl);
+  controls.enableDamping = true; controls.dampingFactor = 0.06;
+  controls.autoRotate = true; controls.autoRotateSpeed = 1.8;
+  controls.minDistance = 80; controls.maxDistance = 1500;
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const dir = new THREE.DirectionalLight(0xffffff, 1.3);
+  dir.position.set(300, 400, 250); dir.castShadow = true; scene.add(dir);
+  const cyan = new THREE.DirectionalLight(0x00e5ff, 0.7); cyan.position.set(-300, 200, -250); scene.add(cyan);
+  const purple = new THREE.PointLight(0xb388ff, 1.0, 1500); purple.position.set(0, 400, 0); scene.add(purple);
+  const groundMat = new THREE.ShadowMaterial({ opacity: 0.3 });
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(1200, 1200), groundMat);
+  ground.rotation.x = -Math.PI / 2; ground.position.y = -2; ground.receiveShadow = true; scene.add(ground);
+  animate();
+  window.addEventListener('resize', () => {
+    const w2 = cont.clientWidth, h2 = cont.clientHeight;
+    if (w2 > 0 && h2 > 0) {
+      camera.aspect = w2/h2; camera.updateProjectionMatrix();
+      renderer.setSize(w2, h2, false);
+    }
+  });
+}
+function animate() {
+  requestAnimationFrame(animate);
+  if (controls) controls.update();
+  if (renderer && scene && camera) renderer.render(scene, camera);
+}
+function extraerContornos(imgData, w, h) {
+  const mask = new Uint8Array(w * h);
+  for (let i = 0; i < imgData.data.length; i += 4) {
+    const idx = i / 4;
+    const r = imgData.data[i], g = imgData.data[i+1], b = imgData.data[i+2];
+    mask[idx] = (r < 200 || g < 200 || b < 200) ? 1 : 0;
+  }
+  const dilated = new Uint8Array(w * h);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+    let on = 0;
+    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+      const nx = x + dx, ny = y + dy;
+      if (nx >= 0 && nx < w && ny >= 0 && ny < h && mask[ny * w + nx]) on = 1;
+    }
+    dilated[y * w + x] = on;
+  }
+  const visited = new Uint8Array(w * h);
+  const contornos = [];
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+    const idx = y * w + x;
+    if (dilated[idx] && !visited[idx]) {
+      const c = traceContorno(dilated, visited, w, h, x, y);
+      if (c.length > 20) contornos.push(c);
+    }
+  }
+  return contornos;
+}
+function traceContorno(mask, visited, w, h, startX, startY) {
+  const dirs = [[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]];
+  const puntos = []; let cx = startX, cy = startY, dir = 0, safety = 0;
+  do {
+    visited[cy * w + cx] = 1; puntos.push([cx, cy]);
+    let found = false;
+    for (let i = 0; i < 8; i++) {
+      const d = (dir + 6 + i) % 8;
+      const nx = cx + dirs[d][0], ny = cy + dirs[d][1];
+      if (nx >= 0 && nx < w && ny >= 0 && ny < h && mask[ny * w + nx]) { cx = nx; cy = ny; dir = d; found = true; break; }
+    }
+    if (!found) break;
+    safety++;
+  } while ((cx !== startX || cy !== startY) && safety < 10000);
+  return puntos;
+}
+function simplificar(puntos, eps) {
+  if (puntos.length < 3) return puntos;
+  let dmax = 0, index = 0;
+  const end = puntos.length - 1;
+  for (let i = 1; i < end; i++) {
+    const d = distPerpArr(puntos[i], puntos[0], puntos[end]);
+    if (d > dmax) { index = i; dmax = d; }
+  }
+  if (dmax > eps) {
+    const r1 = simplificar(puntos.slice(0, index+1), eps);
+    const r2 = simplificar(puntos.slice(index), eps);
+    return r1.slice(0, -1).concat(r2);
+  }
+  return [puntos[0], puntos[end]];
+}
+function distPerpArr(p, a, b) {
+  const dx = b[0]-a[0], dy = b[1]-a[1];
+  const len = Math.sqrt(dx*dx + dy*dy);
+  if (len === 0) return Math.hypot(p[0]-a[0], p[1]-a[1]);
+  return Math.abs((p[0]-a[0])*dy - (p[1]-a[1])*dx) / len;
+}
+function convertirA3D() {
+  const c2d = document.getElementById('canvas2d');
+  if (!c2d) { toast('⚠️ No hay canvas', 'warning'); return; }
+  const rect2d = c2d.getBoundingClientRect();
+  if (rect2d.width === 0 || rect2d.height === 0) {
+    toast('⚠️ Esperá un segundo...', 'warning');
+    setTimeout(convertirA3D, 250);
+    return;
+  }
+  if (!canvas || canvas.width === 0) {
+    initCanvas();
+    if (!canvas || canvas.width === 0) { setTimeout(convertirA3D, 250); return; }
+  }
+  if (!ctx) ctx = canvas.getContext('2d');
+  if (!renderer) {
+    initThree();
+    if (!renderer) { setTimeout(convertirA3D, 300); return; }
+  }
+  let imgData, contornos;
+  try {
+    imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  } catch(e) { console.error(e); toast('⚠️ No se pudo leer el dibujo', 'error'); return; }
+  contornos = extraerContornos(imgData, canvas.width, canvas.height);
+  if (contornos.length === 0) { toast('⚠️ Dibujá algo primero con el lápiz', 'warning'); return; }
+  contornos.sort((a, b) => b.length - a.length);
+  const simplificado = simplificar(contornos[0], 2);
+  if (simplificado.length < 3) { toast('⚠️ El dibujo es muy chico o simple', 'warning'); return; }
+  let cx = 0, cy = 0;
+  simplificado.forEach(p => { cx += p[0]; cy += p[1]; });
+  cx /= simplificado.length; cy /= simplificado.length;
+  const shape = new THREE.Shape();
+  const escala = parseFloat(document.getElementById('escala').value) || 2;
+  shape.moveTo((simplificado[0][0]-cx)*escala, -(simplificado[0][1]-cy)*escala);
+  for (let i = 1; i < simplificado.length; i++) {
+    shape.lineTo((simplificado[i][0]-cx)*escala, -(simplificado[i][1]-cy)*escala);
+  }
+  shape.closePath();
+  const profundidad = parseFloat(document.getElementById('profundidad').value) || 150;
+  let geometry;
+  try {
+    geometry = new THREE.ExtrudeGeometry(shape, {
+      depth: profundidad, bevelEnabled: true,
+      bevelThickness: 2, bevelSize: 2, bevelSegments: 3, curveSegments: 12
+    });
+    geometry.center();
+    geometry.computeVertexNormals();
+  } catch(e) { console.error(e); toast('⚠️ Error al generar geometría 3D', 'error'); return; }
+  const matInfo = MATERIALES_3D[materialIndex];
+  const material = new THREE.MeshStandardMaterial({
+    color: matInfo.color, metalness: matInfo.metalness,
+    roughness: matInfo.roughness, side: THREE.DoubleSide
+  });
+  if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); mesh.material.dispose(); }
+  mesh = new THREE.Mesh(geometry, material);
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  scene.add(mesh);
+  geometry.computeBoundingSphere();
+  const radius = geometry.boundingSphere.radius || 100;
+  const dist = radius * 3;
+  camera.position.set(dist, dist * 0.7, dist);
+  camera.lookAt(0, 0, 0);
+  controls.target.set(0, 0, 0);
+  controls.update();
+  let area = 0;
+  for (let i = 0; i < simplificado.length; i++) {
+    const j = (i + 1) % simplificado.length;
+    area += simplificado[i][0] * simplificado[j][1];
+    area -= simplificado[j][0] * simplificado[i][1];
+  }
+  area = Math.abs(area) / 2;
+  const volCm3 = (area / 20) * profundidad / 10;
+  estado.volumen = Math.round(volCm3);
+  estado.peso = estado.volumen * estado.factor;
+  document.getElementById('vacio3d').style.display = 'none';
+  document.getElementById('info3D').innerHTML =
+    `Volumen: <strong>${estado.volumen.toLocaleString()} cm³</strong><br>` +
+    `Peso est.: <strong>${(estado.peso/1000).toFixed(2)} kg</strong>`;
+  calcMateriales();
+  toast('🎉 Convertido a 3D', 'success');
+}
+function toggleAutoRotate() {
+  autoRotate = !autoRotate;
+  if (controls) controls.autoRotate = autoRotate;
+  document.getElementById('btnAuto').textContent = autoRotate ? '⏸ Auto-rotar' : '▶ Auto-rotar';
+}
+function resetVista() {
+  if (!camera || !controls) return;
+  camera.position.set(250, 220, 320); camera.lookAt(0, 0, 0);
+  controls.target.set(0, 0, 0); controls.update();
+}
+function cambiarMaterial() {
+  materialIndex = (materialIndex + 1) % MATERIALES_3D.length;
+  if (mesh) {
+    const m = MATERIALES_3D[materialIndex];
+    mesh.material.color.setHex(m.color);
+    mesh.material.metalness = m.metalness;
+    mesh.material.roughness = m.roughness;
+    mesh.material.needsUpdate = true;
+  }
+  toast('🎨 ' + MATERIALES_3D[materialIndex].nombre, 'info');
+}
+function ver2DModal() {
+  const cont = document.getElementById('contenidoVer2D');
+  if (!cont) return;
+  if (canvas && canvas.width > 0) {
+    cont.innerHTML = `<img src="${canvas.toDataURL()}" style="max-width:100%;border:2px solid #333;border-radius:6px;">`;
+  } else {
+    cont.innerHTML = '<div style="padding:40px;color:#999;">No hay dibujo 2D todavía</div>';
+  }
+  document.getElementById('modalVer2D').classList.add('activo');
+}
+function cerrarVer2D() { document.getElementById('modalVer2D').classList.remove('activo'); }
+
+function cambiarMetodo(v) {
+  document.getElementById('panel-plantilla').style.display = v === 'plantilla' ? 'block' : 'none';
+  document.getElementById('panel-dibujo').style.display = v === 'dibujo' ? 'block' : 'none';
+  document.getElementById('panel-modelo').style.display = v === 'modelo' ? 'block' : 'none';
+  document.getElementById('panel-guardado').style.display = v === 'guardado' ? 'block' : 'none';
+  document.getElementById('panel-medidas').style.display = v === 'medidas' ? 'block' : 'none';
+  if (v === 'dibujo') setTimeout(initCanvas, 100);
+  if (v === 'medidas') actualizarForma('rectangular');
+  if (v === 'guardado') renderModelosEnSelect();
+}
+function cargarPlantilla(id) {
+  if (!id) { document.getElementById('plantillaPreview').innerHTML = ''; return; }
+  const p = PLANTILLAS[id];
+  if (!p) return;
+  if (p.forma === 'rectangular') estado.volumen = (p.largo * p.ancho * p.alto) / 1000;
+  else estado.volumen = (Math.PI * Math.pow(p.diametro/2, 2) * p.alto) / 1000;
+  if (p.hueca) estado.volumen *= 0.45;
+  estado.peso = estado.volumen * estado.factor;
+  let svg = '';
+  if (p.forma === 'rectangular') {
+    svg = `<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="max-width:300px;width:100%;">
+      <rect x="30" y="40" width="240" height="120" fill="none" stroke="#00e5ff" stroke-width="2"/>
+      <text x="150" y="25" text-anchor="middle" fill="#00e5ff" font-size="12" font-family="monospace">${p.largo} mm</text>
+      <text x="285" y="105" text-anchor="middle" fill="#00e5ff" font-size="12" font-family="monospace" transform="rotate(90 285 105)">${p.ancho} mm</text>
+      <text x="150" y="185" text-anchor="middle" fill="#ffa726" font-size="12" font-family="monospace">Alto: ${p.alto} mm</text>
+    </svg>`;
+  } else {
+    svg = `<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" style="max-width:300px;width:100%;">
+      <ellipse cx="150" cy="100" rx="100" ry="70" fill="none" stroke="#00e5ff" stroke-width="2"/>
+      <line x1="50" y1="100" x2="250" y2="100" stroke="#00e5ff" stroke-width="1" stroke-dasharray="4"/>
+      <text x="150" y="95" text-anchor="middle" fill="#00e5ff" font-size="12" font-family="monospace">Ø ${p.diametro} mm</text>
+      <text x="150" y="185" text-anchor="middle" fill="#ffa726" font-size="12" font-family="monospace">Alto: ${p.alto} mm</text>
+    </svg>`;
+  }
+  document.getElementById('plantillaPreview').innerHTML = `
+    <div class="plantilla-preview">${svg}<div class="nombre-preview">${p.nombre}</div><div class="dimensiones">Volumen: ${estado.volumen.toFixed(0)} cm³ · Peso est.: ${(estado.peso/1000).toFixed(2)} kg</div></div>
+    <button class="btn btn-cyan" style="width:100%;margin-top:10px;" onclick="mostrar3DPlantilla('${id}')">🔮 Ver en 3D</button>
+    <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="guardarPlantillaComoModelo('${id}')">💾 Guardar en Mis Modelos</button>
+  `;
+  document.getElementById('info3D').innerHTML = `Volumen: <strong>${estado.volumen.toFixed(0)} cm³</strong><br>Peso est.: <strong>${(estado.peso/1000).toFixed(2)} kg</strong>`;
+  calcMateriales();
+  toast(`📋 "${p.nombre}" cargada`, 'success');
+}
+function guardarPlantillaComoModelo(id) {
+  const p = PLANTILLAS[id];
+  if (!p) return;
+  guardarComoModelo({
+    nombre: p.nombre,
+    tipo: '3d',
+    emoji: '📋',
+    categoria: 'Plantillas',
+    volumen: estado.volumen,
+    fuente: 'plantilla'
+  });
+}
+function mostrar3DPlantilla(id) {
+  const p = PLANTILLAS[id];
+  if (!renderer) initThree();
+  const geometry = p.forma === 'rectangular'
+    ? new THREE.BoxGeometry(p.largo/3, p.alto/3, p.ancho/3)
+    : new THREE.CylinderGeometry(p.diametro/6, p.diametro/6, p.alto/3, 48);
+  const matInfo = MATERIALES_3D[materialIndex];
+  const material = new THREE.MeshStandardMaterial({ color: matInfo.color, metalness: matInfo.metalness, roughness: matInfo.roughness });
+  if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); mesh.material.dispose(); }
+  mesh = new THREE.Mesh(geometry, material);
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  scene.add(mesh);
+  geometry.computeBoundingSphere();
+  const radius = geometry.boundingSphere.radius;
+  const dist = radius * 3;
+  camera.position.set(dist, dist * 0.7, dist); camera.lookAt(0, 0, 0);
+  controls.target.set(0, 0, 0); controls.update();
+  document.getElementById('vacio3d').style.display = 'none';
+  toast('🔮 Vista 3D actualizada', 'success');
+}
+function cargarModeloDemo() {
+  const vol = prompt('Volumen del modelo (ml):', '1800');
+  if (!vol) return;
+  estado.volumen = parseFloat(vol);
+  estado.peso = estado.volumen * estado.factor;
+  document.getElementById('modeloVolumen').value = vol;
+  document.getElementById('info3D').innerHTML = `Volumen: <strong>${estado.volumen.toLocaleString()} cm³</strong><br>Peso est.: <strong>${(estado.peso/1000).toFixed(2)} kg</strong>`;
+  if (!renderer) initThree();
+  const geometry = new THREE.BoxGeometry(150, 50, 100);
+  const matInfo = MATERIALES_3D[materialIndex];
+  const material = new THREE.MeshStandardMaterial({ color: matInfo.color, metalness: matInfo.metalness, roughness: matInfo.roughness });
+  if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); mesh.material.dispose(); }
+  mesh = new THREE.Mesh(geometry, material);
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  scene.add(mesh);
+  document.getElementById('vacio3d').style.display = 'none';
+  calcMateriales();
+}
+
+// ============================================================
+// MIS MODELOS 3D — INTEGRACIÓN
+// ============================================================
+const CLAVE_MODELOS = 'cajupa_mis_modelos_v1';
+const CLAVE_MODELOS_VIEJA = 'cajupa_modelos';
+
+function leerModelos() {
+  try {
+    let data = localStorage.getItem(CLAVE_MODELOS);
+    if (data) return JSON.parse(data);
+    const viejo = localStorage.getItem(CLAVE_MODELOS_VIEJA);
+    if (viejo) {
+      const arr = JSON.parse(viejo);
+      const migrados = arr.map(m => ({
+        id: m.id || Date.now() + Math.random(),
+        nombre: m.nombre, tipo: '3d', url: null, thumbnail: null,
+        volumenMl: m.volumen || 0, categoria: 'Personalizados',
+        emoji: '📦', vecesUsado: 0, ultimoUso: null, favorito: false,
+        fecha: hoyISO(), notas: '(migrado)', fuente: 'manual'
+      }));
+      localStorage.setItem(CLAVE_MODELOS, JSON.stringify(migrados));
+      return migrados;
+    }
+    return [];
+  } catch(e) { return []; }
+}
+
+function guardarModelos(modelos) {
+  localStorage.setItem(CLAVE_MODELOS, JSON.stringify(modelos));
+}
+
+function registrarUsoModelo(id) {
+  const modelos = leerModelos();
+  const m = modelos.find(x => String(x.id) === String(id));
+  if (m) {
+    m.vecesUsado = (m.vecesUsado || 0) + 1;
+    m.ultimoUso = hoyISO();
+    guardarModelos(modelos);
+  }
+}
+
+function renderModelosEnSelect() {
+  const sel = document.getElementById('modeloGuardadoSelect');
+  if (!sel) return;
+  const modelos = leerModelos();
+  if (modelos.length === 0) {
+    sel.innerHTML = '<option value="">— No hay modelos guardados —</option>';
+    return;
+  }
+  modelos.sort((a,b) => {
+    if (a.favorito !== b.favorito) return b.favorito ? 1 : -1;
+    return (b.vecesUsado || 0) - (a.vecesUsado || 0);
+  });
+  sel.innerHTML = '<option value="">— Seleccionar —</option>' +
+    modelos.map(m => {
+      const emoji = m.emoji || (m.tipo === '2d' ? '✏️' : '📦');
+      return `<option value="${m.id}">${emoji} ${m.nombre} · ${m.volumenMl || 0} ml (${(m.tipo||'3d').toUpperCase()})</option>`;
+    }).join('');
+}
+
+function cargarModeloGuardado(id) {
+  if (!id) return;
+  const modelos = leerModelos();
+  const m = modelos.find(x => String(x.id) === String(id));
+  if (!m) return;
+  aplicarModeloCargado(m);
+  registrarUsoModelo(id);
+  toast(`✓ "${m.nombre}" cargado`, 'success');
+}
+
+function aplicarModeloCargado(m) {
+  estado.volumen = m.volumenMl || 0;
+  estado.peso = estado.volumen * estado.factor;
+  estado.modeloCargado = {
+    id: m.id, nombre: m.nombre, tipo: m.tipo || '3d',
+    emoji: m.emoji || '📦', thumbnail: m.thumbnail || null
+  };
+
+  const infoEl = document.getElementById('info3D');
+  if (infoEl) {
+    infoEl.innerHTML =
+      `Volumen: <strong>${estado.volumen.toLocaleString()} cm³</strong><br>` +
+      `Peso est.: <strong>${(estado.peso/1000).toFixed(2)} kg</strong>`;
+  }
+
+  mostrarBoxModeloCargado(m);
+
+  if (m.tipo === '2d' && m.thumbnail) {
+    const vacio = document.getElementById('vacio3d');
+    if (vacio) {
+      vacio.innerHTML = `<img src="${m.thumbnail}" style="max-width:80%;max-height:300px;border-radius:10px;border:2px solid var(--cyan);"><div style="margin-top:10px;font-size:12px;color:var(--cyan);">${m.nombre} (2D)</div>`;
+      vacio.style.display = 'block';
+    }
+    if (mesh && scene) { scene.remove(mesh); mesh = null; }
+  } else if (m.tipo === '3d') {
+    if (!renderer) initThree();
+    const geometry = new THREE.BoxGeometry(150, 50, 100);
+    const matInfo = MATERIALES_3D[materialIndex];
+    const material = new THREE.MeshStandardMaterial({
+      color: matInfo.color, metalness: matInfo.metalness, roughness: matInfo.roughness
+    });
+    if (mesh) { scene.remove(mesh); mesh.geometry.dispose(); mesh.material.dispose(); }
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.castShadow = true; mesh.receiveShadow = true;
+    scene.add(mesh);
+    document.getElementById('vacio3d').style.display = 'none';
+  }
+
+  calcMateriales();
+}
+
+function mostrarBoxModeloCargado(m) {
+  const box = document.getElementById('modeloAutoCargadoBox');
+  if (!box) return;
+  const tipoLabel = m.tipo === '2d' ? '2D' : '3D';
+  const tipoClase = m.tipo === '2d' ? 'tipo-2d' : 'tipo-3d';
+  const thumbHTML = m.thumbnail
+    ? `<div class="thumb"><img src="${m.thumbnail}"></div>`
+    : `<div class="thumb" style="font-size:34px;">${m.emoji || '📦'}</div>`;
+
+  box.innerHTML = `
+    <div class="modelo-cargado-box">
+      ${thumbHTML}
+      <div class="info">
+        <div class="nombre">
+          ${m.emoji || '📦'} ${m.nombre}
+          <span class="badge-tipo ${tipoClase}">${tipoLabel}</span>
+        </div>
+        <div class="meta">Volumen base: <strong style="color:var(--cyan);">${m.volumenMl || 0} ml</strong> · Ya cargado en la orden</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="quitarModeloCargado()" title="Quitar">✕</button>
+    </div>
+  `;
+  box.style.display = 'block';
+}
+
+function quitarModeloCargado() {
+  estado.modeloCargado = null;
+  estado.volumen = 0;
+  estado.peso = 0;
+  document.getElementById('modeloAutoCargadoBox').style.display = 'none';
+  document.getElementById('vacio3d').style.display = 'block';
+  document.getElementById('vacio3d').innerHTML = '<div class="icono">🔮</div><div>Seleccioná una plantilla o dibujá</div>';
+  if (mesh && scene) { scene.remove(mesh); mesh = null; }
+  document.getElementById('info3D').innerHTML = `Volumen: <strong>0 cm³</strong><br>Peso est.: <strong>0 g</strong>`;
+  calcMateriales();
+}
+
+function guardarComoModelo(opciones = {}) {
+  const nombre = opciones.nombre || prompt('Nombre del modelo:', '');
+  if (!nombre) return false;
+  const tipo = opciones.tipo || '3d';
+  const emoji = opciones.emoji || (tipo === '2d' ? '✏️' : '📦');
+  const categoria = opciones.categoria || 'Personalizados';
+  const volumen = opciones.volumen || estado.volumen || 0;
+  const thumbnail = opciones.thumbnail || null;
+  const fuente = opciones.fuente || 'manual';
+  const modelos = leerModelos();
+  modelos.push({
+    id: Date.now(), nombre, tipo, url: null, thumbnail,
+    volumenMl: volumen, categoria, emoji,
+    vecesUsado: 0, ultimoUso: null, favorito: false,
+    fecha: hoyISO(), notas: '', fuente
+  });
+  guardarModelos(modelos);
+  renderModelosEnSelect();
+  toast(`✓ "${nombre}" guardado en Mis Modelos`, 'success');
+  return true;
+}
+
+function guardarDibujo2DComoModelo() {
+  if (!canvas || canvas.width === 0) {
+    toast('⚠️ Dibujá algo primero', 'warning');
+    return;
+  }
+  const nombre = prompt('Nombre del dibujo:', 'Dibujo sin nombre');
+  if (!nombre) return;
+  const thumbnail = canvas.toDataURL('image/png');
+  guardarComoModelo({
+    nombre, tipo: '2d', emoji: '✏️',
+    categoria: 'Personalizados',
+    volumen: estado.volumen, thumbnail,
+    fuente: 'canvas-2d'
+  });
+}
+
+function guardarModelo() {
+  const nombre = document.getElementById('modeloNombre').value.trim();
+  const vol = parseFloat(document.getElementById('modeloVolumen').value);
+  if (!nombre || !vol) {
+    toast('⚠️ Completá nombre y volumen', 'warning');
+    return;
+  }
+  guardarComoModelo({
+    nombre, tipo: '3d', emoji: '📦',
+    categoria: 'Personalizados',
+    volumen: vol, fuente: 'carga-manual'
+  });
+  document.getElementById('modeloNombre').value = '';
+  document.getElementById('modeloVolumen').value = '';
+}
+
+function actualizarForma(forma) {
+  const c = document.getElementById('camposMedidas');
+  if (forma === 'rectangular') c.innerHTML = `<div class="form-row cols-3"><div class="input-group"><label class="input-label">Largo (mm)</label><input type="number" class="input" id="medLargo" value="400" oninput="actualizarMedidas()"></div><div class="input-group"><label class="input-label">Ancho (mm)</label><input type="number" class="input" id="medAncho" value="300" oninput="actualizarMedidas()"></div><div class="input-group"><label class="input-label">Alto (mm)</label><input type="number" class="input" id="medAlto" value="150" oninput="actualizarMedidas()"></div></div>`;
+  else if (forma === 'redonda') c.innerHTML = `<div class="form-row cols-2"><div class="input-group"><label class="input-label">Diámetro (mm)</label><input type="number" class="input" id="medDiametro" value="400" oninput="actualizarMedidas()"></div><div class="input-group"><label class="input-label">Alto (mm)</label><input type="number" class="input" id="medAlto" value="180" oninput="actualizarMedidas()"></div></div>`;
+  else if (forma === 'hueca') c.innerHTML = `<div class="form-row cols-3"><div class="input-group"><label class="input-label">Ø Ext (mm)</label><input type="number" class="input" id="medDiamExt" value="400" oninput="actualizarMedidas()"></div><div class="input-group"><label class="input-label">Ø Int (mm)</label><input type="number" class="input" id="medDiamInt" value="300" oninput="actualizarMedidas()"></div><div class="input-group"><label class="input-label">Alto (mm)</label><input type="number" class="input" id="medAlto" value="900" oninput="actualizarMedidas()"></div></div>`;
+  else c.innerHTML = `<div class="form-row cols-3"><div class="input-group"><label class="input-label">Largo (mm)</label><input type="number" class="input" id="medLargo" value="600" oninput="actualizarMedidas()"></div><div class="input-group"><label class="input-label">Ancho (mm)</label><input type="number" class="input" id="medAncho" value="400" oninput="actualizarMedidas()"></div><div class="input-group"><label class="input-label">Alto (mm)</label><input type="number" class="input" id="medAlto" value="150" oninput="actualizarMedidas()"></div></div>`;
+  actualizarMedidas();
+}
+function actualizarMedidas() {
+  const forma = document.getElementById('formaSelect')?.value || 'rectangular';
+  let vol = 0;
+  if (forma === 'rectangular') vol = ((parseFloat(document.getElementById('medLargo')?.value)||0) * (parseFloat(document.getElementById('medAncho')?.value)||0) * (parseFloat(document.getElementById('medAlto')?.value)||0)) / 1000;
+  else if (forma === 'eliptica') vol = (Math.PI * ((parseFloat(document.getElementById('medLargo')?.value)||0)/2) * ((parseFloat(document.getElementById('medAncho')?.value)||0)/2) * (parseFloat(document.getElementById('medAlto')?.value)||0)) / 1000;
+  else if (forma === 'redonda') vol = (Math.PI * Math.pow((parseFloat(document.getElementById('medDiametro')?.value)||0)/2, 2) * (parseFloat(document.getElementById('medAlto')?.value)||0)) / 1000;
+  else if (forma === 'hueca') {
+    const de = parseFloat(document.getElementById('medDiamExt')?.value)||0;
+    const di = parseFloat(document.getElementById('medDiamInt')?.value)||0;
+    const h = parseFloat(document.getElementById('medAlto')?.value)||0;
+    vol = (Math.PI * (Math.pow(de/2, 2) - Math.pow(di/2, 2)) * h) / 1000;
+  }
+  estado.volumen = vol; estado.peso = vol * estado.factor;
+  document.getElementById('info3D').innerHTML = `Volumen: <strong>${vol.toFixed(0)} cm³</strong><br>Peso est.: <strong>${(estado.peso/1000).toFixed(2)} kg</strong>`;
+  calcMateriales();
+}
+
+function renderPiedras() {
+  const lista = document.getElementById('listaPiedras');
+  if (!lista) return;
+  if (estado.piedras.length === 0) {
+    lista.innerHTML = '<div style="text-align:center;color:var(--text-mute);font-size:12px;padding:14px;">No hay piedras agregadas</div>';
+    return;
+  }
+  lista.innerHTML = estado.piedras.map((p, i) => `
+    <div class="piedra-row">
+      <select class="select" onchange="estado.piedras[${i}].nombre=this.value;">
+        ${PIEDRAS_CATALOGO.map(x => `<option ${x === p.nombre ? 'selected' : ''}>${x}</option>`).join('')}
+      </select>
+      <select class="select" onchange="estado.piedras[${i}].grano=this.value;">
+        <option value="0" ${p.grano==='0'?'selected':''}># 0</option>
+        <option value="1" ${p.grano==='1'?'selected':''}># 1</option>
+        <option value="3" ${p.grano==='3'?'selected':''}># 3</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" onclick="estado.piedras.splice(${i},1);renderPiedras();" title="Eliminar">✕</button>
+    </div>
+  `).join('');
+}
+function agregarPiedra() {
+  estado.piedras.push({ nombre: 'Blanca Especial', grano: '0' });
+  renderPiedras();
+}
+
+function selMezcla(tipo, el) {
+  estado.mezcla = tipo;
+  document.querySelectorAll('[data-mezcla]').forEach(c => c.className = c.className.replace('chip-cyan', 'chip-gray'));
+  el.className = el.className.replace('chip-gray', 'chip-cyan');
+  document.getElementById('tipoMezclaTexto').textContent = tipo;
+  renderCamposMezcla();
+  calcMateriales();
+}
+function renderCamposMezcla() {
+  const c = document.getElementById('camposMezcla');
+  const t = estado.mezcla;
+  if (t === 'Concreto') {
+    c.innerHTML = `
+      <div class="form-row cols-3">
+        <div class="input-group"><label class="input-label">% Cemento</label><input type="number" class="input" id="pCem" value="50" oninput="calcMateriales()"></div>
+        <div class="input-group"><label class="input-label">% Piedra</label><input type="number" class="input" id="pPie" value="50" oninput="calcMateriales()"></div>
+        <div class="input-group"><label class="input-label">Factor densidad</label><input type="number" class="input" id="factorInput" value="${estado.factor.toFixed(2)}" step="0.05" oninput="calcMateriales()"></div>
+      </div>
+      <div class="form-row cols-2">
+        <div class="input-group"><label class="input-label">% Marmolina (de cem.)</label><input type="number" class="input" id="pMar" value="30" oninput="calcMateriales()"></div>
+        <div class="input-group"><label class="input-label">% Agua (de cem.)</label><input type="number" class="input" id="pAgua" value="35" oninput="calcMateriales()"></div>
+      </div>`;
+  } else if (t === 'Resina') {
+    c.innerHTML = `
+      <div class="form-row cols-3">
+        <div class="input-group"><label class="input-label">% Resina</label><input type="number" class="input" id="pRes" value="30" oninput="calcMateriales()"></div>
+        <div class="input-group"><label class="input-label">% Piedra</label><input type="number" class="input" id="pPie" value="50" oninput="calcMateriales()"></div>
+        <div class="input-group"><label class="input-label">% Marmolina</label><input type="number" class="input" id="pMar" value="20" oninput="calcMateriales()"></div>
+      </div>
+      <div class="form-row cols-2">
+        <div class="input-group"><label class="input-label">% Catalizador</label><input type="number" class="input" id="pCat" value="2" step="0.1" oninput="calcMateriales()"></div>
+        <div class="input-group"><label class="input-label">Factor densidad</label><input type="number" class="input" id="factorInput" value="${estado.factor.toFixed(2)}" step="0.05" oninput="calcMateriales()"></div>
+      </div>
+      <div class="estado-box ok"><div class="icono">💧</div><div class="info"><div class="titulo">Sin agua</div><div class="desc">La resina no lleva agua</div></div></div>`;
+  } else if (t === 'Aliven') {
+    c.innerHTML = `<div class="estado-box warning"><div class="icono">⚠️</div><div class="info"><div class="titulo">Fórmula no configurada</div><div class="desc">Andrés y Jesús deben definir la fórmula del aliven</div></div></div>`;
+  } else {
+    c.innerHTML = `<div class="estado-box warning"><div class="icono">⚠️</div><div class="info"><div class="titulo">Fórmula no configurada</div><div class="desc">Andrés y Jesús deben definir la fórmula del yeso</div></div></div>`;
+  }
+}
+
+// ============================================================
+// CÁLCULO DE MATERIALES (con porcentaje y cantidad)
+// ============================================================
+function calcMateriales() {
+  const factorInput = document.getElementById('factorInput');
+  if (factorInput) estado.factor = parseFloat(factorInput.value) || 1.90;
+  const factor = estado.factor;
+  const cant = Math.max(1, parseInt(document.getElementById('cantidadPiezas')?.value) || 1);
+  const pct = Math.max(10, Math.min(100, parseInt(document.getElementById('porcentajeModelo')?.value) || 100));
+  estado.porcentajeModelo = pct;
+
+  const volumenBase = estado.volumen || 0;
+  const volumenEfectivo = volumenBase * (pct / 100);
+  const tipo = estado.mezcla;
+
+  const resumen = document.getElementById('resumenVolumenes');
+  if (resumen) {
+    if (volumenBase > 0) {
+      resumen.innerHTML = `
+        <div class="resumen-pigmentos" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;">
+          <div>Volumen base: <strong>${volumenBase.toFixed(0)} cm³</strong></div>
+          <div>Efectivo (<strong>${pct}%</strong>): <strong style="color:var(--cyan);">${volumenEfectivo.toFixed(0)} cm³</strong></div>
+          <div>Total ${cant} pieza${cant > 1 ? 's' : ''}: <strong style="color:var(--purple);">${(volumenEfectivo * cant).toFixed(0)} cm³</strong></div>
+        </div>
+      `;
+    } else {
+      resumen.innerHTML = `
+        <div class="estado-box warning" style="margin:0;">
+          <div class="icono">⚠️</div>
+          <div class="info">
+            <div class="titulo">Todavía no hay volumen cargado</div>
+            <div class="desc">Volvé al paso 2 y elegí una plantilla, modelo guardado o dibujá algo</div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  let materiales = [];
+  if (tipo === 'Concreto' && volumenEfectivo > 0) {
+    const pesoUnitario = volumenEfectivo * factor;
+    const cem = pesoUnitario * ((parseFloat(document.getElementById('pCem')?.value)||50)/100);
+    const pie = pesoUnitario * ((parseFloat(document.getElementById('pPie')?.value)||50)/100);
+    const mar = cem * ((parseFloat(document.getElementById('pMar')?.value)||30)/100);
+    const agua = cem * ((parseFloat(document.getElementById('pAgua')?.value)||35)/100);
+    materiales = [
+      { lbl: 'Cemento', val: cem }, { lbl: 'Piedra', val: pie },
+      { lbl: 'Marmolina', val: mar }, { lbl: 'Agua', val: agua }
+    ];
+    estado.peso = cem + pie + mar + agua;
+  } else if (tipo === 'Resina' && volumenEfectivo > 0) {
+    const pesoUnitario = volumenEfectivo * factor;
+    const res = pesoUnitario * ((parseFloat(document.getElementById('pRes')?.value)||30)/100);
+    const pie = pesoUnitario * ((parseFloat(document.getElementById('pPie')?.value)||50)/100);
+    const mar = pesoUnitario * ((parseFloat(document.getElementById('pMar')?.value)||20)/100);
+    const cat = res * ((parseFloat(document.getElementById('pCat')?.value)||2)/100);
+    materiales = [
+      { lbl: 'Resina', val: res }, { lbl: 'Catalizador', val: cat },
+      { lbl: 'Piedra', val: pie }, { lbl: 'Marmolina', val: mar }
+    ];
+    estado.peso = res + pie + mar + cat;
+  }
+
+  const fmt = g => g >= 1000 ? (g/1000).toFixed(2) + ' kg' : g.toFixed(1) + ' g';
+  const cont = document.getElementById('resultadoMat');
+  if (!cont) return;
+
+  if (materiales.length === 0) {
+    cont.innerHTML = '<div style="text-align:center;color:var(--text-mute);font-size:12px;padding:14px;">Cargá el volumen en el paso 2 y una mezcla con fórmula</div>';
+    return;
+  }
+
+  const pesoUnitario = materiales.reduce((s, m) => s + m.val, 0);
+  cont.innerHTML = `
+    <div class="mat-grid header"><div>Material</div><div style="text-align:right;">Para 1 pieza</div><div style="text-align:right;">Para ${cant} ${cant === 1 ? 'pieza' : 'piezas'}</div></div>
+    ${materiales.map(m => `<div class="mat-grid"><div class="mat-label">${m.lbl}</div><div class="mat-uno">${fmt(m.val)}</div><div class="mat-total">${fmt(m.val * cant)}</div></div>`).join('')}
+    <div class="mat-grid total-row"><div class="mat-label">PESO TOTAL</div><div class="mat-uno">${fmt(pesoUnitario)}</div><div class="mat-total">${fmt(pesoUnitario * cant)}</div></div>
+  `;
+}
+
+// ============================================================
+// COLORES + PIGMENTOS
+// ============================================================
+function renderColores() {
+  const lista = document.getElementById('coloresLista');
+  lista.innerHTML = estado.colores.map((c, i) => renderColorCard(c, i)).join('');
+  document.getElementById('barraColores').innerHTML = estado.colores.map(c => `<div style="width:${c.pct}%;background:${c.hex};height:100%;"></div>`).join('');
+  const total = estado.colores.reduce((s,c)=>s+c.pct,0);
+  const totalEl = document.getElementById('totalColores');
+  totalEl.textContent = total + '%';
+  totalEl.style.color = total === 100 ? 'var(--green)' : (total > 100 ? 'var(--red)' : 'var(--orange)');
+}
+
+function renderColorCard(c, i) {
+  const gramosTabla = c.pigmentosTabla.reduce((s, p) => s + calcularGramosPigmento(p.pigmento, p.cantidad, p.cuchara), 0);
+  const gramosLibres = c.pigmentosLibres.reduce((s, p) => {
+    let g = parseFloat(p.cantidad) || 0;
+    if (p.unidad === 'kg') g *= 1000;
+    return s + (p.pigmento !== 'Color' ? g : 0);
+  }, 0);
+  const gramosTotales = gramosTabla + gramosLibres;
+
+  const pigmentosDisponibles = getPigmentosActivos();
+  const cucharasDisponibles = getCucharasActivas();
+
+  const pigmentosTablaHTML = c.pigmentosTabla.map((p, j) => `
+    <div class="pigmento-row">
+      <select class="select" onchange="cambiarPigmentoTabla(${i}, ${j}, 'pigmento', this.value)">
+        ${pigmentosDisponibles.map(x => `<option ${x === p.pigmento ? 'selected' : ''}>${x}</option>`).join('')}
+      </select>
+      <input type="number" class="input" placeholder="Cant" value="${p.cantidad}" oninput="cambiarPigmentoTabla(${i}, ${j}, 'cantidad', this.value)" step="0.25" min="0">
+      <select class="select" onchange="cambiarPigmentoTabla(${i}, ${j}, 'cuchara', this.value)">
+        ${[...cucharasDisponibles, 'Gramos'].map(x => `<option ${x === p.cuchara ? 'selected' : ''}>${x}</option>`).join('')}
+      </select>
+    </div>
+    ${p.pigmento !== 'Color' && p.cantidad && p.cuchara !== 'Gramos' ? `
+      <div class="pigmento-conversion">→ ${calcularGramosPigmento(p.pigmento, p.cantidad, p.cuchara).toFixed(2)} g</div>
+    ` : ''}
+  `).join('');
+
+  const pigmentosLibresHTML = c.pigmentosLibres.map((p, j) => `
+    <div class="pigmento-row-libre">
+      <select class="select" onchange="cambiarPigmentoLibre(${i}, ${j}, 'pigmento', this.value)">
+        ${pigmentosDisponibles.map(x => `<option ${x === p.pigmento ? 'selected' : ''}>${x}</option>`).join('')}
+      </select>
+      <input type="number" class="input" placeholder="Cant" value="${p.cantidad}" oninput="cambiarPigmentoLibre(${i}, ${j}, 'cantidad', this.value)" step="0.1" min="0">
+      <select class="select" onchange="cambiarPigmentoLibre(${i}, ${j}, 'unidad', this.value)">
+        <option value="g" ${p.unidad === 'g' ? 'selected' : ''}>g</option>
+        <option value="kg" ${p.unidad === 'kg' ? 'selected' : ''}>kg</option>
+      </select>
+    </div>
+  `).join('');
+
+  return `
+    <div class="color-row-card">
+      <div class="color-row-head">
+        <div class="color-row-info">
+          <span class="color-swatch" style="background:${c.hex};"></span>
+          <span style="font-size:13px; font-weight:700;">${c.nombre}</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="color-row-pct">${c.pct}%</span>
+          ${estado.colores.length > 1 ? `<button class="btn btn-ghost btn-sm" onclick="eliminarColor(${i})">✕</button>` : ''}
+        </div>
+      </div>
+      <div class="pct-input-wrapper">
+        <input type="range" min="0" max="100" value="${c.pct}" oninput="cambiarPctExacto(${i}, this.value)">
+        <input type="number" min="0" max="100" value="${c.pct}" oninput="cambiarPctExacto(${i}, this.value)">
+      </div>
+
+      <div class="pigmentos-seccion">
+        <div class="pigmentos-titulo">
+          🎨 Pigmentos (tabla)
+          <span class="hint">Cuchara o "Gramos" directos</span>
+        </div>
+        ${pigmentosTablaHTML}
+      </div>
+
+      <div class="pigmentos-seccion">
+        <div class="pigmentos-titulo">
+          🎨 Pigmentos libres
+          <span class="hint">En gramos o kilos</span>
+        </div>
+        ${pigmentosLibresHTML}
+      </div>
+
+      ${gramosTotales > 0 ? `
+        <div class="resumen-pigmentos">
+          Total pigmentos: <strong>${gramosTotales.toFixed(2)} g</strong>
+          ${gramosTabla > 0 ? ` · Tabla: ${gramosTabla.toFixed(2)} g` : ''}
+          ${gramosLibres > 0 ? ` · Libres: ${gramosLibres.toFixed(2)} g` : ''}
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function cambiarPigmentoTabla(colorIdx, filaIdx, campo, valor) {
+  estado.colores[colorIdx].pigmentosTabla[filaIdx][campo] = valor;
+  renderColores();
+}
+
+function cambiarPigmentoLibre(colorIdx, filaIdx, campo, valor) {
+  estado.colores[colorIdx].pigmentosLibres[filaIdx][campo] = valor;
+  renderColores();
+}
+
+function calcularGramosPigmento(nombrePigmento, cantidad, cuchara) {
+  if (!nombrePigmento || nombrePigmento === 'Color') return 0;
+  const cant = parseFloat(cantidad) || 0;
+  if (cant <= 0) return 0;
+  if (cuchara === 'Gramos') return cant;
+  const tabla = leerTablaPesos();
+  const pesoUnitario = tabla[nombrePigmento]?.[cuchara] || 0;
+  return cant * pesoUnitario;
+}
+
+function cambiarPctExacto(idx, valor) {
+  valor = Math.max(0, Math.min(100, parseInt(valor) || 0));
+  const sumaOtros = estado.colores.reduce((s, c, i) => i === idx ? s : s + c.pct, 0);
+  const maxPermitido = Math.max(0, 100 - sumaOtros);
+  if (valor > maxPermitido) {
+    valor = maxPermitido;
+    toast(`⚠️ Máximo ${valor}% (los otros colores ya suman ${sumaOtros}%)`, 'warning');
+  }
+  estado.colores[idx].pct = valor;
+  renderColores();
+}
+function eliminarColor(i) {
+  if (estado.colores.length > 1) { estado.colores.splice(i, 1); renderColores(); }
+}
+function resetColores() {
+  estado.colores = [
+    nuevoColorVacio('Naranja', '#ff6b35', 60),
+    nuevoColorVacio('Rojo', '#ef5350', 40)
+  ];
+  renderColores();
+}
+function distribuirEquitativo() {
+  const n = estado.colores.length;
+  const base = Math.floor(100 / n), resto = 100 - (base * n);
+  estado.colores.forEach((c, i) => c.pct = base + (i < resto ? 1 : 0));
+  renderColores();
+}
+function abrirSelectorColores() { document.getElementById('modalColores').classList.add('activo'); renderListasColores(); }
+function cerrarSelectorColores() { document.getElementById('modalColores').classList.remove('activo'); }
+function switchTabColores(tab, el) {
+  document.querySelectorAll('.colores-tab').forEach(t => t.classList.remove('activo'));
+  el.classList.add('activo');
+  document.getElementById('listaPredeterminados').style.display = tab === 'predeterminados' ? 'grid' : 'none';
+  document.getElementById('listaNuevos').style.display = tab === 'nuevos' ? 'grid' : 'none';
+  document.getElementById('listaFavoritos').style.display = tab === 'favoritos' ? 'grid' : 'none';
+}
+function renderListasColores() {
+  document.getElementById('listaPredeterminados').innerHTML = COLORES_PREDETERMINADOS.map(c => {
+    const fav = estado.coloresFavoritos.some(f => f.nombre === c.nombre);
+    return `<div class="color-item" onclick="agregarColorAOrden('${c.nombre}','${c.hex}')">
+      <div class="color-swatch" style="background:${c.hex};"></div>
+      <div class="color-nombre">${c.nombre}</div>
+      <div class="color-star ${fav?'activa':''}" onclick="event.stopPropagation();toggleFavorito('${c.nombre}','${c.hex}')">${fav?'★':'☆'}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('listaNuevos').innerHTML = estado.coloresNuevos.length === 0
+    ? '<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-mute);font-size:12px;">No hay colores nuevos</div>'
+    : estado.coloresNuevos.map(c => {
+      const fav = estado.coloresFavoritos.some(f => f.nombre === c.nombre);
+      return `<div class="color-item" onclick="agregarColorAOrden('${c.nombre}','${c.hex}')">
+        <div class="color-swatch" style="background:${c.hex};"></div>
+        <div class="color-nombre">${c.nombre}</div>
+        <div class="color-star ${fav?'activa':''}" onclick="event.stopPropagation();toggleFavorito('${c.nombre}','${c.hex}')">${fav?'★':'☆'}</div>
+      </div>`;
+    }).join('');
+  document.getElementById('listaFavoritos').innerHTML = estado.coloresFavoritos.length === 0
+    ? '<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--text-mute);font-size:12px;">No hay favoritos</div>'
+    : estado.coloresFavoritos.map(c => `<div class="color-item" onclick="agregarColorAOrden('${c.nombre}','${c.hex}')">
+      <div class="color-swatch" style="background:${c.hex};"></div>
+      <div class="color-nombre">${c.nombre}</div>
+      <div class="color-star activa" onclick="event.stopPropagation();toggleFavorito('${c.nombre}','${c.hex}')">★</div>
+    </div>`).join('');
+}
+function agregarColorAOrden(n, h) {
+  if (estado.colores.some(c => c.nombre === n)) { toast('⚠️ Ya está en la orden', 'warning'); return; }
+  estado.colores.push(nuevoColorVacio(n, h, 0));
+  renderColores();
+  cerrarSelectorColores();
+  toast('✓ ' + n + ' agregado · subí su %', 'success');
+}
+function toggleFavorito(n, h) {
+  const i = estado.coloresFavoritos.findIndex(f => f.nombre === n);
+  if (i !== -1) estado.coloresFavoritos.splice(i, 1);
+  else estado.coloresFavoritos.push({ nombre: n, hex: h });
+  localStorage.setItem('cajupa_colores_fav', JSON.stringify(estado.coloresFavoritos));
+  renderListasColores();
+}
+function abrirCrearColor() { document.getElementById('modalCrearColor').classList.add('activo'); document.getElementById('nuevoColorNombre').value = ''; }
+function cerrarCrearColor() { document.getElementById('modalCrearColor').classList.remove('activo'); }
+function guardarNuevoColor() {
+  const n = document.getElementById('nuevoColorNombre').value.trim();
+  const h = document.getElementById('nuevoColorHex').value;
+  if (!n) { toast('⚠️ Escribí un nombre', 'warning'); return; }
+  if (estado.coloresNuevos.some(c => c.nombre === n)) { toast('⚠️ Ya existe', 'warning'); return; }
+  estado.coloresNuevos.push({ nombre: n, hex: h });
+  localStorage.setItem('cajupa_colores_nuevos', JSON.stringify(estado.coloresNuevos));
+  renderListasColores();
+  cerrarCrearColor();
+  toast('✓ "' + n + '" creado', 'success');
+}
+
+// ============================================================
+// GUARDAR COMO RECETA
+// ============================================================
+function guardarComoReceta() {
+  const nombre = prompt('Nombre de la receta:', 'Receta ' + new Date().toLocaleDateString());
+  if (!nombre) return;
+
+  const recetas = JSON.parse(localStorage.getItem('cajupa_recetas_v1') || '[]');
+
+  const coloresGuardar = estado.colores.map(c => ({
+    nombre: c.nombre,
+    hex: c.hex,
+    pct: c.pct,
+    pigmentosTabla: c.pigmentosTabla.filter(p => p.pigmento !== 'Color' && p.cantidad),
+    pigmentosLibres: c.pigmentosLibres.filter(p => p.pigmento !== 'Color' && p.cantidad)
+  }));
+
+  recetas.push({
+    id: Date.now(),
+    nombre,
+    cliente: document.getElementById('ordCliente')?.value || '',
+    tipo: estado.mezcla,
+    emoji: '🎨',
+    colores: coloresGuardar,
+    piedras: estado.piedras.map(p => `${p.nombre} #${p.grano}`),
+    notas: document.getElementById('ordProyecto')?.value || '',
+    vecesUsado: 0,
+    ultimoUso: null,
+    favorita: false,
+    fecha: hoyISO(),
+    autor: 'Jesús'
+  });
+
+  localStorage.setItem('cajupa_recetas_v1', JSON.stringify(recetas));
+  toast(`✓ Receta "${nombre}" guardada`, 'success');
+}
+
+// ============================================================
+// DESCONTAR STOCK
+// ============================================================
+function mapearPigmentoAStock(nombrePigmento) {
+  if (!nombrePigmento || nombrePigmento === 'Color') return null;
+  if (nombrePigmento === 'Cemento Gris') return null;
+  if (nombrePigmento.startsWith('Verde ')) {
+    const variante = nombrePigmento.slice(6);
+    return { grupo: 'Pigmento Verde', variante };
+  }
+  return { grupo: 'Pigmento ' + nombrePigmento, variante: 'Bycolor' };
+}
+
+function descontarStockOrden() {
+  const stockRaw = localStorage.getItem('cajupa_stock_v4');
+  if (!stockRaw) return { aplicados: 0, noEncontrados: [], sinStock: true };
+
+  const stock = JSON.parse(stockRaw);
+  const descuentos = {};
+  const cantidadPiezas = Math.max(1, parseInt(document.getElementById('cantidadPiezas')?.value) || 1);
+
+  for (const c of estado.colores) {
+    for (const p of c.pigmentosTabla) {
+      if (p.pigmento === 'Color' || !p.cantidad) continue;
+      const gramosPorPieza = calcularGramosPigmento(p.pigmento, p.cantidad, p.cuchara);
+      const gramos = gramosPorPieza * cantidadPiezas;
+      if (gramos <= 0) continue;
+      const mapeo = mapearPigmentoAStock(p.pigmento);
+      if (!mapeo) continue;
+      const key = mapeo.grupo + '|' + mapeo.variante;
+      descuentos[key] = (descuentos[key] || 0) + gramos;
+    }
+    for (const p of c.pigmentosLibres) {
+      if (p.pigmento === 'Color' || !p.cantidad) continue;
+      let gramosPorPieza = parseFloat(p.cantidad) || 0;
+      if (p.unidad === 'kg') gramosPorPieza *= 1000;
+      const gramos = gramosPorPieza * cantidadPiezas;
+      if (gramos <= 0) continue;
+      const mapeo = mapearPigmentoAStock(p.pigmento);
+      if (!mapeo) continue;
+      const key = mapeo.grupo + '|' + mapeo.variante;
+      descuentos[key] = (descuentos[key] || 0) + gramos;
+    }
+  }
+
+  let aplicados = 0;
+  const noEncontrados = [];
+  const proyectoNombre = document.getElementById('ordProyecto')?.value || 'Sin nombre';
+
+  for (const [key, gramos] of Object.entries(descuentos)) {
+    const [grupo, variante] = key.split('|');
+    const mat = stock.find(m => m.nombre === grupo);
+    if (!mat) { noEncontrados.push(grupo); continue; }
+    const v = mat.variantes?.find(x => x.nombre === variante);
+    if (!v) { noEncontrados.push(grupo + ' (' + variante + ')'); continue; }
+
+    v.cantidad = Math.max(0, v.cantidad - gramos);
+    if (!v.movimientos) v.movimientos = [];
+    v.movimientos.push({
+      fecha: hoyISO(),
+      tipo: 'salida',
+      cantidad: gramos,
+      motivo: 'Orden: ' + proyectoNombre + ' (' + cantidadPiezas + ' pzs)',
+      usuario: 'Sistema',
+      precioUnitario: v.precioPromedio || v.precio || 0
+    });
+    aplicados++;
+  }
+
+  localStorage.setItem('cajupa_stock_v4', JSON.stringify(stock));
+  return { aplicados, noEncontrados, sinStock: false };
+}
+
+// ============================================================
+// GUARDAR ORDEN
+// ============================================================
+function guardarOrden() {
+  const clienteVal = document.getElementById('ordCliente')?.value || '';
+  if (!clienteVal) {
+    toast('⚠️ Seleccioná un cliente antes de guardar', 'warning');
+    return;
+  }
+
+  const resultado = descontarStockOrden();
+
+  const ordenes = JSON.parse(localStorage.getItem('cajupa_ordenes') || '[]');
+  const numeroOrden = 'ORD-' + new Date().getFullYear() + '-' + String(Date.now()).slice(-4);
+  const cant = Math.max(1, parseInt(document.getElementById('cantidadPiezas')?.value) || 1);
+  const pct = estado.porcentajeModelo || 100;
+
+  const orden = {
+    id: numeroOrden,
+    cliente: clienteVal,
+    categoria: document.getElementById('ordCategoria')?.value || '',
+    proyecto: document.getElementById('ordProyecto')?.value || '',
+    fecha: document.getElementById('ordFecha')?.value || hoyISO(),
+    hora: document.getElementById('ordHora')?.value || '',
+    fechaEntrega: document.getElementById('ordFechaEntrega')?.value || '',
+    pieza: {
+      volumenBase: estado.volumen,
+      volumenEfectivo: estado.volumen * (pct / 100),
+      porcentaje: pct,
+      peso: estado.peso,
+      metodo: document.getElementById('metodoSelect')?.value || 'dibujo',
+      modeloCargado: estado.modeloCargado
+    },
+    cantidadPiezas: cant,
+    mezcla: estado.mezcla,
+    factor: estado.factor,
+    colores: estado.colores.map(c => ({
+      nombre: c.nombre, hex: c.hex, pct: c.pct,
+      pigmentosTabla: c.pigmentosTabla.filter(p => p.pigmento !== 'Color' && p.cantidad),
+      pigmentosLibres: c.pigmentosLibres.filter(p => p.pigmento !== 'Color' && p.cantidad)
+    })),
+    piedras: estado.piedras.map(p => `${p.nombre} #${p.grano}`),
+    estado: 'por-hacer',
+    descontado: resultado.aplicados > 0,
+    formatoImpresion: estado.formatoImpresion,
+    notas: ''
+  };
+
+  ordenes.push(orden);
+  localStorage.setItem('cajupa_ordenes', JSON.stringify(ordenes));
+
+  if (resultado.sinStock) {
+    toast('💾 Orden guardada (no hay stock para descontar)', 'success');
+  } else if (resultado.aplicados > 0 && resultado.noEncontrados.length === 0) {
+    toast(`💾 Orden guardada · ${resultado.aplicados} pigmentos descontados`, 'success');
+  } else if (resultado.aplicados > 0 && resultado.noEncontrados.length > 0) {
+    toast(`💾 Orden guardada · ${resultado.aplicados} descontados · ⚠️ ${resultado.noEncontrados.length} sin stock`, 'warning');
+  } else {
+    toast('💾 Orden guardada (sin pigmentos para descontar)', 'success');
+  }
+
+  console.log('✅ Orden guardada:', orden);
+  console.log('📊 Descuento de stock:', resultado);
+}
+
+// ============================================================
+// IMPRESIÓN
+// ============================================================
+const FORMATOS = {
+  carta:  { label: 'Carta',  dims: '216 × 279 mm', page: 'letter', pad: '15mm' },
+  oficio: { label: 'Oficio', dims: '216 × 330 mm', page: '216mm 330mm', pad: '15mm' },
+  a4:     { label: 'A4',     dims: '210 × 297 mm', page: 'A4', pad: '15mm' },
+  legal:  { label: 'Legal',  dims: '216 × 356 mm', page: 'legal', pad: '15mm' }
+};
+function setFormatoImpresion(fmt) {
+  estado.formatoImpresion = fmt;
+  document.querySelectorAll('.formato-opcion[data-formato-op]').forEach(el => {
+    el.classList.toggle('activo', el.dataset.formatoOp === fmt);
+  });
+  let styleEl = document.getElementById('printPageStyle');
+  if (!styleEl) {
+    styleEl = document.createElement('style');
+    styleEl.id = 'printPageStyle';
+    document.head.appendChild(styleEl);
+  }
+  const page = FORMATOS[fmt].page;
+  styleEl.textContent = `@media print { @page { size: ${page}; margin: 0; } }`;
+  renderPreview();
+}
+function imprimirAhora() { window.print(); }
+
+function renderPreview() {
+  const el = document.getElementById('previewImpresion');
+  if (!el) return;
+  const fmt = estado.formatoImpresion;
+  el.dataset.formato = fmt;
+  const fmtInfo = FORMATOS[fmt];
+  const cliente = document.getElementById('ordCliente').value || '—';
+  const proyecto = document.getElementById('ordProyecto').value;
+  const categoria = document.getElementById('ordCategoria').value;
+  const fecha = document.getElementById('ordFecha').value;
+  const hora = document.getElementById('ordHora').value;
+  const fechaEntrega = document.getElementById('ordFechaEntrega').value || '—';
+  const ordenNum = 'ORD-2026-' + String(Math.floor(Math.random()*9000)+1000);
+  const cant = Math.max(1, parseInt(document.getElementById('cantidadPiezas')?.value) || 1);
+  const pct = estado.porcentajeModelo || 100;
+  const fmtP = g => g >= 1000 ? (g/1000).toFixed(2) + ' kg' : g.toFixed(1) + ' g';
+
+  let dibujoHTML = '<div style="color:#999;font-size:12px;">[Sin dibujo]</div>';
+  if (estado.modeloCargado && estado.modeloCargado.tipo === '2d' && estado.modeloCargado.thumbnail) {
+    dibujoHTML = `<img src="${estado.modeloCargado.thumbnail}" style="max-width:100%;max-height:260px;">`;
+  } else if (vistaPrevia === '2d' && canvas && canvas.width > 0) {
+    try { dibujoHTML = `<img src="${canvas.toDataURL()}" style="max-width:100%;max-height:260px;">`; } catch(e) {}
+  } else if (vistaPrevia === '3d') {
+    const c3 = document.getElementById('canvas3d');
+    if (c3 && renderer) { try { dibujoHTML = `<img src="${c3.toDataURL()}" style="max-width:100%;max-height:260px;">`; } catch(e) {} }
+  }
+
+  const tipo = estado.mezcla;
+  const volumenBase = estado.volumen;
+  const volumenEfectivo = volumenBase * (pct / 100);
+  let materiales = [];
+  const factor = estado.factor;
+  if (tipo === 'Concreto') {
+    const cem = volumenEfectivo * factor * 0.5, pie = cem;
+    const mar = cem * 0.30, agua = cem * 0.35;
+    materiales = [
+      { lbl: 'Cemento', val: cem }, { lbl: 'Piedra', val: pie },
+      { lbl: 'Marmolina', val: mar }, { lbl: 'Agua', val: agua }
+    ];
+  } else if (tipo === 'Resina') {
+    const res = volumenEfectivo * factor * 0.3, pie = volumenEfectivo * factor * 0.5;
+    const mar = volumenEfectivo * factor * 0.2, cat = res * 0.02;
+    materiales = [
+      { lbl: 'Resina', val: res }, { lbl: 'Catalizador', val: cat },
+      { lbl: 'Piedra', val: pie }, { lbl: 'Marmolina', val: mar }
+    ];
+  }
+  const totalUnitario = materiales.reduce((s,m) => s+m.val, 0);
+  const materialesHTML = materiales.length > 0
+    ? materiales.map(m => `<div class="item-print"><span class="lbl-print">${m.lbl}</span><span class="val-print">${fmtP(m.val * cant)}</span></div>`).join('') +
+      `<div class="item-print" style="border-top:2px solid #333;padding-top:6px;margin-top:6px;"><span class="lbl-print" style="font-weight:900;">PESO TOTAL</span><span class="val-print" style="font-weight:900;">${fmtP(totalUnitario * cant)}</span></div>`
+    : `<div style="color:#999;font-size:12px;padding:10px;">Fórmula de ${tipo} no configurada</div>`;
+
+  const coloresHTML = estado.colores.map(c => {
+    const pigmentosTabla = c.pigmentosTabla
+      .filter(p => p.pigmento !== 'Color' && p.cantidad)
+      .map(p => {
+        const gramos = calcularGramosPigmento(p.pigmento, p.cantidad, p.cuchara);
+        const detalle = p.cuchara === 'Gramos'
+          ? `${p.cantidad} g`
+          : `${p.cantidad} × ${p.cuchara} = ${gramos.toFixed(2)} g`;
+        const total = gramos * cant;
+        return `<div class="pigmento-linea">• <strong>${p.pigmento}</strong>: ${detalle} <em style="color:#666;">× ${cant} = ${total.toFixed(2)} g</em></div>`;
+      }).join('');
+
+    const pigmentosLibres = c.pigmentosLibres
+      .filter(p => p.pigmento !== 'Color' && p.cantidad)
+      .map(p => {
+        let g = parseFloat(p.cantidad) || 0;
+        if (p.unidad === 'kg') g *= 1000;
+        const total = g * cant;
+        return `<div class="pigmento-linea">• <strong>${p.pigmento}</strong>: ${p.cantidad} ${p.unidad} <em style="color:#666;">× ${cant} = ${total.toFixed(2)} g</em></div>`;
+      }).join('');
+
+    const todosPigmentos = pigmentosTabla + pigmentosLibres;
+
+    return `
+      <div style="margin-bottom:12px;">
+        <div class="item-print"><span class="lbl-print"><span class="color-circulo" style="background:${c.hex};"></span><strong>${c.nombre}</strong></span><span class="val-print">${c.pct}%</span></div>
+        ${todosPigmentos ? `<div style="padding-left:14px;margin-top:4px;">${todosPigmentos}</div>` : '<div class="pigmento-linea" style="padding-left:14px;color:#999;font-style:italic;">Sin pigmentos específicos</div>'}
+      </div>
+    `;
+  }).join('');
+
+  const piedrasHTML = estado.piedras.map(p => `<div class="item-print"><span class="lbl-print">${p.nombre}</span><span class="val-print"># ${p.grano}</span></div>`).join('');
+  const cotasHTML = estado.cotas.length > 0
+    ? estado.cotas.map((c, i) => `<div class="item-print"><span class="lbl-print">Medida ${i+1}</span><span class="val-print">${c.valor} mm</span></div>`).join('')
+    : '<div style="color:#999;font-size:11px;">Sin cotas registradas</div>';
+  const escalaVal = parseFloat(document.getElementById('escala')?.value) || 2;
+
+  const modeloInfo = estado.modeloCargado
+    ? `<div class="item-print"><span class="lbl-print">Modelo base</span><span class="val-print">${estado.modeloCargado.emoji} ${estado.modeloCargado.nombre} (${(estado.modeloCargado.tipo || '3d').toUpperCase()})</span></div>`
+    : '';
+
+  el.innerHTML = `
+    <div class="etiqueta-formato">${fmtInfo.label} · ${fmtInfo.dims}</div>
+    <div class="encabezado">
+      <div><div class="logo-print">🏛️ CAJUÑA</div><div class="subtitulo-print">Taller de granito y marmolería</div><div class="subtitulo-print">ORDEN DE TRABAJO</div></div>
+      <div class="orden-info"><div class="orden-numero">${ordenNum}</div><div>Fecha: ${fecha} ${hora}</div><div>Entrega: ${fechaEntrega}</div></div>
+    </div>
+    <div class="seccion-print"><div class="seccion-titulo-print">CLIENTE Y PROYECTO</div>
+      <div class="grid-print">
+        <div class="item-print"><span class="lbl-print">Cliente</span><span class="val-print">${cliente}</span></div>
+        <div class="item-print"><span class="lbl-print">Proyecto</span><span class="val-print">${proyecto}</span></div>
+        <div class="item-print"><span class="lbl-print">Categoría</span><span class="val-print">${categoria}</span></div>
+        <div class="item-print"><span class="lbl-print">Entrega</span><span class="val-print">${fechaEntrega}</span></div>
+      </div>
+    </div>
+    <div class="seccion-print"><div class="seccion-titulo-print">DIBUJO (${vistaPrevia.toUpperCase()})</div><div class="dibujo-print">${dibujoHTML}</div></div>
+    <div class="seccion-print"><div class="seccion-titulo-print">MEDIDAS Y CANTIDAD</div>
+      <div class="grid-print-3">
+        <div class="item-print"><span class="lbl-print">Volumen base</span><span class="val-print">${volumenBase.toFixed(0)} cm³</span></div>
+        <div class="item-print"><span class="lbl-print">Porcentaje</span><span class="val-print">${pct}%</span></div>
+        <div class="item-print"><span class="lbl-print">Cantidad</span><span class="val-print">${cant} ${cant === 1 ? 'pieza' : 'piezas'}</span></div>
+      </div>
+      <div class="grid-print-3" style="margin-top:8px;">
+        <div class="item-print"><span class="lbl-print">Vol. unitario</span><span class="val-print">${volumenEfectivo.toFixed(0)} cm³</span></div>
+        <div class="item-print"><span class="lbl-print">Vol. total</span><span class="val-print">${(volumenEfectivo * cant).toFixed(0)} cm³</span></div>
+        <div class="item-print"><span class="lbl-print">Tipo mezcla</span><span class="val-print">${tipo}</span></div>
+      </div>
+      ${modeloInfo}
+      <div class="item-print" style="margin-top:8px;"><span class="lbl-print">Escala de referencia</span><span class="val-print">1 px = ${escalaVal} mm</span></div>
+    </div>
+    <div class="seccion-print"><div class="seccion-titulo-print">COTAS / MEDIDAS REGISTRADAS</div>${cotasHTML}</div>
+    <div class="seccion-print"><div class="seccion-titulo-print">MATERIALES (para ${cant} ${cant === 1 ? 'pieza' : 'piezas'})</div>
+      ${materialesHTML}
+    </div>
+    <div class="seccion-print"><div class="seccion-titulo-print">PIEDRAS</div>${piedrasHTML || '<div style="color:#999;font-size:11px;">Sin piedras</div>'}</div>
+    <div class="seccion-print"><div class="seccion-titulo-print">COLORES Y PIGMENTOS</div>${coloresHTML}</div>
+    <div class="seccion-print"><div class="seccion-titulo-print">OBSERVACIONES</div><div style="min-height:50px;border:1px dashed #999;border-radius:4px;padding:10px;font-size:11px;color:#666;">(espacio para el maestro)</div></div>
+    <div class="firma"><div class="firma-linea">Firma del jefe</div><div class="firma-linea">Firma del maestro</div><div class="firma-linea">Entrega: ${fechaEntrega}</div></div>
+    <div class="info-formato">Documento generado por Cajuña Pro v3.0 · Formato ${fmtInfo.label} (${fmtInfo.dims})</div>
+  `;
+}
+
+function exportarSheets() { toast('📊 Abriendo Google Sheets...', 'info'); setTimeout(() => toast('✓ Hoja creada', 'success'), 1500); }
+function exportarNotion() { toast('📝 Abriendo Notion...', 'info'); setTimeout(() => toast('✓ Página creada', 'success'), 1500); }
+
+// ============================================================
+// AUTO-CARGA DESDE URL (?modelo=ID o ?receta=ID)
+// ============================================================
+function autoCargarDesdeURL() {
+  const params = new URLSearchParams(window.location.search);
+  const modeloId = params.get('modelo');
+  const recetaId = params.get('receta');
+
+  if (modeloId) {
+    const modelos = leerModelos();
+    const m = modelos.find(x => String(x.id) === String(modeloId));
+    if (m) {
+      estado.modeloCargado = m;
+      setTimeout(() => {
+        irPaso(2);
+        document.getElementById('metodoSelect').value = 'guardado';
+        cambiarMetodo('guardado');
+        setTimeout(() => {
+          document.getElementById('modeloGuardadoSelect').value = m.id;
+          aplicarModeloCargado(m);
+          registrarUsoModelo(m.id);
+          toast(`💾 Modelo "${m.nombre}" cargado automáticamente`, 'success');
+        }, 200);
+      }, 400);
+    } else {
+      setTimeout(() => toast('⚠️ No se encontró el modelo', 'warning'), 500);
+    }
+  }
+
+  if (recetaId) {
+    const recetas = JSON.parse(localStorage.getItem('cajupa_recetas_v1') || '[]');
+    const r = recetas.find(x => String(x.id) === String(recetaId));
+    if (r) {
+      setTimeout(() => {
+        estado.colores = (r.colores || []).map(c => ({
+          nombre: c.nombre,
+          hex: c.hex,
+          pct: c.pct,
+          pigmentosTabla: (c.pigmentosTabla || Array(5).fill(null).map(() => ({ pigmento: 'Color', cantidad: '', cuchara: 'Cuch. 0.63' }))),
+          pigmentosLibres: (c.pigmentosLibres || Array(5).fill(null).map(() => ({ pigmento: 'Color', cantidad: '', unidad: 'g' })))
+        }));
+        if (r.tipo) {
+          estado.mezcla = r.tipo;
+          document.querySelectorAll('[data-mezcla]').forEach(c => {
+            c.className = c.className.replace('chip-cyan', 'chip-gray');
+            if (c.dataset.mezcla === r.tipo) c.className = c.className.replace('chip-gray', 'chip-cyan');
+          });
+          document.getElementById('tipoMezclaTexto').textContent = r.tipo;
+        }
+        if (r.piedras && r.piedras.length > 0) {
+          estado.piedras = r.piedras.map(p => {
+            const partes = p.split(' #');
+            return { nombre: partes[0], grano: partes[1] || '0' };
+          });
+          renderPiedras();
+        }
+        // CLIENTES v3.5 — Si la receta trae cliente, intentar seleccionarlo
+        if (r.cliente) {
+          const sel = document.getElementById('ordCliente');
+          if (sel) {
+            // Si el cliente existe en el select, seleccionarlo
+            const opt = Array.from(sel.options).find(o => o.value === r.cliente);
+            if (opt) {
+              sel.value = r.cliente;
+            } else {
+              // Si no existe (fue eliminado de Clientes), agregarlo temporalmente
+              const nuevaOpt = document.createElement('option');
+              nuevaOpt.value = r.cliente;
+              nuevaOpt.textContent = r.cliente + ' (no en Clientes)';
+              sel.appendChild(nuevaOpt);
+              sel.value = r.cliente;
+            }
+          }
+        }
+        toast(`📖 Receta "${r.nombre}" cargada`, 'success');
+      }, 500);
+    } else {
+      setTimeout(() => toast('⚠️ No se encontró la receta', 'warning'), 500);
+    }
+  }
+}
+
+// ============================================================
+// LISTENER GLOBAL — Recalcular en cualquier cambio
+// ============================================================
+document.addEventListener('input', (e) => {
+  if (!e.target) return;
+  const id = e.target.id;
+  if (['cantidadPiezas', 'porcentajeModelo', 'porcentajeModeloSlider',
+       'pCem', 'pPie', 'pMar', 'pAgua', 'pRes', 'pCat', 'factorInput'].includes(id)) {
+    calcMateriales();
+  }
+});
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo='info') {
+  const iconos = { success:'✓', error:'✕', warning:'⚠', info:'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => { el.style.animation = 'toastIn 0.3s ease reverse'; setTimeout(() => el.remove(), 300); }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+aplicarTema(localStorage.getItem('cajupa_tema') || 'brand');
+if (localStorage.getItem('cajupa_manos') === '1') {
+  document.body.classList.add('manos-sucias');
+  document.getElementById('btnManos').classList.add('activo');
+}
+
+const fechaHoyInput = document.getElementById('ordFecha');
+if (fechaHoyInput && !fechaHoyInput.value) fechaHoyInput.value = hoyISO();
+
+setTimeout(() => {
+  inicializarSelectClientes(); // CLIENTES v3.5
+  initCanvas();
+  renderModelosEnSelect();
+  renderCamposMezcla();
+  renderColores();
+  renderPiedras();
+  setFormatoImpresion('carta');
+  autoCargarDesdeURL();
+  setTimeout(() => toast('👋 Nueva Orden lista', 'info'), 800);
+}, 300);
+
+// CLIENTES v3.5 — Sincronizar si se agrega/edita un cliente en otra pestaña
+window.addEventListener('storage', (e) => {
+  if (e.key === CLAVE_CLIENTES) {
+    inicializarSelectClientes();
+  }
+});
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

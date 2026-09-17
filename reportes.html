@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro v3.0 — Reportes</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+  --topbar-h: 60px;
+  --chart-grid: rgba(255,255,255,0.05);
+  --chart-text: #a0a0b0;
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+  --chart-grid: rgba(255,255,255,0.06);
+  --chart-text: #a8a8a8;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .sidebar { background:#0a0a0a; border-right-color:rgba(255,255,255,0.08); }
+body.theme-dark .topbar { background:#0a0a0a; border-bottom-color:rgba(255,255,255,0.08); }
+body.theme-dark .sb-item:hover { background:rgba(255,255,255,0.05); color:#f0f0f0; }
+body.theme-dark .sb-item.activo { background:linear-gradient(90deg, rgba(196,163,255,0.15), rgba(77,239,255,0.05)); color:#f0f0f0; border-left-color:#c4a3ff; }
+body.theme-dark .empresa-switcher { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+body.theme-dark .panel, body.theme-dark .kpi-card, body.theme-dark .reporte-card { background:#141414; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .input, body.theme-dark .select { background:#0f0f0f; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn:hover { background:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn.activo { background:rgba(179,136,255,0.2); }
+body.theme-dark table.tabla-reportes tbody tr { border-bottom-color: rgba(255,255,255,0.05); }
+body.theme-dark table.tabla-reportes tbody tr:hover { background:rgba(255,255,255,0.03); }
+body.theme-dark table.tabla-reportes thead th { background: rgba(255,255,255,0.03); }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+  --chart-grid: rgba(0,0,0,0.06);
+  --chart-text: #57564f;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light .sidebar { background:#f7f7f5; border-right-color:#e9e9e7; }
+body.theme-light .topbar { background:#fbfbfa; border-bottom-color:#e9e9e7; }
+body.theme-light .logo-sidebar { border-bottom-color:#e9e9e7; }
+body.theme-light .sb-item { color:#57564f; }
+body.theme-light .sb-item:hover { background:rgba(0,0,0,0.04); color:#37352f; }
+body.theme-light .sb-item.activo { background:linear-gradient(90deg,rgba(107,70,193,0.15),rgba(11,122,140,0.08)); color:#37352f; border-left-color:#6b46c1; }
+body.theme-light .empresa-switcher { background:rgba(107,70,193,0.08); border-color:#e9e9e7; }
+body.theme-light .icon-btn { color:#57564f; }
+body.theme-light .icon-btn:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .icon-btn.activo { background:rgba(107,70,193,0.15); color:#6b46c1; }
+body.theme-light .panel, body.theme-light .kpi-card, body.theme-light .reporte-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .input, body.theme-light .select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus, body.theme-light .select:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .select option { background:#fff; color:#37352f; }
+body.theme-light .toast { background:#fff; border-color:#d3d1cb; }
+body.theme-light .toast-msg { color:#37352f; }
+body.theme-light table.tabla-reportes tbody tr { border-bottom-color: #e9e9e7; }
+body.theme-light table.tabla-reportes tbody tr:hover { background:rgba(0,0,0,0.02); }
+body.theme-light table.tabla-reportes thead th { background: #f7f7f5; }
+
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-text-size-adjust: 100%; }
+.app-root { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
+
+.sidebar { width: 230px; background: var(--bg-3); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.25s ease; z-index: 100; }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+.logo-sidebar { display: flex; align-items: center; gap: 12px; padding: 18px; border-bottom: 1px solid var(--border); }
+.logo-icono { width: 42px; height: 42px; background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.logo-nombre { font-size: 15px; font-weight: 800; }
+.logo-sub { font-size: 10px; color: var(--text-mute); }
+.sidebar-nav { flex: 1; padding: 8px 10px 20px; }
+.sb-seccion { font-size: 9px; font-weight: 800; color: var(--text-mute); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 12px 6px; }
+.sb-item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 10px; font-size: 13px; color: var(--text-dim); font-weight: 600; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sb-item:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.sb-item.activo { background: linear-gradient(90deg, rgba(106,27,154,0.4), rgba(0,229,255,0.08)); color: var(--text); border-left: 3px solid var(--purple); }
+.sb-icono { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; opacity: 0; transition: opacity 0.25s ease; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.sidebar-backdrop.activo { display: block; opacity: 1; }
+
+.main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--border); min-height: var(--topbar-h); flex-shrink: 0; }
+
+.hamburger { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 8px 10px; border-radius: 8px; transition: background 0.15s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.hamburger:hover { background: rgba(106,27,154,0.15); }
+.hamburger:active { background: rgba(106,27,154,0.25); }
+
+.empresa-switcher { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(106,27,154,0.2); border: 1px solid var(--border); border-radius: 10px; }
+.empresa-nombre { font-size: 12px; font-weight: 800; }
+.empresa-rol { font-size: 9px; color: var(--purple); font-weight: 700; }
+.topbar-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: transparent; border: none; color: var(--text-dim); font-size: 17px; cursor: pointer; padding: 10px; border-radius: 8px; transition: all 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: rgba(106,27,154,0.15); }
+.icon-btn:active { background: rgba(106,27,154,0.25); }
+.icon-btn.activo { background: rgba(106,27,154,0.3); color: var(--purple); }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-titulo { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: var(--text-mute); }
+.page-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* KPIs */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+.kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; position: relative; overflow: hidden; }
+.kpi-card::before { content:""; position: absolute; top:0; left:0; width:4px; height:100%; }
+.kpi-card.cyan::before { background: linear-gradient(180deg, var(--cyan), var(--cyan-deep)); }
+.kpi-card.purple::before { background: linear-gradient(180deg, var(--purple), var(--purple-deep)); }
+.kpi-card.green::before { background: linear-gradient(180deg, var(--green), #2e7d32); }
+.kpi-card.orange::before { background: linear-gradient(180deg, var(--orange), #e65100); }
+.kpi-top { display:flex; justify-content: space-between; align-items:flex-start; margin-bottom: 8px; }
+.kpi-label { font-size: 10px; color: var(--text-mute); font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; }
+.kpi-icono { font-size: 18px; opacity: 0.7; }
+.kpi-valor { font-size: 26px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+.kpi-valor.cyan { color: var(--cyan); }
+.kpi-valor.purple { color: var(--purple); }
+.kpi-valor.green { color: var(--green); }
+.kpi-valor.orange { color: var(--orange); }
+.kpi-sub { font-size: 11px; color: var(--text-mute); font-weight: 600; }
+
+/* Filtros de período */
+.filtros-bar {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.periodo-tabs { display: inline-flex; background: var(--bg-2); border: 1px solid var(--border); border-radius: 10px; padding: 4px; gap: 2px; flex-wrap: wrap; }
+.periodo-tabs button {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  padding: 8px 14px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  min-height: 36px;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.periodo-tabs button:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.periodo-tabs button.activo { background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); color: #fff; }
+
+/* Grid de reportes */
+.reportes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.reporte-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 340px;
+}
+.reporte-card.span-2 { grid-column: span 2; }
+.reporte-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+.reporte-titulo { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.reporte-sub { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+.reporte-acciones { display: flex; gap: 4px; }
+.reporte-chart-wrap { position: relative; flex: 1; min-height: 220px; }
+.reporte-chart-wrap canvas { width: 100% !important; height: 100% !important; }
+
+/* Tabla reporte */
+.tabla-reportes-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; max-height: 320px; overflow-y: auto; }
+table.tabla-reportes { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 380px; }
+table.tabla-reportes thead th {
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  border-bottom: 2px solid var(--border);
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+table.tabla-reportes tbody tr { border-bottom: 1px solid var(--border); }
+table.tabla-reportes tbody tr:last-child { border-bottom: none; }
+table.tabla-reportes tbody td { padding: 8px 10px; color: var(--text-dim); }
+table.tabla-reportes td.col-num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--text); }
+table.tabla-reportes td.col-cliente { color: var(--text); font-weight: 700; }
+
+/* Empty chart */
+.chart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-mute);
+  font-size: 13px;
+  text-align: center;
+  gap: 8px;
+}
+.chart-empty .icono { font-size: 42px; opacity: 0.3; }
+
+/* Botones */
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; min-height: 44px; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--purple-deep), #8e24aa); color: #fff; }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan-deep), #00acc1); color: #fff; }
+.btn-green { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+.btn-ghost { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
+.btn-sm { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.chart-action {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-mute);
+  padding: 6px 10px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  min-width: 34px;
+  min-height: 34px;
+  transition: all 0.15s;
+}
+.chart-action:hover { background: rgba(106,27,154,0.15); color: var(--text); border-color: var(--purple); }
+
+/* Toast */
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; pointer-events: auto; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; font-weight: 600; }
+
+/* Print */
+#printReportes { display: none; }
+@media print {
+  body * { visibility: hidden; }
+  #printReportes, #printReportes * { visibility: visible; }
+  #printReportes { display: block !important; position: absolute; top: 0; left: 0; width: 100%; background: #fff; color: #111; padding: 15mm; font-family: 'Courier New', monospace; font-size: 11px; }
+  #printReportes h1 { font-size: 20px; margin-bottom: 4px; }
+  #printReportes .print-sub { font-size: 11px; color: #666; margin-bottom: 16px; }
+  #printReportes h2 { font-size: 14px; margin: 16px 0 8px; border-bottom: 2px solid #333; padding-bottom: 4px; }
+  #printReportes table { width: 100%; border-collapse: collapse; font-size: 10px; margin-bottom: 12px; }
+  #printReportes th { background: #f0f0f0; padding: 5px 7px; text-align: left; border-bottom: 2px solid #333; font-size: 9px; text-transform: uppercase; }
+  #printReportes td { padding: 5px 7px; border-bottom: 1px solid #ddd; }
+  #printReportes .print-footer { margin-top: 20px; font-size: 9px; color: #999; text-align: center; border-top: 1px solid #ddd; padding-top: 10px; }
+}
+
+/* ============================================================
+   RESPONSIVE v3.5
+   ============================================================ */
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 20px; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .reportes-grid { grid-template-columns: 1fr; }
+  .reporte-card.span-2 { grid-column: span 1; }
+}
+
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; }
+
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; height: 100dvh; width: 260px; max-width: 85vw; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar.abierto { transform: translateX(0); }
+
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .hamburger { display: flex; }
+  .empresa-switcher { padding: 6px 10px; }
+  .empresa-nombre { font-size: 11px; }
+  .empresa-rol { font-size: 8px; }
+  .topbar-acciones { gap: 2px; }
+  .icon-btn { font-size: 18px; padding: 8px; min-width: 40px; min-height: 40px; }
+
+  .content { padding: 16px; }
+
+  .page-header { flex-direction: column; align-items: stretch; margin-bottom: 16px; }
+  .page-titulo { font-size: 22px; }
+  .page-sub { font-size: 12px; }
+  .page-acciones { width: 100%; }
+  .page-acciones .btn { flex: 1; justify-content: center; }
+
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .kpi-card { padding: 14px 16px; }
+  .kpi-valor { font-size: 22px; }
+
+  .filtros-bar { padding: 10px 12px; gap: 8px; }
+  .periodo-tabs { width: 100%; overflow-x: auto; }
+  .periodo-tabs::-webkit-scrollbar { display: none; }
+  .periodo-tabs button { padding: 8px 12px; font-size: 11px; }
+
+  .reportes-grid { gap: 12px; }
+  .reporte-card { padding: 14px; min-height: 320px; }
+  .reporte-chart-wrap { min-height: 220px; }
+
+  .toast-container { top: auto; bottom: 80px; left: 16px; right: 16px; }
+  .toast { min-width: auto; max-width: none; width: 100%; }
+
+  .btn { padding: 12px 14px; font-size: 12px; }
+  .btn-sm { padding: 8px 10px; font-size: 11px; min-height: 38px; }
+}
+
+@media (max-width: 480px) {
+  .content { padding: 12px; }
+  .page-titulo { font-size: 20px; }
+
+  .kpi-grid { grid-template-columns: 1fr; }
+  .kpi-card { padding: 12px 14px; }
+  .kpi-valor { font-size: 20px; }
+
+  .reporte-card { padding: 12px; min-height: 280px; }
+  .reporte-chart-wrap { min-height: 200px; }
+  .reporte-titulo { font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-root">
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="cerrarSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-sidebar">
+      <div class="logo-icono">🏛️</div>
+      <div><div class="logo-nombre">Cajuña Pro</div><div class="logo-sub">v3.0</div></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sb-seccion">Principal</div>
+      <div class="sb-item" onclick="irA('dashboard.html')"><span class="sb-icono">📊</span>Dashboard</div>
+      <div class="sb-item" onclick="irA('nueva-orden.html')"><span class="sb-icono">➕</span>Nueva Orden</div>
+      <div class="sb-item" onclick="irA('llenado-parcial.html')"><span class="sb-icono">📦</span>Llenado Parcial</div>
+      <div class="sb-item" onclick="irA('produccion.html')"><span class="sb-icono">🔨</span>Producción</div>
+
+      <div class="sb-seccion">Biblioteca</div>
+      <div class="sb-item" onclick="irA('moldes.html')"><span class="sb-icono">🗄️</span>Moldes</div>
+      <div class="sb-item" onclick="irA('mis-modelos.html')"><span class="sb-icono">💾</span>Mis Modelos</div>
+      <div class="sb-item" onclick="irA('recetas.html')"><span class="sb-icono">📖</span>Recetas</div>
+      <div class="sb-item" onclick="irA('archivo.html')"><span class="sb-icono">📁</span>Archivo</div>
+      <div class="sb-item" onclick="irA('museo.html')"><span class="sb-icono">🏛️</span>Museo Virtual</div>
+
+      <div class="sb-seccion">Análisis</div>
+      <div class="sb-item" onclick="irA('stock.html')"><span class="sb-icono">📦</span>Stock</div>
+      <div class="sb-item" onclick="irA('laboratorio.html')"><span class="sb-icono">🧪</span>Laboratorio</div>
+      <div class="sb-item activo" onclick="irA('reportes.html')"><span class="sb-icono">📈</span>Reportes</div>
+
+      <div class="sb-seccion">Sistema</div>
+      <div class="sb-item" onclick="irA('clientes.html')"><span class="sb-icono">👥</span>Clientes</div>
+      <div class="sb-item" onclick="irA('usuarios.html')"><span class="sb-icono">👤</span>Usuarios</div>
+      <div class="sb-item" onclick="irA('configuracion.html')"><span class="sb-icono">⚙️</span>Configuración</div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="hamburger" onclick="abrirSidebar()" aria-label="Abrir menú">☰</button>
+      <div class="empresa-switcher">
+        <span>🏢</span>
+        <div><div class="empresa-nombre">Cajuña</div><div class="empresa-rol">Admin</div></div>
+      </div>
+      <div class="topbar-acciones">
+        <button class="icon-btn" onclick="toggleManosSucias()" id="btnManos" title="Manos sucias">🧤</button>
+        <button class="icon-btn" onclick="toggleTema()" id="btnTema" title="Cambiar tema">🎨</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-titulo">📈 Reportes</div>
+          <div class="page-sub" id="subtitulo">Cargando...</div>
+        </div>
+        <div class="page-acciones">
+          <button class="btn btn-ghost btn-sm" onclick="cargarDemo()">🎲 Demo</button>
+          <button class="btn btn-cyan btn-sm" onclick="exportarPDF()">📄 PDF</button>
+          <button class="btn btn-primary btn-sm" onclick="refrescarTodo()">🔄 Refrescar</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="kpi-grid">
+        <div class="kpi-card cyan">
+          <div class="kpi-top"><span class="kpi-label">Órdenes en el período</span><span class="kpi-icono">📋</span></div>
+          <div class="kpi-valor cyan" id="kpiOrdenes">0</div>
+          <div class="kpi-sub" id="kpiOrdenesSub">—</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-top"><span class="kpi-label">Piezas fabricadas</span><span class="kpi-icono">📦</span></div>
+          <div class="kpi-valor green" id="kpiPiezas">0</div>
+          <div class="kpi-sub" id="kpiPiezasSub">—</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-top"><span class="kpi-label">Tiempo prom. entrega</span><span class="kpi-icono">⏱️</span></div>
+          <div class="kpi-valor purple" id="kpiTiempoProm">—</div>
+          <div class="kpi-sub" id="kpiTiempoPromSub">—</div>
+        </div>
+        <div class="kpi-card orange">
+          <div class="kpi-top"><span class="kpi-label">Cliente top</span><span class="kpi-icono">🏆</span></div>
+          <div class="kpi-valor orange" id="kpiClienteTop" style="font-size:18px;">—</div>
+          <div class="kpi-sub" id="kpiClienteTopSub">—</div>
+        </div>
+      </div>
+
+      <!-- Filtros de período -->
+      <div class="filtros-bar">
+        <div class="periodo-tabs">
+          <button data-periodo="mes" onclick="cambiarPeriodo('mes')">Este mes</button>
+          <button data-periodo="3meses" onclick="cambiarPeriodo('3meses')">Últimos 3 meses</button>
+          <button data-periodo="6meses" onclick="cambiarPeriodo('6meses')">Últimos 6 meses</button>
+          <button data-periodo="12meses" class="activo" onclick="cambiarPeriodo('12meses')">Últimos 12 meses</button>
+          <button data-periodo="ano" onclick="cambiarPeriodo('ano')">Este año</button>
+          <button data-periodo="todos" onclick="cambiarPeriodo('todos')">Todo el histórico</button>
+        </div>
+      </div>
+
+      <!-- Grid de reportes -->
+      <div class="reportes-grid">
+
+        <!-- 1. Órdenes por mes -->
+        <div class="reporte-card span-2">
+          <div class="reporte-head">
+            <div>
+              <div class="reporte-titulo">📅 Órdenes por mes</div>
+              <div class="reporte-sub" id="subOrdenesMes">—</div>
+            </div>
+            <div class="reporte-acciones">
+              <button class="chart-action" onclick="descargarChart('chartOrdenesMes', 'ordenes-por-mes')" title="Descargar PNG">⬇️</button>
+            </div>
+          </div>
+          <div class="reporte-chart-wrap"><canvas id="chartOrdenesMes"></canvas></div>
+        </div>
+
+        <!-- 2. Top clientes -->
+        <div class="reporte-card">
+          <div class="reporte-head">
+            <div>
+              <div class="reporte-titulo">🏆 Top clientes</div>
+              <div class="reporte-sub">Por cantidad de órdenes</div>
+            </div>
+            <div class="reporte-acciones">
+              <button class="chart-action" onclick="descargarChart('chartTopClientes', 'top-clientes')" title="Descargar PNG">⬇️</button>
+            </div>
+          </div>
+          <div class="reporte-chart-wrap"><canvas id="chartTopClientes"></canvas></div>
+        </div>
+
+        <!-- 3. Tiempo promedio de entrega -->
+        <div class="reporte-card">
+          <div class="reporte-head">
+            <div>
+              <div class="reporte-titulo">⏱️ Tiempo promedio de entrega</div>
+              <div class="reporte-sub">Días desde creación hasta entrega real</div>
+            </div>
+            <div class="reporte-acciones">
+              <button class="chart-action" onclick="descargarChart('chartTiempoPromedio', 'tiempo-promedio')" title="Descargar PNG">⬇️</button>
+            </div>
+          </div>
+          <div class="reporte-chart-wrap"><canvas id="chartTiempoPromedio"></canvas></div>
+        </div>
+
+        <!-- 4. Consumo de materiales -->
+        <div class="reporte-card span-2">
+          <div class="reporte-head">
+            <div>
+              <div class="reporte-titulo">🧪 Consumo de materiales</div>
+              <div class="reporte-sub">Kardex agrupado por material (movimientos de salida)</div>
+            </div>
+            <div class="reporte-acciones">
+              <button class="chart-action" onclick="descargarChart('chartConsumoMat', 'consumo-materiales')" title="Descargar PNG">⬇️</button>
+            </div>
+          </div>
+          <div class="reporte-chart-wrap"><canvas id="chartConsumoMat"></canvas></div>
+        </div>
+
+        <!-- 5. Valor del inventario -->
+        <div class="reporte-card">
+          <div class="reporte-head">
+            <div>
+              <div class="reporte-titulo">💰 Valor del inventario</div>
+              <div class="reporte-sub">Stock × precio promedio</div>
+            </div>
+            <div class="reporte-acciones">
+              <button class="chart-action" onclick="descargarChart('chartValorInv', 'valor-inventario')" title="Descargar PNG">⬇️</button>
+            </div>
+          </div>
+          <div class="reporte-chart-wrap"><canvas id="chartValorInv"></canvas></div>
+        </div>
+
+        <!-- 6. Recetas más usadas -->
+        <div class="reporte-card">
+          <div class="reporte-head">
+            <div>
+              <div class="reporte-titulo">📖 Recetas más usadas</div>
+              <div class="reporte-sub">Ranking por veces usadas</div>
+            </div>
+            <div class="reporte-acciones">
+              <button class="chart-action" onclick="descargarChart('chartRecetas', 'recetas-usadas')" title="Descargar PNG">⬇️</button>
+            </div>
+          </div>
+          <div class="reporte-chart-wrap"><canvas id="chartRecetas"></canvas></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<div id="printReportes"></div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SIDEBAR MÓVIL
+// ============================================================
+function abrirSidebar() {
+  document.getElementById('sidebar').classList.add('abierto');
+  document.getElementById('sidebarBackdrop').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarSidebar() {
+  document.getElementById('sidebar').classList.remove('abierto');
+  document.getElementById('sidebarBackdrop').classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function irA(url) {
+  cerrarSidebar();
+  setTimeout(() => { location.href = url; }, 150);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarSidebar();
+});
+
+// ============================================================
+// CONSTANTES
+// ============================================================
+const CLAVE_ORDENES = 'cajupa_ordenes';
+const CLAVE_RECETAS = 'cajupa_recetas_v1';
+const CLAVE_STOCK = 'cajupa_stock_v4';
+const CLAVE_CLIENTES = 'cajupa_clientes_v1';
+
+const MESES_CORTOS = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+// ============================================================
+// ESTADO
+// ============================================================
+let ordenes = [];
+let recetas = [];
+let stock = [];
+let clientes = [];
+let periodoActual = '12meses';
+const charts = {};
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+  // Re-renderizar gráficos con nuevos colores
+  setTimeout(() => renderTodosLosGraficos(), 50);
+}
+function toggleTema() {
+  let actual = localStorage.getItem('cajupa_tema') || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem('cajupa_tema', nuevo);
+  aplicarTema(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+function toggleManosSucias() {
+  const activo = document.body.classList.toggle('manos-sucias');
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function hoyISO() { return new Date().toISOString().split('T')[0]; }
+
+function leerLS(clave, fallback) {
+  try {
+    const raw = localStorage.getItem(clave);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return fallback;
+}
+
+function diasEntre(a, b) {
+  if (!a || !b) return null;
+  return Math.round((new Date(b) - new Date(a)) / 86400000);
+}
+
+function mesKey(iso) {
+  if (!iso) return null;
+  return String(iso).split('T')[0].slice(0, 7); // YYYY-MM
+}
+
+function mesLabel(key) {
+  if (!key) return '';
+  const [y, m] = key.split('-');
+  return `${MESES_CORTOS[parseInt(m) - 1]} ${y.slice(2)}`;
+}
+
+function rangoPeriodo(periodo) {
+  const hoy = new Date();
+  const hasta = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate());
+  let desde = null;
+
+  if (periodo === 'mes') {
+    desde = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  } else if (periodo === '3meses') {
+    desde = new Date(hoy.getFullYear(), hoy.getMonth() - 2, 1);
+  } else if (periodo === '6meses') {
+    desde = new Date(hoy.getFullYear(), hoy.getMonth() - 5, 1);
+  } else if (periodo === '12meses') {
+    desde = new Date(hoy.getFullYear(), hoy.getMonth() - 11, 1);
+  } else if (periodo === 'ano') {
+    desde = new Date(hoy.getFullYear(), 0, 1);
+  }
+
+  return { desde, hasta };
+}
+
+function filtrarPorPeriodo(lista, campoFecha = 'fecha') {
+  const { desde, hasta } = rangoPeriodo(periodoActual);
+  if (!desde) return [...lista];
+  const desdeISO = desde.toISOString().split('T')[0];
+  const hastaISO = hasta.toISOString().split('T')[0];
+  return lista.filter(o => {
+    const f = String(o[campoFecha] || '').split('T')[0];
+    return f && f >= desdeISO && f <= hastaISO;
+  });
+}
+
+// Colores para gráficos según tema
+function coloresGrafico() {
+  const esClaro = document.body.classList.contains('theme-light');
+  return {
+    purple: esClaro ? '#6b46c1' : '#b388ff',
+    cyan: esClaro ? '#0b7a8c' : '#00e5ff',
+    orange: esClaro ? '#d9730d' : '#ffa726',
+    green: esClaro ? '#0f7b3e' : '#4caf50',
+    red: esClaro ? '#c4321c' : '#ef5350',
+    yellow: esClaro ? '#b8860b' : '#ffd54f',
+    blue: esClaro ? '#1f6feb' : '#42a5f5',
+    pink: esClaro ? '#c2185b' : '#ec407a',
+    grid: esClaro ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.06)',
+    text: esClaro ? '#57564f' : '#a0a0b0'
+  };
+}
+
+function paletaColores() {
+  const c = coloresGrafico();
+  return [c.purple, c.cyan, c.orange, c.green, c.red, c.yellow, c.blue, c.pink,
+          '#9c27b0', '#26c6da', '#8d6e63', '#78909c'];
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  ordenes = leerLS(CLAVE_ORDENES, []);
+  recetas = leerLS(CLAVE_RECETAS, []);
+  stock = leerLS(CLAVE_STOCK, []);
+  clientes = leerLS(CLAVE_CLIENTES, []);
+
+  // Si no hay datos, cargar demo
+  if (ordenes.length === 0) {
+    ordenes = generarDemoOrdenes();
+    localStorage.setItem(CLAVE_ORDENES, JSON.stringify(ordenes));
+  }
+  if (recetas.length === 0) {
+    recetas = generarDemoRecetas();
+    localStorage.setItem(CLAVE_RECETAS, JSON.stringify(recetas));
+  }
+  if (stock.length === 0) {
+    stock = generarDemoStock();
+    localStorage.setItem(CLAVE_STOCK, JSON.stringify(stock));
+  }
+
+  setTimeout(() => {
+    renderTodo();
+    setTimeout(() => toast(`📈 Reportes listos · Período: ${etiquetaPeriodo(periodoActual)}`, 'info'), 600);
+  }, 200);
+}
+
+function etiquetaPeriodo(p) {
+  const map = {
+    'mes': 'Este mes',
+    '3meses': 'Últimos 3 meses',
+    '6meses': 'Últimos 6 meses',
+    '12meses': 'Últimos 12 meses',
+    'ano': 'Este año',
+    'todos': 'Todo el histórico'
+  };
+  return map[p] || p;
+}
+
+// ============================================================
+// DEMO
+// ============================================================
+function generarDemoOrdenes() {
+  const hoy = new Date();
+  const dias = (n) => {
+    const d = new Date(hoy);
+    d.setDate(d.getDate() - n);
+    return d.toISOString().split('T')[0];
+  };
+  return [
+    { id: 'ORD-2026-1842', cliente: 'Andrés León', proyecto: 'Lavamanos Naranja', categoria: 'Lavamanos', estado: 'entregada', cantidadPiezas: 1, fecha: dias(180), fechaEntrega: dias(175), fechaEntregaReal: dias(173), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1876', cliente: 'Mármoles del Caribe', proyecto: 'Tope Cocina Gris', categoria: 'Topes y Bases', estado: 'entregada', cantidadPiezas: 2, fecha: dias(150), fechaEntrega: dias(142), fechaEntregaReal: dias(140), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1901', cliente: 'Granitos Andinos', proyecto: 'Torre Bloque', categoria: 'Torres', estado: 'entregada', cantidadPiezas: 1, fecha: dias(120), fechaEntrega: dias(112), fechaEntregaReal: dias(109), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1912', cliente: 'Nicole Tovar', proyecto: 'Fruteros verdes x50', categoria: 'Piezas Utilitarias', estado: 'entregada', cantidadPiezas: 50, fecha: dias(95), fechaEntrega: dias(85), fechaEntregaReal: dias(82), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1924', cliente: 'José Pérez', proyecto: 'Platos grandes x10', categoria: 'Piezas Utilitarias', estado: 'entregada', cantidadPiezas: 10, fecha: dias(70), fechaEntrega: dias(62), fechaEntregaReal: dias(60), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1936', cliente: 'Granitos Andinos', proyecto: 'Muestra mármol x20', categoria: 'Muestras', estado: 'entregada', cantidadPiezas: 20, fecha: dias(55), fechaEntrega: dias(50), fechaEntregaReal: dias(48), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1948', cliente: 'Mármoles del Caribe', proyecto: 'Bandeja #1', categoria: 'Piezas Utilitarias', estado: 'entregada', cantidadPiezas: 3, fecha: dias(42), fechaEntrega: dias(38), fechaEntregaReal: dias(36), mezcla: 'Resina' },
+    { id: 'ORD-2026-1957', cliente: 'Andrés León', proyecto: 'Maceta M x10', categoria: 'Piezas Utilitarias', estado: 'entregada', cantidadPiezas: 10, fecha: dias(30), fechaEntrega: dias(25), fechaEntregaReal: dias(22), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1962', cliente: 'Nicole Tovar', proyecto: 'Juego de platos', categoria: 'Piezas Utilitarias', estado: 'entregada', cantidadPiezas: 6, fecha: dias(20), fechaEntrega: dias(15), fechaEntregaReal: dias(13), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1968', cliente: 'Mármoles del Caribe', proyecto: 'Bandeja #2', categoria: 'Piezas Utilitarias', estado: 'entregada', cantidadPiezas: 5, fecha: dias(15), fechaEntrega: dias(11), fechaEntregaReal: dias(10), mezcla: 'Resina' },
+    { id: 'ORD-2026-1971', cliente: 'José Pérez', proyecto: 'Plato perro Kuma', categoria: 'Piezas Utilitarias', estado: 'lista', cantidadPiezas: 1, fecha: dias(8), fechaEntrega: dias(-3), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1973', cliente: 'Andrés León', proyecto: 'Set baño completo', categoria: 'Lavamanos', estado: 'proceso', cantidadPiezas: 3, fecha: dias(5), fechaEntrega: dias(3), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1975', cliente: 'Granitos Andinos', proyecto: 'Topes baño', categoria: 'Topes y Bases', estado: 'por-hacer', cantidadPiezas: 4, fecha: dias(1), fechaEntrega: dias(-5), mezcla: 'Concreto' },
+    { id: 'ORD-2026-1976', cliente: 'Nicole Tovar', proyecto: 'Macetas primavera', categoria: 'Piezas Utilitarias', estado: 'por-hacer', cantidadPiezas: 20, fecha: hoyISO(), fechaEntrega: dias(-10), mezcla: 'Concreto' }
+  ];
+}
+
+function generarDemoRecetas() {
+  return [
+    { id: 1, nombre: 'Frutero verde clásico', tipo: 'Concreto', vecesUsado: 12, favorita: true, fecha: hoyISO(), colores: [{ nombre: 'Verde', hex: '#4caf50', pct: 100 }] },
+    { id: 2, nombre: 'Lavamanos naranja', tipo: 'Concreto', vecesUsado: 8, fecha: hoyISO(), colores: [{ nombre: 'Naranja', hex: '#ff6b35', pct: 100 }] },
+    { id: 3, nombre: 'Tope gris pulido', tipo: 'Concreto', vecesUsado: 6, fecha: hoyISO(), colores: [{ nombre: 'Gris', hex: '#9e9e9e', pct: 100 }] },
+    { id: 4, nombre: 'Bandeja resina natural', tipo: 'Resina', vecesUsado: 5, fecha: hoyISO(), colores: [{ nombre: 'Beige', hex: '#d7ccc8', pct: 100 }] },
+    { id: 5, nombre: 'Maceta terracota', tipo: 'Concreto', vecesUsado: 4, fecha: hoyISO(), colores: [{ nombre: 'Terracota', hex: '#c66b4e', pct: 100 }] },
+    { id: 6, nombre: 'Plato perro beige', tipo: 'Concreto', vecesUsado: 3, fecha: hoyISO(), colores: [{ nombre: 'Beige', hex: '#d7ccc8', pct: 100 }] },
+    { id: 7, nombre: 'Maceta esmeralda', tipo: 'Concreto', vecesUsado: 2, fecha: hoyISO(), colores: [{ nombre: 'Verde Oscuro', hex: '#2e7d32', pct: 100 }] },
+    { id: 8, nombre: 'Set blanco premium', tipo: 'Concreto', vecesUsado: 1, fecha: hoyISO(), colores: [{ nombre: 'Blanco', hex: '#ffffff', pct: 100 }] }
+  ];
+}
+
+function generarDemoStock() {
+  return [
+    { id: 'mat1', nombre: 'Pigmento Rojo', categoria: 'Pigmentos', variantes: [
+      { id: 'v1', nombre: 'Bycolor', cantidad: 850, unidad: 'g', minimo: 500, precioPromedio: 12, movimientos: [
+        { fecha: new Date(Date.now() - 90 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 120 },
+        { fecha: new Date(Date.now() - 60 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 95 },
+        { fecha: new Date(Date.now() - 30 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 80 },
+        { fecha: new Date(Date.now() - 10 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 60 }
+      ]}
+    ]},
+    { id: 'mat2', nombre: 'Pigmento Amarillo', categoria: 'Pigmentos', variantes: [
+      { id: 'v2', nombre: 'Bycolor', cantidad: 1200, unidad: 'g', minimo: 500, precioPromedio: 11, movimientos: [
+        { fecha: new Date(Date.now() - 80 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 150 },
+        { fecha: new Date(Date.now() - 45 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 130 },
+        { fecha: new Date(Date.now() - 15 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 100 }
+      ]}
+    ]},
+    { id: 'mat3', nombre: 'Pigmento Verde', categoria: 'Pigmentos', variantes: [
+      { id: 'v3', nombre: 'Bycolor', cantidad: 600, unidad: 'g', minimo: 400, precioPromedio: 14, movimientos: [
+        { fecha: new Date(Date.now() - 70 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 200 },
+        { fecha: new Date(Date.now() - 35 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 180 },
+        { fecha: new Date(Date.now() - 8 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 150 }
+      ]},
+      { id: 'v3b', nombre: 'Nacional', cantidad: 380, unidad: 'g', minimo: 300, precioPromedio: 10, movimientos: [] },
+      { id: 'v3c', nombre: 'Vitofibras', cantidad: 220, unidad: 'g', minimo: 250, precioPromedio: 12, movimientos: [] }
+    ]},
+    { id: 'mat4', nombre: 'Pigmento Negro', categoria: 'Pigmentos', variantes: [
+      { id: 'v4', nombre: 'Bycolor', cantidad: 900, unidad: 'g', minimo: 500, precioPromedio: 11, movimientos: [
+        { fecha: new Date(Date.now() - 55 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 75 },
+        { fecha: new Date(Date.now() - 25 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 65 }
+      ]}
+    ]},
+    { id: 'mat5', nombre: 'Pigmento Blanco', categoria: 'Pigmentos', variantes: [
+      { id: 'v5', nombre: 'Bycolor', cantidad: 1500, unidad: 'g', minimo: 500, precioPromedio: 12, movimientos: [
+        { fecha: new Date(Date.now() - 65 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 180 },
+        { fecha: new Date(Date.now() - 20 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 140 }
+      ]}
+    ]},
+    { id: 'mat6', nombre: 'Pigmento Naranja', categoria: 'Pigmentos', variantes: [
+      { id: 'v6', nombre: 'Bycolor', cantidad: 700, unidad: 'g', minimo: 400, precioPromedio: 13, movimientos: [
+        { fecha: new Date(Date.now() - 40 * 86400000).toISOString().split('T')[0], tipo: 'salida', cantidad: 110 }
+      ]}
+    ]}
+  ];
+}
+
+// ============================================================
+// CÁLCULOS
+// ============================================================
+function calcularKPIs() {
+  const filtradas = filtrarPorPeriodo(ordenes);
+  const total = filtradas.length;
+  const piezas = filtradas.reduce((s, o) => s + (parseInt(o.cantidadPiezas) || 1), 0);
+
+  // Tiempo promedio de entrega
+  const entregadas = filtradas.filter(o => o.estado === 'entregada' && o.fecha && o.fechaEntregaReal);
+  const tiempoProm = entregadas.length > 0
+    ? Math.round(entregadas.reduce((s, o) => s + diasEntre(o.fecha, o.fechaEntregaReal), 0) / entregadas.length)
+    : null;
+
+  // Cliente top
+  const porCliente = {};
+  filtradas.forEach(o => {
+    if (o.cliente) porCliente[o.cliente] = (porCliente[o.cliente] || 0) + 1;
+  });
+  const top = Object.entries(porCliente).sort((a, b) => b[1] - a[1])[0];
+
+  return { total, piezas, tiempoProm, clienteTop: top ? top[0] : null, clienteTopCount: top ? top[1] : 0 };
+}
+
+function datosOrdenesPorMes() {
+  const { desde, hasta } = rangoPeriodo(periodoActual);
+  const buckets = {};
+
+  // Determinar rango de meses a mostrar
+  let meses = [];
+  if (desde) {
+    let d = new Date(desde.getFullYear(), desde.getMonth(), 1);
+    const fin = new Date(hasta.getFullYear(), hasta.getMonth(), 1);
+    while (d <= fin) {
+      meses.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
+      d.setMonth(d.getMonth() + 1);
+    }
+  } else {
+    // Todos: desde la primera orden hasta la actual
+    if (ordenes.length === 0) {
+      meses = [`${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`];
+    } else {
+      const fechas = ordenes.map(o => o.fecha).filter(Boolean).sort();
+      const primera = new Date(fechas[0]);
+      let d = new Date(primera.getFullYear(), primera.getMonth(), 1);
+      const fin = new Date();
+      while (d <= fin) {
+        meses.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
+        d.setMonth(d.getMonth() + 1);
+      }
+    }
+  }
+
+  meses.forEach(m => buckets[m] = 0);
+
+  filtrarPorPeriodo(ordenes).forEach(o => {
+    const k = mesKey(o.fecha);
+    if (k && buckets[k] !== undefined) buckets[k]++;
+  });
+
+  return {
+    labels: meses.map(mesLabel),
+    valores: meses.map(m => buckets[m])
+  };
+}
+
+function datosTopClientes() {
+  const filtradas = filtrarPorPeriodo(ordenes);
+  const porCliente = {};
+  filtradas.forEach(o => {
+    if (o.cliente) porCliente[o.cliente] = (porCliente[o.cliente] || 0) + 1;
+  });
+  const ordenado = Object.entries(porCliente).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  return {
+    labels: ordenado.map(x => x[0]),
+    valores: ordenado.map(x => x[1])
+  };
+}
+
+function datosTiempoPromedio() {
+  const { desde, hasta } = rangoPeriodo(periodoActual);
+  const buckets = {};
+  let meses = [];
+
+  if (desde) {
+    let d = new Date(desde.getFullYear(), desde.getMonth(), 1);
+    const fin = new Date(hasta.getFullYear(), hasta.getMonth(), 1);
+    while (d <= fin) {
+      meses.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
+      d.setMonth(d.getMonth() + 1);
+    }
+  } else {
+    const conFecha = ordenes.filter(o => o.fechaEntregaReal);
+    if (conFecha.length === 0) {
+      meses = [`${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`];
+    } else {
+      const fechas = conFecha.map(o => o.fecha).filter(Boolean).sort();
+      const primera = new Date(fechas[0]);
+      let d = new Date(primera.getFullYear(), primera.getMonth(), 1);
+      const fin = new Date();
+      while (d <= fin) {
+        meses.push(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
+        d.setMonth(d.getMonth() + 1);
+      }
+    }
+  }
+
+  meses.forEach(m => buckets[m] = { sum: 0, count: 0 });
+
+  filtrarPorPeriodo(ordenes).forEach(o => {
+    if (o.estado !== 'entregada' || !o.fecha || !o.fechaEntregaReal) return;
+    const k = mesKey(o.fecha);
+    if (k && buckets[k]) {
+      const dias = diasEntre(o.fecha, o.fechaEntregaReal);
+      if (dias !== null && dias >= 0) {
+        buckets[k].sum += dias;
+        buckets[k].count++;
+      }
+    }
+  });
+
+  return {
+    labels: meses.map(mesLabel),
+    valores: meses.map(m => buckets[m].count > 0 ? +(buckets[m].sum / buckets[m].count).toFixed(1) : null)
+  };
+}
+
+function datosConsumoMateriales() {
+  // Buscar todos los movimientos de tipo 'salida' en los últimos meses
+  const { desde, hasta } = rangoPeriodo(periodoActual);
+  const desdeISO = desde ? desde.toISOString().split('T')[0] : null;
+  const hastaISO = hasta ? hasta.toISOString().split('T')[0] : null;
+
+  const porMaterial = {};
+
+  stock.forEach(mat => {
+    (mat.variantes || []).forEach(v => {
+      (v.movimientos || []).forEach(mv => {
+        if (mv.tipo !== 'salida') return;
+        const f = String(mv.fecha || '').split('T')[0];
+        if (!f) return;
+        if (desdeISO && f < desdeISO) return;
+        if (hastaISO && f > hastaISO) return;
+        const key = `${mat.nombre} ${v.nombre}`;
+        porMaterial[key] = (porMaterial[key] || 0) + (parseFloat(mv.cantidad) || 0);
+      });
+    });
+  });
+
+  const ordenado = Object.entries(porMaterial).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  return {
+    labels: ordenado.map(x => x[0]),
+    valores: ordenado.map(x => +x[1].toFixed(1))
+  };
+}
+
+function datosValorInventario() {
+  const porMaterial = [];
+  stock.forEach(mat => {
+    (mat.variantes || []).forEach(v => {
+      const valor = (parseFloat(v.cantidad) || 0) * (parseFloat(v.precioPromedio || v.precio) || 0);
+      if (valor > 0) {
+        porMaterial.push({ nombre: `${mat.nombre} ${v.nombre}`, valor });
+      }
+    });
+  });
+  const ordenado = porMaterial.sort((a, b) => b.valor - a.valor).slice(0, 10);
+  return {
+    labels: ordenado.map(x => x.nombre),
+    valores: ordenado.map(x => +x.valor.toFixed(2))
+  };
+}
+
+function datosRecetasUsadas() {
+  const ordenado = [...recetas].sort((a, b) => (b.vecesUsado || 0) - (a.vecesUsado || 0)).slice(0, 8);
+  return {
+    labels: ordenado.map(r => r.nombre),
+    valores: ordenado.map(r => r.vecesUsado || 0)
+  };
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderTodo() {
+  renderKPIs();
+  renderTodosLosGraficos();
+  actualizarSubtitulo();
+}
+
+function renderKPIs() {
+  const k = calcularKPIs();
+  document.getElementById('kpiOrdenes').textContent = k.total;
+  document.getElementById('kpiOrdenesSub').textContent = etiquetaPeriodo(periodoActual);
+  document.getElementById('kpiPiezas').textContent = k.piezas;
+  document.getElementById('kpiPiezasSub').textContent = k.total > 0
+    ? `Prom. ${(k.piezas / k.total).toFixed(1)} por orden`
+    : '—';
+  document.getElementById('kpiTiempoProm').textContent = k.tiempoProm !== null ? k.tiempoProm + 'd' : '—';
+  document.getElementById('kpiTiempoPromSub').textContent = k.tiempoProm !== null ? 'Días desde creación' : 'Sin datos de entrega';
+  document.getElementById('kpiClienteTop').textContent = k.clienteTop || '—';
+  document.getElementById('kpiClienteTopSub').textContent = k.clienteTop ? `${k.clienteTopCount} órdenes` : 'Sin datos';
+}
+
+function actualizarSubtitulo() {
+  const k = calcularKPIs();
+  document.getElementById('subtitulo').textContent = `${k.total} órdenes · ${k.piezas} piezas · ${etiquetaPeriodo(periodoActual)}`;
+}
+
+function destruirChart(id) {
+  if (charts[id]) {
+    charts[id].destroy();
+    delete charts[id];
+  }
+}
+
+function renderTodosLosGraficos() {
+  const col = coloresGrafico();
+  const paleta = paletaColores();
+  const fontFamily = 'Inter, sans-serif';
+
+  Chart.defaults.font.family = fontFamily;
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = col.text;
+
+  // 1. Órdenes por mes (barras)
+  const d1 = datosOrdenesPorMes();
+  destruirChart('chartOrdenesMes');
+  const ctx1 = document.getElementById('chartOrdenesMes');
+  if (ctx1) {
+    if (d1.valores.every(v => v === 0)) {
+      mostrarEmpty('chartOrdenesMes');
+    } else {
+      charts.chartOrdenesMes = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: d1.labels,
+          datasets: [{
+            label: 'Órdenes',
+            data: d1.valores,
+            backgroundColor: col.cyan + '99',
+            borderColor: col.cyan,
+            borderWidth: 1.5,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: { label: (ctx) => `${ctx.parsed.y} órdenes` }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { color: col.text, stepSize: 1 },
+              grid: { color: col.grid }
+            },
+            x: {
+              ticks: { color: col.text },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+    document.getElementById('subOrdenesMes').textContent = `${d1.valores.reduce((s, v) => s + v, 0)} órdenes en ${d1.labels.length} meses`;
+  }
+
+  // 2. Top clientes (barras horizontales)
+  const d2 = datosTopClientes();
+  destruirChart('chartTopClientes');
+  const ctx2 = document.getElementById('chartTopClientes');
+  if (ctx2) {
+    if (d2.valores.length === 0) {
+      mostrarEmpty('chartTopClientes');
+    } else {
+      charts.chartTopClientes = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: d2.labels,
+          datasets: [{
+            label: 'Órdenes',
+            data: d2.valores,
+            backgroundColor: d2.labels.map((_, i) => paleta[i % paleta.length] + 'CC'),
+            borderColor: d2.labels.map((_, i) => paleta[i % paleta.length]),
+            borderWidth: 1.5,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.x} órdenes` } }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: { color: col.text, stepSize: 1 },
+              grid: { color: col.grid }
+            },
+            y: {
+              ticks: { color: col.text },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  // 3. Tiempo promedio (línea)
+  const d3 = datosTiempoPromedio();
+  destruirChart('chartTiempoPromedio');
+  const ctx3 = document.getElementById('chartTiempoPromedio');
+  if (ctx3) {
+    const conDatos = d3.valores.filter(v => v !== null);
+    if (conDatos.length === 0) {
+      mostrarEmpty('chartTiempoPromedio');
+    } else {
+      charts.chartTiempoPromedio = new Chart(ctx3, {
+        type: 'line',
+        data: {
+          labels: d3.labels,
+          datasets: [{
+            label: 'Días',
+            data: d3.valores,
+            borderColor: col.purple,
+            backgroundColor: col.purple + '33',
+            borderWidth: 2.5,
+            tension: 0.35,
+            pointBackgroundColor: col.purple,
+            pointBorderColor: '#fff',
+            pointBorderWidth: 1.5,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+            fill: true,
+            spanGaps: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.y} días` } }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { color: col.text, callback: (v) => v + 'd' },
+              grid: { color: col.grid }
+            },
+            x: {
+              ticks: { color: col.text },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  // 4. Consumo de materiales (barras)
+  const d4 = datosConsumoMateriales();
+  destruirChart('chartConsumoMat');
+  const ctx4 = document.getElementById('chartConsumoMat');
+  if (ctx4) {
+    if (d4.valores.length === 0) {
+      mostrarEmpty('chartConsumoMat');
+    } else {
+      charts.chartConsumoMat = new Chart(ctx4, {
+        type: 'bar',
+        data: {
+          labels: d4.labels,
+          datasets: [{
+            label: 'Cantidad',
+            data: d4.valores,
+            backgroundColor: col.green + '99',
+            borderColor: col.green,
+            borderWidth: 1.5,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.y} g` } }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { color: col.text, callback: (v) => v + 'g' },
+              grid: { color: col.grid }
+            },
+            x: {
+              ticks: { color: col.text, maxRotation: 45, minRotation: 0, autoSkip: false },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  // 5. Valor inventario (doughnut)
+  const d5 = datosValorInventario();
+  destruirChart('chartValorInv');
+  const ctx5 = document.getElementById('chartValorInv');
+  if (ctx5) {
+    if (d5.valores.length === 0) {
+      mostrarEmpty('chartValorInv');
+    } else {
+      charts.chartValorInv = new Chart(ctx5, {
+        type: 'doughnut',
+        data: {
+          labels: d5.labels,
+          datasets: [{
+            data: d5.valores,
+            backgroundColor: d5.labels.map((_, i) => paleta[i % paleta.length] + 'CC'),
+            borderColor: d5.labels.map((_, i) => paleta[i % paleta.length]),
+            borderWidth: 1.5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '55%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: col.text, boxWidth: 12, padding: 10, font: { size: 10 } }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.label}: $${ctx.parsed.toFixed(2)}`
+              }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  // 6. Recetas más usadas (barras horizontales)
+  const d6 = datosRecetasUsadas();
+  destruirChart('chartRecetas');
+  const ctx6 = document.getElementById('chartRecetas');
+  if (ctx6) {
+    if (d6.valores.length === 0 || d6.valores.every(v => v === 0)) {
+      mostrarEmpty('chartRecetas');
+    } else {
+      charts.chartRecetas = new Chart(ctx6, {
+        type: 'bar',
+        data: {
+          labels: d6.labels,
+          datasets: [{
+            label: 'Usos',
+            data: d6.valores,
+            backgroundColor: d6.labels.map((_, i) => paleta[i % paleta.length] + 'CC'),
+            borderColor: d6.labels.map((_, i) => paleta[i % paleta.length]),
+            borderWidth: 1.5,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.x} usos` } }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: { color: col.text, stepSize: 1 },
+              grid: { color: col.grid }
+            },
+            y: {
+              ticks: { color: col.text, font: { size: 10 } },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+  }
+}
+
+function mostrarEmpty(idCanvas) {
+  const canvas = document.getElementById(idCanvas);
+  if (!canvas) return;
+  const parent = canvas.parentElement;
+  canvas.style.display = 'none';
+  // Remover empty previo si existe
+  const prev = parent.querySelector('.chart-empty');
+  if (prev) prev.remove();
+  const div = document.createElement('div');
+  div.className = 'chart-empty';
+  div.innerHTML = '<div class="icono">📊</div><div>Sin datos para este período</div>';
+  parent.appendChild(div);
+}
+
+function limpiarEmpty(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  canvas.style.display = '';
+  const parent = canvas.parentElement;
+  const empty = parent.querySelector('.chart-empty');
+  if (empty) empty.remove();
+}
+
+// Limpiar empties antes de renderizar
+const origRender = renderTodosLosGraficos;
+renderTodosLosGraficos = function() {
+  ['chartOrdenesMes','chartTopClientes','chartTiempoPromedio','chartConsumoMat','chartValorInv','chartRecetas'].forEach(limpiarEmpty);
+  origRender.call(this);
+};
+
+// ============================================================
+// CAMBIAR PERÍODO
+// ============================================================
+function cambiarPeriodo(p) {
+  periodoActual = p;
+  document.querySelectorAll('.periodo-tabs button').forEach(b => {
+    b.classList.toggle('activo', b.dataset.periodo === p);
+  });
+  renderTodo();
+  toast(`📅 ${etiquetaPeriodo(p)}`, 'info');
+}
+
+// ============================================================
+// DESCARGAR GRÁFICO
+// ============================================================
+function descargarChart(chartId, nombre) {
+  const chart = charts[chartId];
+  if (!chart) { toast('⚠️ El gráfico no está listo', 'warning'); return; }
+  try {
+    const url = chart.toBase64Image();
+    const a = document.createElement('a');
+    a.href = url;
+    const fecha = new Date().toISOString().split('T')[0];
+    a.download = `cajupa-${nombre}-${fecha}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    toast('⬇️ Imagen descargada', 'success');
+  } catch(e) {
+    console.error(e);
+    toast('⚠️ No se pudo descargar', 'error');
+  }
+}
+
+// ============================================================
+// REFRESCAR
+// ============================================================
+function refrescarTodo() {
+  ordenes = leerLS(CLAVE_ORDENES, []);
+  recetas = leerLS(CLAVE_RECETAS, []);
+  stock = leerLS(CLAVE_STOCK, []);
+  renderTodo();
+  toast('🔄 Datos actualizados', 'success');
+}
+
+// ============================================================
+// EXPORTAR PDF
+// ============================================================
+function exportarPDF() {
+  const k = calcularKPIs();
+  const d1 = datosOrdenesPorMes();
+  const d2 = datosTopClientes();
+  const d4 = datosConsumoMateriales();
+  const d5 = datosValorInventario();
+  const d6 = datosRecetasUsadas();
+
+  const tablaOrdenesMes = d1.labels.map((lbl, i) => `
+    <tr><td>${lbl}</td><td style="text-align:right;">${d1.valores[i]}</td></tr>
+  `).join('');
+
+  const tablaTopClientes = d2.labels.map((lbl, i) => `
+    <tr><td>${lbl}</td><td style="text-align:right;">${d2.valores[i]}</td></tr>
+  `).join('');
+
+  const tablaConsumo = d4.labels.map((lbl, i) => `
+    <tr><td>${lbl}</td><td style="text-align:right;">${d4.valores[i]} g</td></tr>
+  `).join('');
+
+  const tablaValor = d5.labels.map((lbl, i) => `
+    <tr><td>${lbl}</td><td style="text-align:right;">$${d5.valores[i]}</td></tr>
+  `).join('');
+
+  const tablaRecetas = d6.labels.map((lbl, i) => `
+    <tr><td>${lbl}</td><td style="text-align:right;">${d6.valores[i]}</td></tr>
+  `).join('');
+
+  const el = document.getElementById('printReportes');
+  el.innerHTML = `
+    <h1>🏛️ CAJUÑA — REPORTES</h1>
+    <div class="print-sub">
+      Taller de granito y marmolería · Período: <strong>${etiquetaPeriodo(periodoActual)}</strong> · Generado el ${new Date().toLocaleString('es-VE')}
+    </div>
+
+    <h2>Resumen general</h2>
+    <table>
+      <tr><td><strong>Total órdenes</strong></td><td style="text-align:right;">${k.total}</td></tr>
+      <tr><td><strong>Piezas fabricadas</strong></td><td style="text-align:right;">${k.piezas}</td></tr>
+      <tr><td><strong>Tiempo promedio de entrega</strong></td><td style="text-align:right;">${k.tiempoProm !== null ? k.tiempoProm + ' días' : '—'}</td></tr>
+      <tr><td><strong>Cliente top</strong></td><td style="text-align:right;">${k.clienteTop || '—'}${k.clienteTop ? ' (' + k.clienteTopCount + ' órdenes)' : ''}</td></tr>
+    </table>
+
+    <h2>Órdenes por mes</h2>
+    <table><thead><tr><th>Mes</th><th style="text-align:right;">Órdenes</th></tr></thead><tbody>${tablaOrdenesMes || '<tr><td colspan="2">Sin datos</td></tr>'}</tbody></table>
+
+    <h2>Top clientes</h2>
+    <table><thead><tr><th>Cliente</th><th style="text-align:right;">Órdenes</th></tr></thead><tbody>${tablaTopClientes || '<tr><td colspan="2">Sin datos</td></tr>'}</tbody></table>
+
+    <h2>Consumo de materiales</h2>
+    <table><thead><tr><th>Material</th><th style="text-align:right;">Consumo</th></tr></thead><tbody>${tablaConsumo || '<tr><td colspan="2">Sin datos</td></tr>'}</tbody></table>
+
+    <h2>Valor del inventario</h2>
+    <table><thead><tr><th>Material</th><th style="text-align:right;">Valor</th></tr></thead><tbody>${tablaValor || '<tr><td colspan="2">Sin datos</td></tr>'}</tbody></table>
+
+    <h2>Recetas más usadas</h2>
+    <table><thead><tr><th>Receta</th><th style="text-align:right;">Usos</th></tr></thead><tbody>${tablaRecetas || '<tr><td colspan="2">Sin datos</td></tr>'}</tbody></table>
+
+    <div class="print-footer">Documento generado por Cajuña Pro v3.0</div>
+  `;
+
+  toast('📄 Abriendo diálogo de impresión...', 'info');
+  setTimeout(() => { window.print(); }, 300);
+}
+
+// ============================================================
+// DEMO
+// ============================================================
+function cargarDemo() {
+  if (!confirm('¿Reemplazar los datos actuales con datos demo de 6 meses?')) return;
+  ordenes = generarDemoOrdenes();
+  recetas = generarDemoRecetas();
+  stock = generarDemoStock();
+  localStorage.setItem(CLAVE_ORDENES, JSON.stringify(ordenes));
+  localStorage.setItem(CLAVE_RECETAS, JSON.stringify(recetas));
+  localStorage.setItem(CLAVE_STOCK, JSON.stringify(stock));
+  renderTodo();
+  toast('🎲 Datos demo cargados', 'success');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo = 'info') {
+  const iconos = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'toastIn 0.3s ease reverse';
+    setTimeout(() => el.remove(), 300);
+  }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+aplicarTema(localStorage.getItem('cajupa_tema') || 'brand');
+if (localStorage.getItem('cajupa_manos') === '1') {
+  document.body.classList.add('manos-sucias');
+  document.getElementById('btnManos').classList.add('activo');
+}
+
+init();
+
+// Sincronizar cambios entre pestañas
+window.addEventListener('storage', (e) => {
+  if (e.key === CLAVE_ORDENES || e.key === CLAVE_STOCK || e.key === CLAVE_RECETAS) {
+    ordenes = leerLS(CLAVE_ORDENES, []);
+    recetas = leerLS(CLAVE_RECETAS, []);
+    stock = leerLS(CLAVE_STOCK, []);
+    renderTodo();
+  }
+});
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

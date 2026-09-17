@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro v3.0 — Mis Modelos 3D/2D</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+  --topbar-h: 60px;
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .sidebar { background:#0a0a0a; border-right-color:rgba(255,255,255,0.08); }
+body.theme-dark .topbar { background:#0a0a0a; border-bottom-color:rgba(255,255,255,0.08); }
+body.theme-dark .sb-item:hover { background:rgba(255,255,255,0.05); color:#f0f0f0; }
+body.theme-dark .sb-item.activo { background:linear-gradient(90deg, rgba(196,163,255,0.15), rgba(77,239,255,0.05)); color:#f0f0f0; border-left-color:#c4a3ff; }
+body.theme-dark .empresa-switcher { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+body.theme-dark .panel, body.theme-dark .kpi-card, body.theme-dark .modelo-card { background:#242424; border-color:rgba(255,255,255,0.1); }
+body.theme-dark .input, body.theme-dark .select { background:#0f0f0f; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn:hover { background:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn.activo { background:rgba(179,136,255,0.2); }
+body.theme-dark .tab { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.1); }
+body.theme-dark .modal { background:#141414; border-color:rgba(255,255,255,0.15); }
+body.theme-dark .modelo-card:hover { border-color:#b388ff; }
+body.theme-dark .visor3d-modal { background:linear-gradient(180deg,#1a1a1a,#242424); }
+body.theme-dark .mini-canvas-wrap { background:#fff; border-color:rgba(255,255,255,0.1); }
+body.theme-dark .selector-emojis { background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.1); }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light .sidebar { background:#f7f7f5; border-right-color:#e9e9e7; }
+body.theme-light .topbar { background:#fbfbfa; border-bottom-color:#e9e9e7; }
+body.theme-light .logo-sidebar { border-bottom-color:#e9e9e7; }
+body.theme-light .sb-item { color:#57564f; }
+body.theme-light .sb-item:hover { background:rgba(0,0,0,0.04); color:#37352f; }
+body.theme-light .sb-item.activo { background:linear-gradient(90deg,rgba(107,70,193,0.15),rgba(11,122,140,0.08)); color:#37352f; border-left-color:#6b46c1; }
+body.theme-light .empresa-switcher { background:rgba(107,70,193,0.08); border-color:#e9e9e7; }
+body.theme-light .icon-btn { color:#57564f; }
+body.theme-light .icon-btn:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .icon-btn.activo { background:rgba(107,70,193,0.15); color:#6b46c1; }
+body.theme-light .panel, body.theme-light .kpi-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .input, body.theme-light .select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus, body.theme-light .select:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .select option { background:#fff; color:#37352f; }
+body.theme-light .tab { background:#fff; border-color:#e9e9e7; color:#57564f; }
+body.theme-light .tab.activo { background:#37352f; color:#fff; border-color:#37352f; }
+body.theme-light .modal { background:#fff; border-color:#d3d1cb; }
+body.theme-light .modal-header { border-bottom-color:#e9e9e7; }
+body.theme-light .modal-footer { border-top-color:#e9e9e7; }
+body.theme-light .modal-titulo { color:#37352f; }
+body.theme-light .toast { background:#fff; border-color:#d3d1cb; }
+body.theme-light .toast-msg { color:#37352f; }
+body.theme-light .modelo-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .modelo-card:hover { border-color:#6b46c1; box-shadow:0 4px 12px rgba(107,70,193,0.12); }
+body.theme-light .visor3d-modal { background:linear-gradient(180deg,#f5f5f3,#e9e9e7); border-color:rgba(11,122,140,0.25); }
+body.theme-light .visor3d-modal-overlay button { background:rgba(255,255,255,0.9); border-color:rgba(0,0,0,0.15); color:#37352f; }
+body.theme-light .fila { border-bottom-color: rgba(0,0,0,0.05); }
+body.theme-light .mini-canvas-wrap { background:#fff; border-color:#e9e9e7; }
+body.theme-light .selector-emojis { background:#fbfbfa; border-color:#e9e9e7; }
+
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-text-size-adjust: 100%; }
+.app-root { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
+
+/* SIDEBAR */
+.sidebar { width: 230px; background: var(--bg-3); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.25s ease; z-index: 100; }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+.logo-sidebar { display: flex; align-items: center; gap: 12px; padding: 18px; border-bottom: 1px solid var(--border); }
+.logo-icono { width: 42px; height: 42px; background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.logo-nombre { font-size: 15px; font-weight: 800; }
+.logo-sub { font-size: 10px; color: var(--text-mute); }
+.sidebar-nav { flex: 1; padding: 8px 10px 20px; }
+.sb-seccion { font-size: 9px; font-weight: 800; color: var(--text-mute); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 12px 6px; }
+.sb-item { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px; font-size: 14px; color: var(--text-dim); font-weight: 600; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sb-item:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.sb-item.activo { background: linear-gradient(90deg, rgba(106,27,154,0.4), rgba(0,229,255,0.08)); color: var(--text); border-left: 3px solid var(--purple); }
+.sb-icono { font-size: 17px; width: 24px; text-align: center; flex-shrink: 0; }
+
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; opacity: 0; transition: opacity 0.25s ease; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.sidebar-backdrop.activo { display: block; opacity: 1; }
+
+/* MAIN */
+.main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--border); min-height: var(--topbar-h); flex-shrink: 0; }
+.hamburger { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 8px 10px; border-radius: 8px; transition: background 0.15s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.hamburger:hover { background: rgba(106,27,154,0.15); }
+.hamburger:active { background: rgba(106,27,154,0.25); }
+.empresa-switcher { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(106,27,154,0.2); border: 1px solid var(--border); border-radius: 10px; }
+.empresa-nombre { font-size: 12px; font-weight: 800; }
+.empresa-rol { font-size: 9px; color: var(--purple); font-weight: 700; }
+.topbar-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: transparent; border: none; color: var(--text-dim); font-size: 17px; cursor: pointer; padding: 10px; border-radius: 8px; transition: all 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: rgba(106,27,154,0.15); }
+.icon-btn:active { background: rgba(106,27,154,0.25); }
+.icon-btn.activo { background: rgba(106,27,154,0.3); color: var(--purple); }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-titulo { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: var(--text-mute); }
+.page-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; min-height: 44px; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--purple-deep), #8e24aa); color: #fff; }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan-deep), #00acc1); color: #fff; }
+.btn-green { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+.btn-orange { background: linear-gradient(135deg, #e65100, #f57c00); color: #fff; }
+.btn-red { background: linear-gradient(135deg, #b71c1c, #c62828); color: #fff; }
+.btn-ghost { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
+.btn-sm { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.input-label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.input, .select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; transition: all 0.15s; }
+.input:focus, .select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+.input::placeholder { color: var(--text-mute); }
+.select { cursor: pointer; appearance: none; padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b388ff' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; }
+.select option { background: var(--card); color: var(--text); }
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.input-search { position: relative; }
+.input-search .input { padding-left: 40px; }
+.input-search .input-icono { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-mute); font-size: 16px; pointer-events: none; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+.kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; position: relative; overflow: hidden; cursor: pointer; transition: all 0.2s; }
+.kpi-card:hover { transform: translateY(-3px); border-color: var(--cyan); }
+.kpi-card::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+.kpi-card.cyan::before { background: linear-gradient(180deg, var(--cyan), var(--cyan-deep)); }
+.kpi-card.purple::before { background: linear-gradient(180deg, var(--purple), var(--purple-deep)); }
+.kpi-card.green::before { background: linear-gradient(180deg, var(--green), #2e7d32); }
+.kpi-card.yellow::before { background: linear-gradient(180deg, var(--yellow), #f9a825); }
+.kpi-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.kpi-label { font-size: 10px; color: var(--text-mute); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.kpi-icono { font-size: 20px; opacity: 0.7; }
+.kpi-valor { font-size: 28px; font-weight: 900; line-height: 1; margin-bottom: 6px; }
+.kpi-valor.cyan { color: var(--cyan); }
+.kpi-valor.purple { color: var(--purple); }
+.kpi-valor.green { color: var(--green); }
+.kpi-valor.yellow { color: var(--yellow); }
+.kpi-cambio { font-size: 11px; color: var(--text-mute); font-weight: 700; }
+
+.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 18px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { padding: 9px 18px; border-radius: 22px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: inherit; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.tab.activo { background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); color: #fff; border-color: transparent; }
+
+.modelos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.modelo-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: all 0.2s; position: relative; display: flex; flex-direction: column; }
+.modelo-card:hover { transform: translateY(-4px); border-color: var(--purple); box-shadow: 0 8px 24px rgba(106,27,154,0.15); }
+.modelo-thumb { height: 160px; position: relative; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(106,27,154,0.15), rgba(0,229,255,0.08)); overflow: hidden; }
+.modelo-thumb.tipo-3d { background: linear-gradient(135deg, #0d0d1a, #131324); }
+.modelo-thumb.tipo-2d { background: linear-gradient(135deg, rgba(106,27,154,0.08), rgba(0,229,255,0.05)); }
+.modelo-thumb img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.modelo-thumb .emoji-grande { font-size: 64px; opacity: 0.9; }
+.modelo-tipo-badge { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; letter-spacing: 0.5px; backdrop-filter: blur(8px); }
+.modelo-tipo-badge.tipo-3d { background: rgba(0,229,255,0.25); color: #00e5ff; border: 1px solid rgba(0,229,255,0.4); }
+.modelo-tipo-badge.tipo-2d { background: rgba(179,136,255,0.25); color: #b388ff; border: 1px solid rgba(179,136,255,0.4); }
+.modelo-fav { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.5); border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); transition: all 0.2s; }
+.modelo-fav:hover { transform: scale(1.15); background: rgba(0,0,0,0.7); }
+
+.modelo-body { padding: 14px 16px; flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.modelo-nombre { font-size: 14px; font-weight: 800; color: var(--text); line-height: 1.3; word-break: break-word; }
+.modelo-cat { font-size: 10px; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+.modelo-stats { display: flex; gap: 12px; font-size: 11px; color: var(--text-mute); padding-top: 10px; border-top: 1px dashed var(--border); margin-top: auto; }
+.modelo-stats .item { display: flex; align-items: center; gap: 4px; }
+.modelo-stats .item strong { color: var(--text-dim); font-weight: 800; }
+
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+.badge-cyan { background: rgba(0,229,255,0.15); color: var(--cyan); }
+.badge-purple { background: rgba(179,136,255,0.15); color: var(--purple); }
+.badge-yellow { background: rgba(255,213,79,0.15); color: var(--yellow); }
+.badge-green { background: rgba(76,175,80,0.15); color: var(--green); }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+.modal-overlay.activo { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border-strong); border-radius: 16px; width: 100%; max-width: 720px; max-height: 90vh; display: flex; flex-direction: column; animation: modalIn 0.25s; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.modal-titulo { font-size: 17px; font-weight: 800; }
+.modal-close { background: transparent; border: none; color: var(--text-mute); font-size: 28px; cursor: pointer; line-height: 1; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { color: var(--red); }
+.modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+.visor3d-modal { position: relative; height: 340px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,229,255,0.25); background: linear-gradient(180deg, #0d0d1a, #131324); margin-bottom: 16px; }
+.visor3d-modal::before { content: ""; position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(0,229,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.08) 1px, transparent 1px);
+  background-size: 32px 32px; pointer-events: none; z-index: 1; }
+#visor3dCanvas { width: 100%; height: 100%; display: block; position: relative; z-index: 2; cursor: grab; touch-action: none; }
+.visor3d-modal-overlay { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; z-index: 10; flex-wrap: wrap; }
+.visor3d-modal-overlay button { background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.visor3d-modal-overlay button:hover { background: rgba(0,0,0,0.9); }
+.visor3d-etiqueta { position: absolute; top: 14px; right: 14px; font-size: 10px; font-weight: 800; letter-spacing: 2px; color: var(--cyan); text-transform: uppercase; z-index: 10; pointer-events: none; }
+
+.preview2d-modal { background: #fff; border-radius: 12px; border: 2px solid var(--border); overflow: hidden; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; min-height: 340px; padding: 14px; }
+.preview2d-modal img { max-width: 100%; max-height: 320px; border-radius: 6px; }
+
+.fila { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; gap: 8px; }
+.fila:last-child { border-bottom: none; }
+.fila .label { color: var(--text-dim); }
+.fila .valor { color: var(--text); font-weight: 700; text-align: right; }
+.valor.cyan { color: var(--cyan); }
+.valor.purple { color: var(--purple); }
+.valor.green { color: var(--green); }
+.valor.orange { color: var(--orange); }
+.valor.mute { color: var(--text-mute); font-weight: 500; font-size: 12px; }
+
+.mini-canvas-wrap { background: #fff; border: 2px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+#miniCanvas { width: 100%; height: 280px; display: block; touch-action: none; cursor: crosshair; }
+.mini-toolbar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px; border-bottom: 1px solid var(--border); background: var(--bg-2); }
+.mini-tool { padding: 8px 12px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; min-height: 36px; }
+.mini-tool.activo { background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); color: #fff; border-color: transparent; }
+.mini-color { width: 28px; height: 28px; border-radius: 5px; border: 2px solid var(--border); cursor: pointer; }
+.mini-color.activo { border-color: var(--cyan); transform: scale(1.15); }
+
+.selector-emojis { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin-top: 8px; max-height: 160px; overflow-y: auto; padding: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; }
+.selector-emojis button { background: transparent; border: 1px solid transparent; border-radius: 8px; padding: 8px; font-size: 18px; cursor: pointer; transition: all 0.15s; }
+.selector-emojis button:hover { background: rgba(106,27,154,0.15); border-color: var(--border); }
+.selector-emojis button.sel { background: rgba(106,27,154,0.3); border-color: var(--purple); }
+
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; pointer-events: auto; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; font-weight: 600; }
+
+.empty { text-align: center; padding: 60px 20px; color: var(--text-mute); grid-column: 1/-1; }
+.empty-icono { font-size: 60px; opacity: 0.3; margin-bottom: 16px; }
+.empty-titulo { font-size: 16px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; }
+.empty-sub { font-size: 13px; }
+
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 20px; }
+  .kpi-valor { font-size: 24px; }
+}
+
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; }
+
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; height: 100dvh; width: 260px; max-width: 85vw; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar.abierto { transform: translateX(0); }
+
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .hamburger { display: flex; }
+  .empresa-switcher { padding: 6px 10px; }
+  .empresa-nombre { font-size: 11px; }
+  .empresa-rol { font-size: 8px; }
+  .topbar-acciones { gap: 2px; }
+  .icon-btn { font-size: 18px; padding: 8px; min-width: 40px; min-height: 40px; }
+
+  .content { padding: 16px; }
+
+  .page-header { flex-direction: column; align-items: stretch; margin-bottom: 16px; }
+  .page-titulo { font-size: 22px; }
+  .page-sub { font-size: 12px; }
+  .page-acciones { width: 100%; }
+  .page-acciones .btn { flex: 1; justify-content: center; }
+
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .kpi-card { padding: 14px; }
+  .kpi-valor { font-size: 24px; }
+  .kpi-label { font-size: 9px; }
+
+  .panel { padding: 16px; }
+
+  .modelos-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .modelo-thumb { height: 130px; }
+  .modelo-thumb .emoji-grande { font-size: 48px; }
+  .modelo-nombre { font-size: 13px; }
+  .modelo-stats { font-size: 10px; }
+
+  .form-row.cols-2 { grid-template-columns: 1fr; }
+
+  .visor3d-modal { height: 260px; }
+  .preview2d-modal { min-height: 240px; }
+
+  .selector-emojis { grid-template-columns: repeat(6, 1fr); }
+
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal { max-width: 100%; max-height: 92vh; border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-top-left-radius: 20px; border-top-right-radius: 20px; animation: modalInMobile 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  @keyframes modalInMobile { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal::before { content: ""; display: block; width: 40px; height: 4px; background: var(--border-strong); border-radius: 2px; margin: 10px auto 0; }
+  .modal-header { padding: 14px 20px 16px; }
+  .modal-body { padding: 16px 20px; }
+  .modal-footer { padding: 14px 20px; }
+  .modal-footer .btn { flex: 1; justify-content: center; }
+
+  .toast-container { top: auto; bottom: 80px; left: 16px; right: 16px; }
+  .toast { min-width: auto; max-width: none; width: 100%; }
+
+  .btn { padding: 12px 16px; font-size: 13px; }
+  .btn-sm { padding: 8px 12px; font-size: 11px; min-height: 38px; }
+}
+
+@media (max-width: 480px) {
+  .content { padding: 12px; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .modelos-grid { grid-template-columns: 1fr; }
+  .page-titulo { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-root">
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="cerrarSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-sidebar">
+      <div class="logo-icono">🏛️</div>
+      <div><div class="logo-nombre">Cajuña Pro</div><div class="logo-sub">v3.0</div></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sb-seccion">Principal</div>
+      <div class="sb-item" onclick="irA('dashboard.html')"><span class="sb-icono">📊</span>Dashboard</div>
+      <div class="sb-item" onclick="irA('nueva-orden.html')"><span class="sb-icono">➕</span>Nueva Orden</div>
+      <div class="sb-item" onclick="irA('llenado-parcial.html')"><span class="sb-icono">📦</span>Llenado Parcial</div>
+      <div class="sb-item" onclick="irA('produccion.html')"><span class="sb-icono">🔨</span>Producción</div>
+
+      <div class="sb-seccion">Biblioteca</div>
+      <div class="sb-item" onclick="irA('moldes.html')"><span class="sb-icono">🗄️</span>Moldes</div>
+      <div class="sb-item activo" onclick="irA('mis-modelos.html')"><span class="sb-icono">💾</span>Mis Modelos</div>
+      <div class="sb-item" onclick="irA('recetas.html')"><span class="sb-icono">📖</span>Recetas</div>
+      <div class="sb-item" onclick="irA('archivo.html')"><span class="sb-icono">📁</span>Archivo</div>
+      <div class="sb-item" onclick="irA('museo.html')"><span class="sb-icono">🏛️</span>Museo Virtual</div>
+
+      <div class="sb-seccion">Análisis</div>
+      <div class="sb-item" onclick="irA('stock.html')"><span class="sb-icono">📦</span>Stock</div>
+      <div class="sb-item" onclick="irA('laboratorio.html')"><span class="sb-icono">🧪</span>Laboratorio</div>
+      <div class="sb-item" onclick="irA('reportes.html')"><span class="sb-icono">📈</span>Reportes</div>
+
+      <div class="sb-seccion">Sistema</div>
+      <div class="sb-item" onclick="irA('clientes.html')"><span class="sb-icono">👥</span>Clientes</div>
+      <div class="sb-item" onclick="irA('usuarios.html')"><span class="sb-icono">👤</span>Usuarios</div>
+      <div class="sb-item" onclick="irA('configuracion.html')"><span class="sb-icono">⚙️</span>Configuración</div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="hamburger" onclick="abrirSidebar()" aria-label="Abrir menú">☰</button>
+      <div class="empresa-switcher">
+        <span>🏢</span>
+        <div><div class="empresa-nombre">Cajuña</div><div class="empresa-rol">Admin</div></div>
+      </div>
+      <div class="topbar-acciones">
+        <button class="icon-btn" onclick="toggleManosSucias()" id="btnManos" title="Manos sucias">🧤</button>
+        <button class="icon-btn" onclick="toggleTema()" id="btnTema" title="Cambiar tema">🎨</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-titulo">💾 Mis Modelos 3D/2D</div>
+          <div class="page-sub" id="subtitulo">Cargando...</div>
+        </div>
+        <div class="page-acciones">
+          <button class="btn btn-ghost" onclick="exportarWhatsApp()">📤 Compartir</button>
+          <button class="btn btn-cyan" onclick="abrirCrearDibujo2D()">✏️ Dibujar 2D</button>
+          <button class="btn btn-primary" onclick="abrirNuevoModelo()">➕ Nuevo modelo</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card cyan">
+          <div class="kpi-top"><span class="kpi-label">Total modelos</span><span class="kpi-icono">💾</span></div>
+          <div class="kpi-valor cyan" id="kpiTotal">0</div>
+          <div class="kpi-cambio">En biblioteca</div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-top"><span class="kpi-label">Modelos 3D</span><span class="kpi-icono">📦</span></div>
+          <div class="kpi-valor purple" id="kpi3D">0</div>
+          <div class="kpi-cambio">Archivos .glb / .stl</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-top"><span class="kpi-label">Dibujos 2D</span><span class="kpi-icono">✏️</span></div>
+          <div class="kpi-valor green" id="kpi2D">0</div>
+          <div class="kpi-cambio">Bocetos guardados</div>
+        </div>
+        <div class="kpi-card yellow">
+          <div class="kpi-top"><span class="kpi-label">Favoritos</span><span class="kpi-icono">⭐</span></div>
+          <div class="kpi-valor yellow" id="kpiFav">0</div>
+          <div class="kpi-cambio">Los más usados</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="input-search" style="margin-bottom:16px;">
+          <span class="input-icono">🔍</span>
+          <input class="input" placeholder="Buscar modelo, categoría o nota..." id="busqueda" oninput="render()">
+        </div>
+
+        <div class="tabs" id="tabsFiltros"></div>
+
+        <div class="modelos-grid" id="gridModelos"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)cerrarModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-titulo" id="modalTitulo">Modal</div>
+      <button class="modal-close" onclick="cerrarModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SIDEBAR MÓVIL
+// ============================================================
+function abrirSidebar() {
+  document.getElementById('sidebar').classList.add('abierto');
+  document.getElementById('sidebarBackdrop').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarSidebar() {
+  document.getElementById('sidebar').classList.remove('abierto');
+  document.getElementById('sidebarBackdrop').classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function irA(url) {
+  cerrarSidebar();
+  setTimeout(() => { location.href = url; }, 150);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarSidebar();
+});
+
+// ============================================================
+// CONSTANTES
+// ============================================================
+const CLAVE_MODELOS = 'cajupa_mis_modelos_v1';
+const CLAVE_VIEJA = 'cajupa_modelos';
+
+const CATEGORIAS = ['Plantillas', 'Lavamanos', 'Torres', 'Topes y Bases', 'Macetas', 'Platos', 'Muestras', 'Personalizados'];
+
+const EMOJIS_DISPONIBLES = [
+  '📦','✏️','🍽️','🥣','🐕','🍎','🪴','🌱','🔲','⬡','⛲','🥘','🏛️','🗿','🎨','🎭',
+  '📐','⚙️','💎','⭐','💧','🔥','🌊','🎯','🧱','🪨','🧊','🍶','🥛','🧪','🔮','🎁',
+  '🏗️','🛁','🚿','🧴','🪣','🪞','🛋️','🪑','🌿','🍀','🌸','🌺','🍄','🎪','🎨','🖼️'
+];
+
+const MATERIALES_3D = [
+  { nombre: 'Cian Metálico', color: 0x4dd0e1, metalness: 0.6, roughness: 0.25 },
+  { nombre: 'Mármol Blanco', color: 0xf5f5f5, metalness: 0.05, roughness: 0.5 },
+  { nombre: 'Granito Gris', color: 0x888888, metalness: 0.3, roughness: 0.6 },
+  { nombre: 'Concreto', color: 0xd0d0d0, metalness: 0, roughness: 0.85 },
+  { nombre: 'Resina Naranja', color: 0xff6b35, metalness: 0.4, roughness: 0.3 },
+  { nombre: 'Verde Bosque', color: 0x2e7d32, metalness: 0.3, roughness: 0.5 },
+  { nombre: 'Oro', color: 0xffd54f, metalness: 0.9, roughness: 0.15 }
+];
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+}
+function toggleTema() {
+  let actual = localStorage.getItem('cajupa_tema') || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem('cajupa_tema', nuevo);
+  aplicarTema(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+function toggleManosSucias() {
+  const activo = document.body.classList.toggle('manos-sucias');
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function hoyISO() { return new Date().toISOString().split('T')[0]; }
+function fmtFecha(iso) {
+  if (!iso) return '-';
+  const [y,m,d] = iso.split('T')[0].split('-');
+  return `${d}/${m}/${y.slice(2)}`;
+}
+function fmtVolumen(ml) {
+  if (!ml || ml <= 0) return '—';
+  if (ml >= 1000) return `${(ml/1000).toFixed(2)} L`;
+  return `${ml} ml`;
+}
+
+// ============================================================
+// ESTADO
+// ============================================================
+let filtroActual = 'todos';
+let emojiSeleccionado = '📦';
+let tipoSeleccionado = '3d';
+let materialIndex = 0;
+
+// ============================================================
+// DATOS DEMO
+// ============================================================
+function generarModelosDefault() {
+  return [
+    { id: 1, nombre: 'Plato Perro Kuma', tipo: '3d', url: null, thumbnail: null, volumenMl: 1800, categoria: 'Platos', emoji: '🐕', vecesUsado: 12, ultimoUso: '2026-09-10', favorito: true, fecha: '2026-08-15', notas: 'Modelo oficial del taller. Muy pedido.', fuente: 'plantilla' },
+    { id: 2, nombre: 'Frutero Redondo', tipo: '3d', url: null, thumbnail: null, volumenMl: 800, categoria: 'Platos', emoji: '🍎', vecesUsado: 6, ultimoUso: '2026-09-05', favorito: false, fecha: '2026-08-25', notas: 'Ø360 mm.', fuente: 'plantilla' },
+    { id: 3, nombre: 'Maceta M', tipo: '3d', url: null, thumbnail: null, volumenMl: 900, categoria: 'Macetas', emoji: '🪴', vecesUsado: 9, ultimoUso: '2026-09-11', favorito: true, fecha: '2026-08-10', notas: '', fuente: 'plantilla' },
+    { id: 4, nombre: 'Torre Piola 40', tipo: '3d', url: null, thumbnail: null, volumenMl: 45000, categoria: 'Torres', emoji: '🏛️', vecesUsado: 3, ultimoUso: '2026-09-02', favorito: false, fecha: '2026-08-20', notas: 'Ø400×910 mm. Redonda hueca.', fuente: 'plantilla' },
+    { id: 5, nombre: 'Lavamanos Ovalado', tipo: '2d', url: null, thumbnail: null, volumenMl: 0, categoria: 'Lavamanos', emoji: '🛁', vecesUsado: 5, ultimoUso: '2026-09-08', favorito: true, fecha: '2026-08-12', notas: 'Boceto a mano. Pendiente digitalizar a 3D.', fuente: 'canvas-2d' },
+    { id: 6, nombre: 'Boceto Tope Cocina', tipo: '2d', url: null, thumbnail: null, volumenMl: 0, categoria: 'Topes y Bases', emoji: '✏️', vecesUsado: 2, ultimoUso: '2026-08-30', favorito: false, fecha: '2026-08-22', notas: 'Medidas: 2400 × 600 mm.', fuente: 'canvas-2d' },
+    { id: 7, nombre: 'Plato Kuma Mini', tipo: '3d', url: null, thumbnail: null, volumenMl: 450, categoria: 'Platos', emoji: '🍽️', vecesUsado: 15, ultimoUso: '2026-09-12', favorito: false, fecha: '2026-08-18', notas: 'Versión mini del Kuma.', fuente: 'plantilla' },
+    { id: 8, nombre: 'Muestra 15×15', tipo: '3d', url: null, thumbnail: null, volumenMl: 22, categoria: 'Muestras', emoji: '🔲', vecesUsado: 21, ultimoUso: '2026-09-13', favorito: false, fecha: '2026-08-10', notas: 'Para pruebas de color.', fuente: 'plantilla' }
+  ];
+}
+
+// ============================================================
+// STORAGE
+// ============================================================
+function leerModelos() {
+  try {
+    let data = localStorage.getItem(CLAVE_MODELOS);
+    if (data) {
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+    const viejo = localStorage.getItem(CLAVE_VIEJA);
+    if (viejo) {
+      const arr = JSON.parse(viejo);
+      const migrados = arr.map((m, i) => ({
+        id: m.id || Date.now() + i,
+        nombre: m.nombre || 'Modelo',
+        tipo: '3d',
+        url: null,
+        thumbnail: null,
+        volumenMl: m.volumen || 0,
+        categoria: 'Personalizados',
+        emoji: '📦',
+        vecesUsado: 0,
+        ultimoUso: null,
+        favorito: false,
+        fecha: hoyISO(),
+        notas: '(migrado de versión anterior)',
+        fuente: 'manual'
+      }));
+      guardarModelos(migrados);
+      return migrados;
+    }
+    const defaults = generarModelosDefault();
+    guardarModelos(defaults);
+    return defaults;
+  } catch(e) {
+    return generarModelosDefault();
+  }
+}
+
+function guardarModelos(modelos) {
+  try {
+    localStorage.setItem(CLAVE_MODELOS, JSON.stringify(modelos));
+  } catch(e) {
+    console.error('Error guardando modelos:', e);
+    toast('⚠️ No se pudo guardar', 'error');
+  }
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  renderTabs();
+  renderGrid();
+  actualizarKPIs();
+  actualizarSubtitulo();
+}
+
+function actualizarSubtitulo() {
+  const modelos = leerModelos();
+  const cats = new Set(modelos.map(m => m.categoria));
+  document.getElementById('subtitulo').textContent =
+    `${modelos.length} modelos · ${cats.size} categorías`;
+}
+
+function actualizarKPIs() {
+  const modelos = leerModelos();
+  const total = modelos.length;
+  const tresD = modelos.filter(m => m.tipo === '3d').length;
+  const dosD = modelos.filter(m => m.tipo === '2d').length;
+  const favs = modelos.filter(m => m.favorito).length;
+
+  document.getElementById('kpiTotal').textContent = total;
+  document.getElementById('kpi3D').textContent = tresD;
+  document.getElementById('kpi2D').textContent = dosD;
+  document.getElementById('kpiFav').textContent = favs;
+}
+
+function renderTabs() {
+  const modelos = leerModelos();
+  const cats = CATEGORIAS.filter(c => modelos.some(m => m.categoria === c));
+
+  const tabs = [
+    { id: 'todos', icono: '🗂', label: 'Todos', count: modelos.length },
+    { id: '3d', icono: '📦', label: '3D', count: modelos.filter(m => m.tipo === '3d').length },
+    { id: '2d', icono: '✏️', label: '2D', count: modelos.filter(m => m.tipo === '2d').length },
+    { id: 'favoritos', icono: '⭐', label: 'Favoritos', count: modelos.filter(m => m.favorito).length },
+    ...cats.map(c => ({
+      id: 'cat:' + c,
+      icono: '📁',
+      label: c,
+      count: modelos.filter(m => m.categoria === c).length
+    }))
+  ];
+
+  document.getElementById('tabsFiltros').innerHTML = tabs.map(t =>
+    `<button class="tab ${filtroActual === t.id ? 'activo' : ''}" onclick="cambiarFiltro('${t.id}')">${t.icono} ${t.label} <span style="opacity:0.7;font-size:10px;">(${t.count})</span></button>`
+  ).join('');
+}
+
+function cambiarFiltro(id) {
+  filtroActual = id;
+  render();
+}
+
+function renderGrid() {
+  const busqueda = document.getElementById('busqueda').value.trim().toLowerCase();
+  let modelos = leerModelos();
+
+  if (filtroActual === '3d') modelos = modelos.filter(m => m.tipo === '3d');
+  else if (filtroActual === '2d') modelos = modelos.filter(m => m.tipo === '2d');
+  else if (filtroActual === 'favoritos') modelos = modelos.filter(m => m.favorito);
+  else if (filtroActual.startsWith('cat:')) {
+    const cat = filtroActual.slice(4);
+    modelos = modelos.filter(m => m.categoria === cat);
+  }
+
+  if (busqueda) {
+    modelos = modelos.filter(m =>
+      m.nombre.toLowerCase().includes(busqueda) ||
+      (m.categoria || '').toLowerCase().includes(busqueda) ||
+      (m.notas || '').toLowerCase().includes(busqueda)
+    );
+  }
+
+  modelos.sort((a, b) => {
+    if (a.favorito !== b.favorito) return b.favorito ? 1 : -1;
+    return (b.vecesUsado || 0) - (a.vecesUsado || 0);
+  });
+
+  const grid = document.getElementById('gridModelos');
+  if (modelos.length === 0) {
+    grid.innerHTML = `
+      <div class="empty">
+        <div class="empty-icono">🔍</div>
+        <div class="empty-titulo">Sin modelos</div>
+        <div class="empty-sub">No hay modelos que coincidan con los filtros</div>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = modelos.map(m => {
+    const esTipo3D = m.tipo === '3d';
+    const tipoClase = esTipo3D ? 'tipo-3d' : 'tipo-2d';
+    const tipoBadge = esTipo3D ? '3D' : '2D';
+
+    let thumbHTML;
+    if (m.thumbnail) {
+      thumbHTML = `<img src="${m.thumbnail}" alt="${m.nombre}">`;
+    } else {
+      thumbHTML = `<div class="emoji-grande">${m.emoji || (esTipo3D ? '📦' : '✏️')}</div>`;
+    }
+
+    return `
+      <div class="modelo-card" onclick="verModelo(${m.id})">
+        <div class="modelo-thumb ${tipoClase}">
+          <div class="modelo-tipo-badge ${tipoClase}">${tipoBadge}</div>
+          <button class="modelo-fav" onclick="event.stopPropagation();toggleFav(${m.id})" title="${m.favorito ? 'Quitar favorito' : 'Marcar favorito'}">
+            ${m.favorito ? '⭐' : '☆'}
+          </button>
+          ${thumbHTML}
+        </div>
+        <div class="modelo-body">
+          <div class="modelo-nombre">${m.nombre}</div>
+          <div class="modelo-cat">${m.categoria} · ${fmtVolumen(m.volumenMl)}</div>
+          <div class="modelo-stats">
+            <div class="item">🔥 <strong>${m.vecesUsado || 0}</strong> usos</div>
+            <div class="item" style="margin-left:auto;">📅 ${fmtFecha(m.ultimoUso)}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleFav(id) {
+  const modelos = leerModelos();
+  const m = modelos.find(x => x.id === id);
+  if (!m) return;
+  m.favorito = !m.favorito;
+  guardarModelos(modelos);
+  render();
+  toast(m.favorito ? `⭐ ${m.nombre} en favoritos` : `${m.nombre} fuera de favoritos`, 'info');
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function abrirModal(titulo, cuerpo, botones = [], maxWidth = null) {
+  document.getElementById('modalTitulo').textContent = titulo;
+  document.getElementById('modalBody').innerHTML = cuerpo;
+  document.getElementById('modalFooter').innerHTML = botones.map((b, i) =>
+    `<button class="btn ${b.class}" onclick="window._modalBtns[${i}]()">${b.txt}</button>`
+  ).join('');
+  window._modalBtns = botones.map(b => b.fn);
+  const modal = document.querySelector('.modal');
+  modal.style.maxWidth = maxWidth || '720px';
+  document.getElementById('modalOverlay').classList.add('activo');
+}
+
+function cerrarModal() {
+  document.getElementById('modalOverlay').classList.remove('activo');
+  destruirVisor3D();
+}
+
+// ============================================================
+// VISOR 3D
+// ============================================================
+let visorScene, visorCamera, visorRenderer, visorControls, visorMesh;
+let visorAnimando = false;
+
+function destruirVisor3D() {
+  visorAnimando = false;
+  if (visorControls) { visorControls.dispose(); visorControls = null; }
+  if (visorRenderer) { visorRenderer.dispose(); visorRenderer = null; }
+  if (visorMesh) { visorMesh.geometry?.dispose(); visorMesh.material?.dispose(); visorMesh = null; }
+  visorScene = null; visorCamera = null;
+}
+
+function initVisor3D(volumenMl) {
+  const canvasEl = document.getElementById('visor3dCanvas');
+  if (!canvasEl || typeof THREE === 'undefined') return;
+
+  const w = canvasEl.parentElement.clientWidth;
+  const h = canvasEl.parentElement.clientHeight;
+
+  visorScene = new THREE.Scene();
+  visorCamera = new THREE.PerspectiveCamera(45, w/h, 0.1, 5000);
+  visorCamera.position.set(200, 180, 260);
+
+  visorRenderer = new THREE.WebGLRenderer({ canvas: canvasEl, antialias: true, alpha: true });
+  visorRenderer.setSize(w, h, false);
+  visorRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  visorRenderer.shadowMap.enabled = true;
+
+  visorControls = new THREE.OrbitControls(visorCamera, canvasEl);
+  visorControls.enableDamping = true;
+  visorControls.dampingFactor = 0.06;
+  visorControls.autoRotate = true;
+  visorControls.autoRotateSpeed = 1.8;
+  visorControls.minDistance = 60;
+  visorControls.maxDistance = 1200;
+
+  visorScene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const dir = new THREE.DirectionalLight(0xffffff, 1.3);
+  dir.position.set(300, 400, 250); dir.castShadow = true; visorScene.add(dir);
+  const cyan = new THREE.DirectionalLight(0x00e5ff, 0.7); cyan.position.set(-300, 200, -250); visorScene.add(cyan);
+  const purple = new THREE.PointLight(0xb388ff, 1.0, 1500); purple.position.set(0, 400, 0); visorScene.add(purple);
+
+  const groundMat = new THREE.ShadowMaterial({ opacity: 0.3 });
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(1200, 1200), groundMat);
+  ground.rotation.x = -Math.PI / 2; ground.position.y = -2; ground.receiveShadow = true;
+  visorScene.add(ground);
+
+  const vol = volumenMl || 1000;
+  const lado = Math.cbrt(vol) * 10;
+  const geometry = new THREE.BoxGeometry(lado * 1.4, lado * 0.6, lado);
+  const matInfo = MATERIALES_3D[materialIndex % MATERIALES_3D.length];
+  const material = new THREE.MeshStandardMaterial({ color: matInfo.color, metalness: matInfo.metalness, roughness: matInfo.roughness });
+  visorMesh = new THREE.Mesh(geometry, material);
+  visorMesh.castShadow = true;
+  visorMesh.receiveShadow = true;
+  visorScene.add(visorMesh);
+
+  const radius = geometry.boundingSphere?.radius || lado;
+  const dist = radius * 3;
+  visorCamera.position.set(dist, dist * 0.7, dist);
+  visorCamera.lookAt(0, 0, 0);
+  visorControls.target.set(0, 0, 0);
+  visorControls.update();
+
+  visorAnimando = true;
+  const animar = () => {
+    if (!visorAnimando || !visorRenderer || !visorScene || !visorCamera) return;
+    requestAnimationFrame(animar);
+    visorControls.update();
+    visorRenderer.render(visorScene, visorCamera);
+  };
+  animar();
+}
+
+function toggleAutoRotateVisor() {
+  if (visorControls) visorControls.autoRotate = !visorControls.autoRotate;
+  toast(visorControls && visorControls.autoRotate ? '⏸ Auto-rotar activo' : '▶ Auto-rotar pausado', 'info');
+}
+
+function cambiarMaterialVisor() {
+  materialIndex = (materialIndex + 1) % MATERIALES_3D.length;
+  if (visorMesh) {
+    const m = MATERIALES_3D[materialIndex];
+    visorMesh.material.color.setHex(m.color);
+    visorMesh.material.metalness = m.metalness;
+    visorMesh.material.roughness = m.roughness;
+    visorMesh.material.needsUpdate = true;
+  }
+  toast('🎨 ' + MATERIALES_3D[materialIndex].nombre, 'info');
+}
+
+function resetVistaVisor() {
+  if (visorCamera && visorControls) {
+    visorCamera.position.set(200, 180, 260);
+    visorCamera.lookAt(0, 0, 0);
+    visorControls.target.set(0, 0, 0);
+    visorControls.update();
+  }
+}
+
+// ============================================================
+// VER MODELO
+// ============================================================
+function verModelo(id) {
+  const modelos = leerModelos();
+  const m = modelos.find(x => x.id === id);
+  if (!m) return;
+
+  const esTipo3D = m.tipo === '3d';
+
+  let visorHTML;
+  if (esTipo3D) {
+    visorHTML = `
+      <div class="visor3d-modal">
+        <div class="visor3d-etiqueta">● RENDER 3D</div>
+        <div class="visor3d-modal-overlay">
+          <button onclick="toggleAutoRotateVisor()">⏸ Auto-rotar</button>
+          <button onclick="resetVistaVisor()">🔄 Reiniciar</button>
+          <button onclick="cambiarMaterialVisor()">🎨 Material</button>
+        </div>
+        <canvas id="visor3dCanvas"></canvas>
+      </div>
+    `;
+  } else {
+    visorHTML = `
+      <div class="preview2d-modal">
+        ${m.thumbnail
+          ? `<img src="${m.thumbnail}" alt="${m.nombre}">`
+          : `<div style="font-size:80px;opacity:0.4;">${m.emoji || '✏️'}</div>`}
+      </div>
+    `;
+  }
+
+  const bodyHTML = `
+    ${visorHTML}
+    <div class="fila"><span class="label">Nombre</span><span class="valor">${m.nombre}</span></div>
+    <div class="fila"><span class="label">Tipo</span><span class="valor">
+      <span class="badge ${esTipo3D ? 'badge-cyan' : 'badge-purple'}">${esTipo3D ? '📦 Modelo 3D' : '✏️ Dibujo 2D'}</span>
+    </span></div>
+    <div class="fila"><span class="label">Categoría</span><span class="valor purple">${m.categoria}</span></div>
+    <div class="fila"><span class="label">Volumen</span><span class="valor cyan">${fmtVolumen(m.volumenMl)}</span></div>
+    <div class="fila"><span class="label">Veces usado</span><span class="valor green">${m.vecesUsado || 0} veces</span></div>
+    <div class="fila"><span class="label">Último uso</span><span class="valor">${fmtFecha(m.ultimoUso)}</span></div>
+    <div class="fila"><span class="label">Creado</span><span class="valor mute">${fmtFecha(m.fecha)}</span></div>
+    <div class="fila"><span class="label">Fuente</span><span class="valor mute">${
+      { 'plantilla': '📋 Plantilla', 'canvas-2d': '✏️ Canvas 2D', 'carga-manual': '📁 Carga manual', 'manual': '✍️ Manual' }[m.fuente] || m.fuente || '—'
+    }</span></div>
+    ${m.notas ? `<div class="fila"><span class="label">Notas</span><span class="valor mute" style="max-width:60%;">${m.notas}</span></div>` : ''}
+  `;
+
+  const botones = [
+    { txt: '🗑 Eliminar', class: 'btn-red', fn: () => eliminarModelo(id) },
+    { txt: '✏️ Editar', class: 'btn-cyan', fn: () => abrirEditarModelo(id) },
+    { txt: '📥 Usar en orden', class: 'btn-green', fn: () => usarEnOrden(id) }
+  ];
+
+  abrirModal(`${m.emoji || '💾'} ${m.nombre}`, bodyHTML, botones, '760px');
+
+  if (esTipo3D) {
+    setTimeout(() => initVisor3D(m.volumenMl), 50);
+  }
+
+  registrarUso(id);
+}
+
+function registrarUso(id) {
+  const modelos = leerModelos();
+  const m = modelos.find(x => x.id === id);
+  if (!m) return;
+  m.vecesUsado = (m.vecesUsado || 0) + 1;
+  m.ultimoUso = hoyISO();
+  guardarModelos(modelos);
+  render();
+}
+
+function usarEnOrden(id) {
+  const modelos = leerModelos();
+  const m = modelos.find(x => x.id === id);
+  if (!m) return;
+  toast(`✓ "${m.nombre}" listo para usar en Nueva Orden`, 'success');
+  setTimeout(() => {
+    location.href = 'nueva-orden.html?modelo=' + id;
+  }, 800);
+}
+
+// ============================================================
+// CREAR / EDITAR
+// ============================================================
+function abrirNuevoModelo() {
+  emojiSeleccionado = '📦';
+  tipoSeleccionado = '3d';
+
+  const bodyHTML = `
+    <div class="input-group">
+      <label class="input-label">Tipo de modelo</label>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-cyan btn-sm" id="btnTipo3d" onclick="setTipoCrear('3d')" style="flex:1;justify-content:center;">📦 Modelo 3D</button>
+        <button class="btn btn-ghost btn-sm" id="btnTipo2d" onclick="setTipoCrear('2d')" style="flex:1;justify-content:center;">✏️ Dibujo 2D</button>
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Nombre</label>
+      <input class="input" id="nmNombre" placeholder="Ej: Plato Perro Kuma">
+    </div>
+
+    <div class="form-row cols-2">
+      <div class="input-group">
+        <label class="input-label">Categoría</label>
+        <select class="select" id="nmCategoria">
+          ${CATEGORIAS.map(c => `<option>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Volumen (ml)</label>
+        <input type="number" class="input" id="nmVolumen" placeholder="Ej: 1800" value="1000">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Ícono / Emoji</label>
+      <div class="selector-emojis" id="selectorEmojis">
+        ${EMOJIS_DISPONIBLES.map(e => `<button type="button" class="${e === emojiSeleccionado ? 'sel' : ''}" data-emoji="${e}">${e}</button>`).join('')}
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Notas (opcional)</label>
+      <input class="input" id="nmNotas" placeholder="Ej: Modelo original del taller">
+    </div>
+  `;
+
+  abrirModal('➕ Nuevo modelo', bodyHTML, [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: cerrarModal },
+    { txt: '💾 Guardar', class: 'btn-primary', fn: guardarNuevoModelo }
+  ]);
+
+  setTimeout(() => {
+    document.querySelectorAll('#selectorEmojis button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        emojiSeleccionado = btn.dataset.emoji;
+        document.querySelectorAll('#selectorEmojis button').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+      });
+    });
+  }, 30);
+}
+
+function setTipoCrear(tipo) {
+  tipoSeleccionado = tipo;
+  const btn3d = document.getElementById('btnTipo3d');
+  const btn2d = document.getElementById('btnTipo2d');
+  if (tipo === '3d') {
+    btn3d.className = 'btn btn-cyan btn-sm';
+    btn2d.className = 'btn btn-ghost btn-sm';
+  } else {
+    btn3d.className = 'btn btn-ghost btn-sm';
+    btn2d.className = 'btn btn-cyan btn-sm';
+  }
+  btn3d.style.flex = '1'; btn3d.style.justifyContent = 'center';
+  btn2d.style.flex = '1'; btn2d.style.justifyContent = 'center';
+}
+
+function guardarNuevoModelo() {
+  const nombre = document.getElementById('nmNombre').value.trim();
+  const categoria = document.getElementById('nmCategoria').value;
+  const volumen = parseFloat(document.getElementById('nmVolumen').value) || 0;
+  const notas = document.getElementById('nmNotas').value.trim();
+
+  if (!nombre) { toast('⚠️ Ingresá un nombre', 'warning'); return; }
+
+  const modelos = leerModelos();
+  modelos.push({
+    id: Date.now(),
+    nombre, tipo: tipoSeleccionado,
+    url: null, thumbnail: null,
+    volumenMl: volumen, categoria,
+    emoji: emojiSeleccionado,
+    vecesUsado: 0, ultimoUso: null,
+    favorito: false, fecha: hoyISO(), notas,
+    fuente: 'manual'
+  });
+  guardarModelos(modelos);
+  cerrarModal();
+  render();
+  toast(`✓ "${nombre}" guardado`, 'success');
+}
+
+function abrirEditarModelo(id) {
+  const modelos = leerModelos();
+  const m = modelos.find(x => x.id === id);
+  if (!m) return;
+
+  emojiSeleccionado = m.emoji || '📦';
+
+  const bodyHTML = `
+    <div class="input-group">
+      <label class="input-label">Nombre</label>
+      <input class="input" id="emNombre" value="${m.nombre}">
+    </div>
+
+    <div class="form-row cols-2">
+      <div class="input-group">
+        <label class="input-label">Categoría</label>
+        <select class="select" id="emCategoria">
+          ${CATEGORIAS.map(c => `<option ${c === m.categoria ? 'selected' : ''}>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Volumen (ml)</label>
+        <input type="number" class="input" id="emVolumen" value="${m.volumenMl || 0}">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Ícono / Emoji</label>
+      <div class="selector-emojis" id="selectorEmojis">
+        ${EMOJIS_DISPONIBLES.map(e => `<button type="button" class="${e === emojiSeleccionado ? 'sel' : ''}" data-emoji="${e}">${e}</button>`).join('')}
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Notas (opcional)</label>
+      <input class="input" id="emNotas" value="${m.notas || ''}">
+    </div>
+  `;
+
+  abrirModal(`✏️ Editar ${m.nombre}`, bodyHTML, [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: () => verModelo(id) },
+    { txt: '💾 Guardar', class: 'btn-primary', fn: () => guardarEdicion(id) }
+  ]);
+
+  setTimeout(() => {
+    document.querySelectorAll('#selectorEmojis button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        emojiSeleccionado = btn.dataset.emoji;
+        document.querySelectorAll('#selectorEmojis button').forEach(b => b.classList.remove('sel'));
+        btn.classList.add('sel');
+      });
+    });
+  }, 30);
+}
+
+function guardarEdicion(id) {
+  const modelos = leerModelos();
+  const m = modelos.find(x => x.id === id);
+  if (!m) return;
+
+  const nombre = document.getElementById('emNombre').value.trim();
+  if (!nombre) { toast('⚠️ Ingresá un nombre', 'warning'); return; }
+
+  m.nombre = nombre;
+  m.categoria = document.getElementById('emCategoria').value;
+  m.volumenMl = parseFloat(document.getElementById('emVolumen').value) || 0;
+  m.emoji = emojiSeleccionado;
+  m.notas = document.getElementById('emNotas').value.trim();
+
+  guardarModelos(modelos);
+  cerrarModal();
+  render();
+  toast('✓ Modelo actualizado', 'success');
+}
+
+function eliminarModelo(id) {
+  const modelos = leerModelos();
+  const m = modelos.find(x => x.id === id);
+  if (!m) return;
+  if (!confirm(`¿Eliminar "${m.nombre}"?\n\nSe perdió el registro de ${m.vecesUsado || 0} usos.`)) return;
+
+  const nuevos = modelos.filter(x => x.id !== id);
+  guardarModelos(nuevos);
+  cerrarModal();
+  render();
+  toast('Modelo eliminado', 'info');
+}
+
+// ============================================================
+// CREAR DIBUJO 2D
+// ============================================================
+let miniCanvas, miniCtx, miniDibujando = false, miniUltimoPunto = null;
+let miniColor = '#000000';
+let miniGrosor = 3;
+let miniHerramienta = 'lapiz';
+let miniSavedImage = null;
+let miniStartPoint = null;
+
+function abrirCrearDibujo2D() {
+  const bodyHTML = `
+    <div class="input-group">
+      <label class="input-label">Nombre del dibujo</label>
+      <input class="input" id="dibNombre" placeholder="Ej: Boceto Lavamanos Oval">
+    </div>
+
+    <div class="form-row cols-2">
+      <div class="input-group">
+        <label class="input-label">Categoría</label>
+        <select class="select" id="dibCategoria">
+          ${CATEGORIAS.map(c => `<option>${c}</option>`).join('')}
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Notas (opcional)</label>
+        <input class="input" id="dibNotas" placeholder="Ej: medidas 2400×600">
+      </div>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label">Herramientas</label>
+      <div class="mini-toolbar">
+        <button type="button" class="mini-tool activo" onclick="setMiniHerramienta('lapiz', this)">✏️ Lápiz</button>
+        <button type="button" class="mini-tool" onclick="setMiniHerramienta('linea', this)">📏 Línea</button>
+        <button type="button" class="mini-tool" onclick="setMiniHerramienta('rect', this)">▭ Rect</button>
+        <button type="button" class="mini-tool" onclick="setMiniHerramienta('circulo', this)">◯ Círculo</button>
+        <button type="button" class="mini-tool" onclick="miniLimpiar()">🗑 Limpiar</button>
+        <div style="flex:1;"></div>
+        <div class="mini-color activo" style="background:#000;" onclick="setMiniColor('#000',this)"></div>
+        <div class="mini-color" style="background:#ef5350;" onclick="setMiniColor('#ef5350',this)"></div>
+        <div class="mini-color" style="background:#42a5f5;" onclick="setMiniColor('#42a5f5',this)"></div>
+        <div class="mini-color" style="background:#4caf50;" onclick="setMiniColor('#4caf50',this)"></div>
+      </div>
+      <div class="mini-canvas-wrap">
+        <canvas id="miniCanvas"></canvas>
+      </div>
+    </div>
+  `;
+
+  abrirModal('✏️ Nuevo dibujo 2D', bodyHTML, [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: cerrarModal },
+    { txt: '💾 Guardar dibujo', class: 'btn-primary', fn: guardarDibujo2D }
+  ]);
+
+  setTimeout(initMiniCanvas, 80);
+}
+
+function initMiniCanvas() {
+  miniCanvas = document.getElementById('miniCanvas');
+  if (!miniCanvas) return;
+
+  const rect = miniCanvas.getBoundingClientRect();
+  miniCanvas.width = rect.width;
+  miniCanvas.height = rect.height;
+
+  miniCtx = miniCanvas.getContext('2d');
+  miniCtx.lineCap = 'round';
+  miniCtx.lineJoin = 'round';
+  miniCtx.fillStyle = '#ffffff';
+  miniCtx.fillRect(0, 0, miniCanvas.width, miniCanvas.height);
+
+  miniCanvas.addEventListener('mousedown', miniDown);
+  miniCanvas.addEventListener('mousemove', miniMove);
+  miniCanvas.addEventListener('mouseup', miniUp);
+  miniCanvas.addEventListener('mouseleave', miniUp);
+
+  miniCanvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    const t = e.touches[0];
+    miniDown({ clientX: t.clientX, clientY: t.clientY });
+  }, { passive: false });
+  miniCanvas.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    const t = e.touches[0];
+    miniMove({ clientX: t.clientX, clientY: t.clientY });
+  }, { passive: false });
+  miniCanvas.addEventListener('touchend', miniUp);
+}
+
+function miniPos(e) {
+  const rect = miniCanvas.getBoundingClientRect();
+  return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+}
+
+function miniDown(e) {
+  miniDibujando = true;
+  miniStartPoint = miniPos(e);
+  miniUltimoPunto = miniStartPoint;
+  miniSavedImage = miniCtx.getImageData(0, 0, miniCanvas.width, miniCanvas.height);
+}
+
+function miniMove(e) {
+  if (!miniDibujando) return;
+  const p = miniPos(e);
+
+  if (miniHerramienta === 'lapiz') {
+    miniCtx.strokeStyle = miniColor;
+    miniCtx.lineWidth = miniGrosor;
+    miniCtx.beginPath();
+    miniCtx.moveTo(miniUltimoPunto.x, miniUltimoPunto.y);
+    miniCtx.lineTo(p.x, p.y);
+    miniCtx.stroke();
+    miniUltimoPunto = p;
+  } else {
+    miniCtx.putImageData(miniSavedImage, 0, 0);
+    miniCtx.strokeStyle = miniColor;
+    miniCtx.lineWidth = miniGrosor;
+    miniCtx.beginPath();
+    if (miniHerramienta === 'linea') {
+      miniCtx.moveTo(miniStartPoint.x, miniStartPoint.y);
+      miniCtx.lineTo(p.x, p.y);
+    } else if (miniHerramienta === 'rect') {
+      miniCtx.rect(miniStartPoint.x, miniStartPoint.y, p.x - miniStartPoint.x, p.y - miniStartPoint.y);
+    } else if (miniHerramienta === 'circulo') {
+      const rx = Math.abs(p.x - miniStartPoint.x) / 2;
+      const ry = Math.abs(p.y - miniStartPoint.y) / 2;
+      miniCtx.ellipse((miniStartPoint.x + p.x) / 2, (miniStartPoint.y + p.y) / 2, rx, ry, 0, 0, Math.PI * 2);
+    }
+    miniCtx.stroke();
+  }
+}
+
+function miniUp() {
+  miniDibujando = false;
+  miniStartPoint = null;
+  miniUltimoPunto = null;
+}
+
+function setMiniHerramienta(t, btn) {
+  miniHerramienta = t;
+  document.querySelectorAll('.mini-tool').forEach(b => b.classList.remove('activo'));
+  btn.classList.add('activo');
+}
+
+function setMiniColor(c, el) {
+  miniColor = c;
+  document.querySelectorAll('.mini-color').forEach(e => e.classList.remove('activo'));
+  el.classList.add('activo');
+}
+
+function miniLimpiar() {
+  if (!miniCtx) return;
+  miniCtx.fillStyle = '#ffffff';
+  miniCtx.fillRect(0, 0, miniCanvas.width, miniCanvas.height);
+}
+
+function guardarDibujo2D() {
+  const nombre = document.getElementById('dibNombre').value.trim();
+  if (!nombre) { toast('⚠️ Ingresá un nombre', 'warning'); return; }
+
+  const categoria = document.getElementById('dibCategoria').value;
+  const notas = document.getElementById('dibNotas').value.trim();
+
+  if (!miniCanvas) { toast('⚠️ No hay canvas', 'error'); return; }
+
+  const thumbnail = miniCanvas.toDataURL('image/png');
+
+  const modelos = leerModelos();
+  modelos.push({
+    id: Date.now(),
+    nombre, tipo: '2d',
+    url: null, thumbnail,
+    volumenMl: 0, categoria,
+    emoji: '✏️',
+    vecesUsado: 0, ultimoUso: null,
+    favorito: false, fecha: hoyISO(), notas,
+    fuente: 'canvas-2d'
+  });
+  guardarModelos(modelos);
+  cerrarModal();
+  render();
+  toast(`✓ "${nombre}" guardado como dibujo 2D`, 'success');
+}
+
+// ============================================================
+// EXPORTAR
+// ============================================================
+function exportarWhatsApp() {
+  const modelos = leerModelos();
+  if (modelos.length === 0) { toast('⚠️ No hay modelos para compartir', 'warning'); return; }
+
+  const texto = '💾 *MIS MODELOS — CAJUÑA PRO*\n\n' +
+    modelos.map(m => {
+      const tipo = m.tipo === '3d' ? '📦 3D' : '✏️ 2D';
+      const vol = m.volumenMl > 0 ? ` · ${fmtVolumen(m.volumenMl)}` : '';
+      return `${m.emoji || '📦'} *${m.nombre}*\n   ${tipo} · ${m.categoria}${vol} · ${m.vecesUsado || 0} usos`;
+    }).join('\n\n') +
+    `\n\n_Total: ${modelos.length} modelos (${modelos.filter(m=>m.tipo==='3d').length} 3D · ${modelos.filter(m=>m.tipo==='2d').length} 2D)_`;
+
+  window.open('https://wa.me/?text=' + encodeURIComponent(texto), '_blank');
+  toast('💬 Abriendo WhatsApp...', 'success');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo = 'info') {
+  const iconos = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'toastIn 0.3s ease reverse';
+    setTimeout(() => el.remove(), 300);
+  }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+aplicarTema(localStorage.getItem('cajupa_tema') || 'brand');
+if (localStorage.getItem('cajupa_manos') === '1') {
+  document.body.classList.add('manos-sucias');
+  document.getElementById('btnManos').classList.add('activo');
+}
+
+render();
+setTimeout(() => toast('💾 Mis Modelos cargados', 'info'), 300);
+
+window.addEventListener('storage', (e) => {
+  if (e.key === CLAVE_MODELOS || e.key === CLAVE_VIEJA) render();
+});
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

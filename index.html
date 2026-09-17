@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro — Iniciar sesión</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .card-usuario { background:#242424; border-color:rgba(255,255,255,0.1); }
+body.theme-dark .card-usuario:hover { background:#2a2a2a; border-color:rgba(179,136,255,0.5); }
+body.theme-dark .input { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); }
+body.theme-dark .pin-box { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.15); }
+body.theme-dark .pin-box.activo { background:rgba(179,136,255,0.1); border-color:#b388ff; }
+body.theme-dark .logo-grande { box-shadow: 0 30px 80px rgba(106,27,154,0.4); }
+body.theme-dark .footer-info { border-top-color:rgba(255,255,255,0.08); }
+body.theme-dark .teclado-num { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.1); }
+body.theme-dark .teclado-num:hover { background:rgba(255,255,255,0.08); }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light { background:linear-gradient(135deg, #fff 0%, #f7f7f5 100%); }
+body.theme-light .card-usuario { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 3px rgba(15,15,15,0.04); }
+body.theme-light .card-usuario:hover { box-shadow:0 8px 24px rgba(15,15,15,0.08); border-color:#6b46c1; }
+body.theme-light .input { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .pin-box { background:#fbfbfa; border-color:#d3d1cb; }
+body.theme-light .pin-box.activo { background:rgba(107,70,193,0.06); border-color:#6b46c1; }
+body.theme-light .logo-grande { box-shadow: 0 30px 80px rgba(107,70,193,0.25); }
+body.theme-light .footer-info { border-top-color:#e9e9e7; }
+body.theme-light .teclado-num { background:#fbfbfa; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .teclado-num:hover { background:#f7f7f5; }
+body.theme-light .bg-deco { opacity: 0.4; }
+
+html, body { height: 100%; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  overflow: hidden;
+}
+
+.bg-deco {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bg-deco::before,
+.bg-deco::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.35;
+  animation: flotar 20s ease-in-out infinite;
+}
+.bg-deco::before {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--purple) 0%, transparent 70%);
+  top: -150px;
+  left: -100px;
+}
+.bg-deco::after {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--cyan) 0%, transparent 70%);
+  bottom: -200px;
+  right: -150px;
+  animation-delay: -10s;
+}
+@keyframes flotar {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(60px, -40px) scale(1.1); }
+}
+
+.login-wrapper {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 24px;
+}
+.login-wrapper::-webkit-scrollbar { width: 8px; }
+.login-wrapper::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+.login-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+  min-height: 100%;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+  animation: fadeDown 0.5s ease;
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.logo-grande {
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 18px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--purple-deep), var(--cyan));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  box-shadow: 0 30px 80px rgba(106,27,154,0.4);
+  position: relative;
+  overflow: hidden;
+}
+.logo-grande::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: brillo 3s ease-in-out infinite;
+}
+@keyframes brillo {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+
+.login-titulo {
+  font-size: 28px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--purple), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+.login-sub {
+  font-size: 13px;
+  color: var(--text-mute);
+  font-weight: 600;
+}
+.login-empresa {
+  font-size: 11px;
+  color: var(--text-mute);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 8px;
+}
+
+.pantalla {
+  display: none;
+  width: 100%;
+  animation: fadeUp 0.35s ease;
+}
+.pantalla.activa { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pantalla-titulo {
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.pantalla-sub {
+  font-size: 12px;
+  color: var(--text-mute);
+  text-align: center;
+  margin-bottom: 22px;
+  line-height: 1.5;
+}
+
+.usuarios-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.card-usuario {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  animation: cardIn 0.4s ease backwards;
+}
+.card-usuario:nth-child(1) { animation-delay: 0.05s; }
+.card-usuario:nth-child(2) { animation-delay: 0.1s; }
+.card-usuario:nth-child(3) { animation-delay: 0.15s; }
+.card-usuario:nth-child(4) { animation-delay: 0.2s; }
+.card-usuario:nth-child(5) { animation-delay: 0.25s; }
+.card-usuario:nth-child(6) { animation-delay: 0.3s; }
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-usuario:hover {
+  transform: translateY(-2px);
+  border-color: var(--purple);
+  box-shadow: 0 8px 24px rgba(106,27,154,0.2);
+}
+.card-usuario:active { transform: translateY(0); }
+
+.card-usuario.inactivo {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.card-usuario.inactivo:hover {
+  transform: none;
+  border-color: var(--border);
+  box-shadow: none;
+}
+.card-usuario.inactivo::after {
+  content: "DESACTIVADO";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--red);
+  background: rgba(239,83,80,0.15);
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.card-usuario.ultimo::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--purple), var(--cyan));
+}
+
+.usuario-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+  letter-spacing: -0.5px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  position: relative;
+}
+
+.usuario-avatar .dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid var(--card);
+  background: var(--green);
+}
+.usuario-avatar .dot.off { background: var(--text-mute); }
+
+.usuario-info { flex: 1; min-width: 0; }
+.usuario-nombre {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 3px;
+  line-height: 1.2;
+  word-break: break-word;
+}
+.usuario-rol {
+  font-size: 11px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.usuario-arrow {
+  color: var(--text-mute);
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: all 0.18s;
+}
+.card-usuario:hover .usuario-arrow {
+  color: var(--purple);
+  transform: translateX(3px);
+}
+
+.usuario-seleccionado {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(106,27,154,0.1), rgba(0,229,255,0.06));
+  border: 1px solid rgba(0,229,255,0.25);
+  border-radius: 14px;
+  margin-bottom: 22px;
+}
+.usuario-seleccionado .usuario-avatar { width: 44px; height: 44px; font-size: 16px; }
+.usuario-seleccionado .info { flex: 1; min-width: 0; }
+.usuario-seleccionado .nombre {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 2px;
+  word-break: break-word;
+}
+.usuario-seleccionado .rol {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.pin-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.pin-box {
+  width: 54px;
+  height: 62px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--text);
+  transition: all 0.18s;
+  position: relative;
+}
+.pin-box.activo {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 4px rgba(106,27,154,0.15);
+  transform: scale(1.05);
+}
+.pin-box.lleno {
+  border-color: var(--cyan);
+}
+.pin-box.error {
+  border-color: var(--red);
+  animation: shake 0.4s;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-6px); }
+  80% { transform: translateX(6px); }
+}
+
+.teclado {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 320px;
+  margin: 0 auto 16px;
+}
+.teclado-num {
+  aspect-ratio: 1.4 / 1;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+}
+.teclado-num:active {
+  transform: scale(0.94);
+  background: rgba(106,27,154,0.2);
+}
+.teclado-num.vacio {
+  visibility: hidden;
+  pointer-events: none;
+}
+.teclado-num.borrar {
+  color: var(--orange);
+  font-size: 20px;
+}
+.teclado-num.ok {
+  background: linear-gradient(135deg, var(--purple-deep), var(--cyan));
+  color: #fff;
+  border-color: transparent;
+}
+.teclado-num.ok:active {
+  transform: scale(0.94);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  white-space: nowrap;
+  min-height: 50px;
+  width: 100%;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--purple-deep), #8e24aa);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(106,27,154,0.3);
+}
+.btn-primary:hover {
+  box-shadow: 0 12px 32px rgba(106,27,154,0.4);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1.5px solid var(--border);
+}
+.btn-ghost:hover {
+  border-color: var(--purple);
+  color: var(--purple);
+  background: rgba(106,27,154,0.06);
+}
+
+.botones-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.footer-info {
+  text-align: center;
+  padding: 24px 0 10px;
+  margin-top: 20px;
+  border-top: 1px dashed var(--border);
+  font-size: 10px;
+  color: var(--text-mute);
+  line-height: 1.7;
+}
+.footer-info strong { color: var(--text-dim); }
+.footer-info .version {
+  display: inline-block;
+  background: rgba(106,27,154,0.15);
+  color: var(--purple);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 800;
+  font-size: 9px;
+  margin-left: 6px;
+}
+
+.sin-usuarios {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--card);
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  margin-bottom: 18px;
+}
+.sin-usuarios .icono {
+  font-size: 56px;
+  opacity: 0.3;
+  margin-bottom: 12px;
+}
+.sin-usuarios .titulo {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.sin-usuarios .desc {
+  font-size: 12px;
+  color: var(--text-mute);
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 5000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--card);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 280px;
+  max-width: 380px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  animation: toastIn 0.3s ease;
+  pointer-events: auto;
+  font-size: 13px;
+  font-weight: 600;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.toast-icon { font-size: 20px; }
+
+.tema-flotante {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 100;
+  display: flex;
+  gap: 6px;
+}
+.btn-flotante {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 17px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.btn-flotante:hover {
+  border-color: var(--purple);
+  color: var(--purple);
+  transform: translateY(-1px);
+}
+.btn-flotante.activo {
+  background: rgba(106,27,154,0.2);
+  border-color: var(--purple);
+  color: var(--purple);
+}
+
+@media (max-width: 480px) {
+  .login-wrapper { padding: 16px; }
+  .login-inner { padding: 10px 0; }
+
+  .logo-grande {
+    width: 72px;
+    height: 72px;
+    font-size: 34px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .login-titulo { font-size: 24px; }
+  .login-header { margin-bottom: 24px; }
+
+  .card-usuario { padding: 12px 14px; gap: 12px; }
+  .usuario-avatar { width: 44px; height: 44px; font-size: 15px; border-radius: 12px; }
+
+  .pin-box {
+    width: 46px;
+    height: 54px;
+    font-size: 22px;
+    border-radius: 12px;
+  }
+  .pin-container { gap: 8px; }
+
+  .teclado { gap: 8px; }
+  .teclado-num { font-size: 20px; min-height: 52px; border-radius: 12px; }
+
+  .btn { padding: 13px 16px; font-size: 13px; min-height: 48px; }
+
+  .btn-flotante { width: 40px; height: 40px; font-size: 15px; }
+  .tema-flotante { top: 12px; right: 12px; }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .login-inner { max-width: 460px; }
+  .teclado { max-width: 340px; }
+}
+
+@supports (padding: max(0px)) {
+  .login-wrapper {
+    padding-top: max(24px, env(safe-area-inset-top));
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+    padding-left: max(24px, env(safe-area-inset-left));
+    padding-right: max(24px, env(safe-area-inset-right));
+  }
+  @media (max-width: 480px) {
+    .login-wrapper {
+      padding-top: max(16px, env(safe-area-inset-top));
+      padding-bottom: max(16px, env(safe-area-inset-bottom));
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+    }
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-deco"></div>
+
+<div class="tema-flotante">
+  <button class="btn-flotante" onclick="toggleTemaLogin()" id="btnTema" title="Cambiar tema">🎨</button>
+</div>
+
+<div class="login-wrapper">
+  <div class="login-inner">
+
+    <div class="login-header">
+      <div class="logo-grande">🏛️</div>
+      <div class="login-titulo">Cajuña Pro</div>
+      <div class="login-sub">Sistema de gestión del taller</div>
+      <div class="login-empresa" id="empresaNombre">Cajuña</div>
+    </div>
+
+    <div class="pantalla activa" id="pantallaUsuarios">
+      <div class="pantalla-titulo">👤 ¿Quién sos?</div>
+      <div class="pantalla-sub">Elegí tu usuario para entrar</div>
+
+      <div class="usuarios-lista" id="listaUsuarios"></div>
+
+      <div class="botones-grupo">
+        <button class="btn btn-ghost" onclick="irAUsuarios()">
+          ⚙️ Administrar usuarios
+        </button>
+      </div>
+    </div>
+
+    <div class="pantalla" id="pantallaPin">
+      <div class="pantalla-titulo">🔒 Ingresá tu PIN</div>
+      <div class="pantalla-sub">4 dígitos para confirmar tu identidad</div>
+
+      <div class="usuario-seleccionado" id="usuarioSeleccionadoBox"></div>
+
+      <div class="pin-container" id="pinContainer">
+        <div class="pin-box" data-idx="0"></div>
+        <div class="pin-box" data-idx="1"></div>
+        <div class="pin-box" data-idx="2"></div>
+        <div class="pin-box" data-idx="3"></div>
+      </div>
+
+      <div class="teclado" id="teclado">
+        <button class="teclado-num" onclick="presionarNum('1')">1</button>
+        <button class="teclado-num" onclick="presionarNum('2')">2</button>
+        <button class="teclado-num" onclick="presionarNum('3')">3</button>
+        <button class="teclado-num" onclick="presionarNum('4')">4</button>
+        <button class="teclado-num" onclick="presionarNum('5')">5</button>
+        <button class="teclado-num" onclick="presionarNum('6')">6</button>
+        <button class="teclado-num" onclick="presionarNum('7')">7</button>
+        <button class="teclado-num" onclick="presionarNum('8')">8</button>
+        <button class="teclado-num" onclick="presionarNum('9')">9</button>
+        <button class="teclado-num borrar" onclick="borrarDigito()">⌫</button>
+        <button class="teclado-num" onclick="presionarNum('0')">0</button>
+        <button class="teclado-num ok" onclick="confirmarPin()">✓</button>
+      </div>
+
+      <div class="botones-grupo">
+        <button class="btn btn-ghost" onclick="volverAUsuarios()">
+          ← Cambiar de usuario
+        </button>
+      </div>
+    </div>
+
+    <div class="pantalla" id="pantallaSinUsuarios">
+      <div class="sin-usuarios">
+        <div class="icono">👤</div>
+        <div class="titulo">No hay usuarios creados</div>
+        <div class="desc">
+          Todavía no hay usuarios configurados en este dispositivo. Creá el primero desde el módulo de Usuarios.
+        </div>
+        <button class="btn btn-primary" onclick="irAUsuarios()">
+          ➕ Crear el primer usuario
+        </button>
+      </div>
+    </div>
+
+    <div class="footer-info">
+      <strong>Cajuña Pro</strong> <span class="version">v3.0</span><br>
+      Sistema de gestión para taller de granito<br>
+      <span style="opacity:0.7;">Modo local · Se sincronizará con la nube</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// CONSTANTES
+// ============================================================
+const CLAVE_USUARIOS = 'cajupa_usuarios_v1';
+const CLAVE_SESION = 'cajupa_sesion';
+const CLAVE_ULTIMO_USUARIO = 'cajupa_ultimo_usuario';
+const CLAVE_TEMA = 'cajupa_tema';
+const CLAVE_CONFIG = 'cajupa_config_v1';
+
+const ROLES = {
+  admin:      { nombre: 'Admin / Jefe',          icono: '🔐', color: 'rol-admin' },
+  encargado:  { nombre: 'Encargado',             icono: '⚙️', color: 'rol-encargado' },
+  comprador:  { nombre: 'Comprador',             icono: '🛒', color: 'rol-comprador' },
+  mezclador:  { nombre: 'Mezclador / Muestrista', icono: '🧪', color: 'rol-mezclador' },
+  taller:     { nombre: 'Taller',                icono: '🔨', color: 'rol-taller' },
+  consulta:   { nombre: 'Consulta',              icono: '👁️', color: 'rol-consulta' }
+};
+
+const PALETA_AVATARES = [
+  'linear-gradient(135deg, #6a1b9a, #b388ff)',
+  'linear-gradient(135deg, #00838f, #00e5ff)',
+  'linear-gradient(135deg, #c2185b, #ec407a)',
+  'linear-gradient(135deg, #e65100, #ffa726)',
+  'linear-gradient(135deg, #2e7d32, #66bb6a)',
+  'linear-gradient(135deg, #1565c0, #42a5f5)',
+  'linear-gradient(135deg, #827717, #d4e157)',
+  'linear-gradient(135deg, #4e342e, #a1887f)',
+  'linear-gradient(135deg, #37474f, #78909c)',
+  'linear-gradient(135deg, #ad1457, #f06292)'
+];
+
+// ============================================================
+// ESTADO
+// ============================================================
+let usuarios = [];
+let usuarioSeleccionado = null;
+let pinIngresado = '';
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+}
+function toggleTemaLogin() {
+  let actual = localStorage.getItem(CLAVE_TEMA) || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem(CLAVE_TEMA, nuevo);
+  aplicarTema(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function leerLS(clave, fallback) {
+  try {
+    const raw = localStorage.getItem(clave);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return fallback;
+}
+function guardarLS(clave, valor) {
+  localStorage.setItem(clave, JSON.stringify(valor));
+}
+function iniciales(nombre) {
+  if (!nombre) return '?';
+  const partes = nombre.trim().split(/\s+/);
+  if (partes.length === 1) return partes[0].slice(0, 2).toUpperCase();
+  return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+}
+function hashNombre(nombre) {
+  let h = 0;
+  const s = (nombre || '').toLowerCase();
+  for (let i = 0; i < s.length; i++) {
+    h = ((h << 5) - h) + s.charCodeAt(i);
+    h = h & h;
+  }
+  return Math.abs(h);
+}
+function colorPorNombre(nombre) {
+  return PALETA_AVATARES[hashNombre(nombre) % PALETA_AVATARES.length];
+}
+function escaparHTML(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+function vibrar(ms = 15) {
+  if (navigator.vibrate) {
+    try { navigator.vibrate(ms); } catch(e) {}
+  }
+}
+
+async function hashPin(pin) {
+  if (!pin) return '';
+  try {
+    const data = new TextEncoder().encode('cajupa_' + pin);
+    const buf = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  } catch(e) {
+    let h = 0;
+    const s = 'cajupa_' + pin;
+    for (let i = 0; i < s.length; i++) {
+      h = ((h << 5) - h) + s.charCodeAt(i);
+      h = h & h;
+    }
+    return Math.abs(h).toString(16);
+  }
+}
+
+// ============================================================
+// USUARIOS DEMO (auto-generados si no hay ninguno)
+// ============================================================
+function generarDemoUsuarios() {
+  const ahora = Date.now();
+  const horas = (h) => new Date(ahora - h * 3600000).toISOString();
+  const dias = (d) => new Date(ahora - d * 86400000).toISOString();
+
+  return [
+    {
+      id: 'usr-jesus',
+      nombre: 'Jesús Sleiman',
+      email: 'jesus@cajuna.com',
+      telefono: '04141234567',
+      rol: 'admin',
+      activo: true,
+      color: PALETA_AVATARES[0],
+      desde: dias(365),
+      ultimoLogin: horas(2),
+      notas: 'Fundador del taller. Acceso total.',
+      esYo: true
+    },
+    {
+      id: 'usr-carlos',
+      nombre: 'Carlos Ramírez',
+      email: 'carlos@cajuna.com',
+      telefono: '04249876543',
+      rol: 'encargado',
+      activo: true,
+      color: PALETA_AVATARES[1],
+      desde: dias(240),
+      ultimoLogin: horas(5),
+      notas: 'Encargado del taller. Reemplaza a las muestristas cuando hace falta.'
+    },
+    {
+      id: 'usr-nicole',
+      nombre: 'Nicole Tovar',
+      email: 'nicole@cajuna.com',
+      telefono: '04165559876',
+      rol: 'mezclador',
+      activo: true,
+      color: PALETA_AVATARES[2],
+      desde: dias(180),
+      ultimoLogin: horas(8),
+      notas: 'Mezcladora principal. Hace las muestras y calibra pigmentos.'
+    },
+    {
+      id: 'usr-andres',
+      nombre: 'Andrés León',
+      email: 'andres@cajuna.com',
+      telefono: '04147778899',
+      rol: 'mezclador',
+      activo: true,
+      color: PALETA_AVATARES[3],
+      desde: dias(150),
+      ultimoLogin: dias(1),
+      notas: 'Mezclador. Apoya con muestras y órdenes grandes.'
+    },
+    {
+      id: 'usr-maria',
+      nombre: 'María González',
+      email: 'maria@cajuna.com',
+      telefono: '',
+      rol: 'consulta',
+      activo: true,
+      color: PALETA_AVATARES[4],
+      desde: dias(90),
+      ultimoLogin: dias(3),
+      notas: 'Contadora. Solo lectura.'
+    },
+    {
+      id: 'usr-pedro',
+      nombre: 'Pedro Marcano',
+      email: 'pedro@cajuna.com',
+      telefono: '04121112233',
+      rol: 'comprador',
+      activo: true,
+      color: PALETA_AVATARES[5],
+      desde: dias(60),
+      ultimoLogin: dias(10),
+      notas: 'Encargado de compras de materiales.'
+    },
+    {
+      id: 'usr-luis',
+      nombre: 'Luis Mendoza',
+      email: 'luis@cajuna.com',
+      telefono: '',
+      rol: 'taller',
+      activo: false,
+      color: PALETA_AVATARES[6],
+      desde: dias(45),
+      ultimoLogin: dias(35),
+      notas: 'Ex trabajador. Acceso desactivado.'
+    }
+  ];
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  aplicarTema(localStorage.getItem(CLAVE_TEMA) || 'brand');
+
+  const cfg = leerLS(CLAVE_CONFIG, null);
+  if (cfg?.empresa?.nombre) {
+    document.getElementById('empresaNombre').textContent = cfg.empresa.nombre;
+  }
+
+  // ¿Ya hay sesión activa?
+  const sesion = leerLS(CLAVE_SESION, null);
+  if (sesion && sesion.usuarioId && sesion.activa) {
+    const users = leerLS(CLAVE_USUARIOS, []);
+    const u = users.find(x => x.id === sesion.usuarioId);
+    if (u && u.activo) {
+      console.log('✅ Sesión activa encontrada, redirigiendo...');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 100);
+      return;
+    } else {
+      localStorage.removeItem(CLAVE_SESION);
+    }
+  }
+
+  // Cargar usuarios
+  usuarios = leerLS(CLAVE_USUARIOS, []);
+
+  // ⚡ AUTO-DEMO: si no hay usuarios, generarlos automáticamente
+  if (!usuarios || usuarios.length === 0) {
+    console.log('👤 No hay usuarios. Generando demo...');
+    usuarios = generarDemoUsuarios();
+    guardarLS(CLAVE_USUARIOS, usuarios);
+
+    // Pequeño delay para mostrar el toast
+    setTimeout(() => {
+      toast('👋 Cargados 7 usuarios demo', 'info');
+    }, 500);
+  }
+
+  renderListaUsuarios();
+  mostrarPantalla('pantallaUsuarios');
+
+  const params = new URLSearchParams(window.location.search);
+  const usuarioParam = params.get('usuario');
+  if (usuarioParam) {
+    const u = usuarios.find(x => x.id === usuarioParam);
+    if (u && u.activo) {
+      setTimeout(() => seleccionarUsuario(u.id), 300);
+    }
+  }
+}
+
+// ============================================================
+// PANTALLAS
+// ============================================================
+function mostrarPantalla(id) {
+  document.querySelectorAll('.pantalla').forEach(p => p.classList.remove('activa'));
+  document.getElementById(id)?.classList.add('activa');
+}
+
+// ============================================================
+// LISTA DE USUARIOS
+// ============================================================
+function renderListaUsuarios() {
+  const cont = document.getElementById('listaUsuarios');
+  const ultimoId = localStorage.getItem(CLAVE_ULTIMO_USUARIO);
+
+  const ordenados = [...usuarios].sort((a, b) => {
+    if (a.esYo !== b.esYo) return b.esYo ? 1 : -1;
+    if (a.activo !== b.activo) return b.activo ? 1 : -1;
+    const la = a.ultimoLogin ? new Date(a.ultimoLogin).getTime() : 0;
+    const lb = b.ultimoLogin ? new Date(b.ultimoLogin).getTime() : 0;
+    return lb - la;
+  });
+
+  cont.innerHTML = ordenados.map(u => {
+    const rol = ROLES[u.rol] || ROLES.consulta;
+    const color = u.color || colorPorNombre(u.nombre);
+    const ini = iniciales(u.nombre);
+    const reciente = u.ultimoLogin && (Date.now() - new Date(u.ultimoLogin).getTime()) < 24 * 3600000;
+    const esUltimo = String(u.id) === String(ultimoId);
+
+    return `
+      <div class="card-usuario ${u.activo ? '' : 'inactivo'} ${esUltimo ? 'ultimo' : ''}"
+           onclick="${u.activo ? `seleccionarUsuario('${u.id}')` : `toast('⚠️ Este usuario está desactivado', 'warning')`}">
+        <div class="usuario-avatar" style="background:${color};">
+          ${ini}
+          <span class="dot ${reciente ? '' : 'off'}"></span>
+        </div>
+        <div class="usuario-info">
+          <div class="usuario-nombre">
+            ${escaparHTML(u.nombre)}
+            ${u.esYo ? '<span style="font-size:10px;color:var(--cyan);font-weight:800;">(vos)</span>' : ''}
+          </div>
+          <div class="usuario-rol">
+            <span>${rol.icono}</span>
+            <span>${rol.nombre}</span>
+          </div>
+        </div>
+        <div class="usuario-arrow">→</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============================================================
+// SELECCIÓN
+// ============================================================
+function seleccionarUsuario(id) {
+  const u = usuarios.find(x => String(x.id) === String(id));
+  if (!u) return;
+  if (!u.activo) {
+    toast('⚠️ Este usuario está desactivado', 'warning');
+    return;
+  }
+
+  usuarioSeleccionado = u;
+  vibrar(20);
+
+  if (u.pinHash) {
+    pinIngresado = '';
+    actualizarPinBoxes();
+    renderUsuarioSeleccionado();
+    mostrarPantalla('pantallaPin');
+  } else {
+    entrar(u);
+  }
+}
+
+function renderUsuarioSeleccionado() {
+  const u = usuarioSeleccionado;
+  if (!u) return;
+  const rol = ROLES[u.rol] || ROLES.consulta;
+  const color = u.color || colorPorNombre(u.nombre);
+  const ini = iniciales(u.nombre);
+
+  document.getElementById('usuarioSeleccionadoBox').innerHTML = `
+    <div class="usuario-avatar" style="background:${color};">${ini}</div>
+    <div class="info">
+      <div class="nombre">${escaparHTML(u.nombre)}</div>
+      <div class="rol">${rol.icono} ${rol.nombre}</div>
+    </div>
+  `;
+}
+
+function volverAUsuarios() {
+  usuarioSeleccionado = null;
+  pinIngresado = '';
+  mostrarPantalla('pantallaUsuarios');
+}
+
+// ============================================================
+// PIN
+// ============================================================
+function actualizarPinBoxes() {
+  const boxes = document.querySelectorAll('.pin-box');
+  boxes.forEach((b, i) => {
+    b.classList.remove('activo', 'lleno', 'error');
+    if (i < pinIngresado.length) {
+      b.textContent = '●';
+      b.classList.add('lleno');
+    } else {
+      b.textContent = '';
+    }
+    if (i === pinIngresado.length) {
+      b.classList.add('activo');
+    }
+  });
+}
+
+function presionarNum(n) {
+  if (pinIngresado.length >= 4) return;
+  pinIngresado += n;
+  vibrar(10);
+  actualizarPinBoxes();
+  if (pinIngresado.length === 4) {
+    setTimeout(confirmarPin, 250);
+  }
+}
+
+function borrarDigito() {
+  if (pinIngresado.length === 0) return;
+  pinIngresado = pinIngresado.slice(0, -1);
+  vibrar(10);
+  actualizarPinBoxes();
+}
+
+async function confirmarPin() {
+  if (pinIngresado.length !== 4) {
+    toast('⚠️ Ingresá los 4 dígitos', 'warning');
+    return;
+  }
+  if (!usuarioSeleccionado) return;
+
+  const hashIngresado = await hashPin(pinIngresado);
+  const hashGuardado = usuarioSeleccionado.pinHash;
+
+  if (hashIngresado === hashGuardado) {
+    vibrar(30);
+    entrar(usuarioSeleccionado);
+  } else {
+    vibrar([50, 50, 50]);
+    const boxes = document.querySelectorAll('.pin-box');
+    boxes.forEach(b => b.classList.add('error'));
+    setTimeout(() => {
+      boxes.forEach(b => b.classList.remove('error'));
+      pinIngresado = '';
+      actualizarPinBoxes();
+    }, 500);
+    toast('❌ PIN incorrecto', 'error');
+  }
+}
+
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('pantallaPin')?.classList.contains('activa')) return;
+  if (e.key >= '0' && e.key <= '9') presionarNum(e.key);
+  else if (e.key === 'Backspace') borrarDigito();
+  else if (e.key === 'Enter') confirmarPin();
+  else if (e.key === 'Escape') volverAUsuarios();
+});
+
+// ============================================================
+// ENTRAR
+// ============================================================
+function entrar(u) {
+  const sesion = {
+    usuarioId: u.id,
+    nombre: u.nombre,
+    email: u.email,
+    rol: u.rol,
+    color: u.color || colorPorNombre(u.nombre),
+    inicio: new Date().toISOString(),
+    activa: true
+  };
+  guardarLS(CLAVE_SESION, sesion);
+  localStorage.setItem(CLAVE_ULTIMO_USUARIO, u.id);
+
+  const idx = usuarios.findIndex(x => x.id === u.id);
+  if (idx !== -1) {
+    usuarios[idx].ultimoLogin = new Date().toISOString();
+    guardarLS(CLAVE_USUARIOS, usuarios);
+  }
+
+  toast(`👋 ¡Bienvenido, ${u.nombre.split(' ')[0]}!`, 'success');
+
+  setTimeout(() => {
+    window.location.href = 'dashboard.html';
+  }, 600);
+}
+
+// ============================================================
+// NAVEGACIÓN
+// ============================================================
+function irAUsuarios() {
+  window.location.href = 'usuarios.html';
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo = 'info') {
+  const iconos = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span>${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'toastIn 0.3s ease reverse';
+    setTimeout(() => el.remove(), 300);
+  }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+init();
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

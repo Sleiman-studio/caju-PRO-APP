@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro v3.0 — Laboratorio</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+  --topbar-h: 60px;
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .sidebar { background:#0a0a0a; border-right-color:rgba(255,255,255,0.08); }
+body.theme-dark .topbar { background:#0a0a0a; border-bottom-color:rgba(255,255,255,0.08); }
+body.theme-dark .sb-item:hover { background:rgba(255,255,255,0.05); color:#f0f0f0; }
+body.theme-dark .sb-item.activo { background:linear-gradient(90deg, rgba(196,163,255,0.15), rgba(77,239,255,0.05)); color:#f0f0f0; border-left-color:#c4a3ff; }
+body.theme-dark .empresa-switcher { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+body.theme-dark .panel, body.theme-dark .kpi-card { background:#141414; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .input, body.theme-dark .select { background:#0f0f0f; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn:hover { background:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn.activo { background:rgba(179,136,255,0.2); }
+body.theme-dark .tab { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.1); }
+body.theme-dark .modal { background:#141414; border-color:rgba(255,255,255,0.15); }
+body.theme-dark .resultado-box { background:linear-gradient(135deg,rgba(77,239,255,0.05),rgba(196,163,255,0.08)); border-color:rgba(77,239,255,0.2); }
+body.theme-dark .calib-fila { background:rgba(255,255,255,0.02); border-color:rgba(255,255,255,0.06); }
+body.theme-dark .calib-fila:hover { background:rgba(255,255,255,0.05); }
+body.theme-dark .calib-fila.seleccionado { background:rgba(0,229,255,0.1); border-color:rgba(0,229,255,0.4); }
+body.theme-dark .calib-fila.editado .calib-punto { background:#00e5ff; }
+body.theme-dark .cuchara-box { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.1); }
+body.theme-dark .cuchara-box.modificado { background:rgba(0,229,255,0.1); border-color:rgba(0,229,255,0.4); }
+body.theme-dark .gestion-item { background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.08); }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light .sidebar { background:#f7f7f5; border-right-color:#e9e9e7; }
+body.theme-light .topbar { background:#fbfbfa; border-bottom-color:#e9e9e7; }
+body.theme-light .logo-sidebar { border-bottom-color:#e9e9e7; }
+body.theme-light .sb-item { color:#57564f; }
+body.theme-light .sb-item:hover { background:rgba(0,0,0,0.04); color:#37352f; }
+body.theme-light .sb-item.activo { background:linear-gradient(90deg,rgba(107,70,193,0.15),rgba(11,122,140,0.08)); color:#37352f; border-left-color:#6b46c1; }
+body.theme-light .empresa-switcher { background:rgba(107,70,193,0.08); border-color:#e9e9e7; }
+body.theme-light .icon-btn { color:#57564f; }
+body.theme-light .icon-btn:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .icon-btn.activo { background:rgba(107,70,193,0.15); color:#6b46c1; }
+body.theme-light .panel, body.theme-light .kpi-card { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .input, body.theme-light .select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus, body.theme-light .select:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .select option { background:#fff; color:#37352f; }
+body.theme-light .tab { background:#fff; border-color:#e9e9e7; color:#57564f; }
+body.theme-light .tab.activo { background:#37352f; color:#fff; border-color:#37352f; }
+body.theme-light .modal { background:#fff; border-color:#d3d1cb; }
+body.theme-light .modal-header { border-bottom-color:#e9e9e7; }
+body.theme-light .modal-footer { border-top-color:#e9e9e7; }
+body.theme-light .modal-titulo { color:#37352f; }
+body.theme-light .toast { background:#fff; border-color:#d3d1cb; }
+body.theme-light .toast-msg { color:#37352f; }
+body.theme-light .resultado-box { background:linear-gradient(135deg,rgba(11,122,140,0.05),rgba(107,70,193,0.06)); border-color:rgba(11,122,140,0.25); }
+body.theme-light .calib-fila { background:#fbfbfa; border-color:#e9e9e7; }
+body.theme-light .calib-fila:hover { background:#f7f7f5; }
+body.theme-light .calib-fila.seleccionado { background:rgba(11,122,140,0.08); border-color:rgba(11,122,140,0.4); }
+body.theme-light .calib-fila.editado .calib-punto { background:#0b7a8c; }
+body.theme-light .cuchara-box { background:#fbfbfa; border-color:#e9e9e7; }
+body.theme-light .cuchara-box.modificado { background:rgba(11,122,140,0.08); border-color:rgba(11,122,140,0.4); }
+body.theme-light .gestion-item { background:#fbfbfa; border-color:#e9e9e7; }
+
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-text-size-adjust: 100%; }
+.app-root { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
+
+.sidebar { width: 230px; background: var(--bg-3); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.25s ease; z-index: 100; }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+.logo-sidebar { display: flex; align-items: center; gap: 12px; padding: 18px; border-bottom: 1px solid var(--border); }
+.logo-icono { width: 42px; height: 42px; background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.logo-nombre { font-size: 15px; font-weight: 800; }
+.logo-sub { font-size: 10px; color: var(--text-mute); }
+.sidebar-nav { flex: 1; padding: 8px 10px 20px; }
+.sb-seccion { font-size: 9px; font-weight: 800; color: var(--text-mute); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 12px 6px; }
+.sb-item { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px; font-size: 14px; color: var(--text-dim); font-weight: 600; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sb-item:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.sb-item.activo { background: linear-gradient(90deg, rgba(106,27,154,0.4), rgba(0,229,255,0.08)); color: var(--text); border-left: 3px solid var(--purple); }
+.sb-icono { font-size: 17px; width: 24px; text-align: center; flex-shrink: 0; }
+
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; opacity: 0; transition: opacity 0.25s ease; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.sidebar-backdrop.activo { display: block; opacity: 1; }
+
+.main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--border); min-height: var(--topbar-h); flex-shrink: 0; }
+.hamburger { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 8px 10px; border-radius: 8px; transition: background 0.15s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.hamburger:hover { background: rgba(106,27,154,0.15); }
+.hamburger:active { background: rgba(106,27,154,0.25); }
+.empresa-switcher { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(106,27,154,0.2); border: 1px solid var(--border); border-radius: 10px; }
+.empresa-nombre { font-size: 12px; font-weight: 800; }
+.empresa-rol { font-size: 9px; color: var(--purple); font-weight: 700; }
+.topbar-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: transparent; border: none; color: var(--text-dim); font-size: 17px; cursor: pointer; padding: 10px; border-radius: 8px; transition: all 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: rgba(106,27,154,0.15); }
+.icon-btn:active { background: rgba(106,27,154,0.25); }
+.icon-btn.activo { background: rgba(106,27,154,0.3); color: var(--purple); }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-titulo { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: var(--text-mute); }
+.page-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; }
+.panel-titulo { font-size: 15px; font-weight: 800; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.panel-sub { font-size: 11px; color: var(--text-mute); margin-bottom: 14px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; min-height: 44px; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--purple-deep), #8e24aa); color: #fff; }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan-deep), #00acc1); color: #fff; }
+.btn-green { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+.btn-orange { background: linear-gradient(135deg, #e65100, #f57c00); color: #fff; }
+.btn-red { background: linear-gradient(135deg, #b71c1c, #c62828); color: #fff; }
+.btn-ghost { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
+.btn-sm { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+.input-label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.input, .select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; transition: all 0.15s; }
+.input:focus, .select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+.input::placeholder { color: var(--text-mute); }
+.select { cursor: pointer; appearance: none; padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b388ff' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; }
+.select option { background: var(--card); color: var(--text); }
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 20px; }
+.kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; position: relative; overflow: hidden; transition: all 0.2s; }
+.kpi-card:hover { transform: translateY(-3px); border-color: var(--cyan); }
+.kpi-card::before { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; }
+.kpi-card.cyan::before { background: linear-gradient(180deg, var(--cyan), var(--cyan-deep)); }
+.kpi-card.orange::before { background: linear-gradient(180deg, var(--orange), #e65100); }
+.kpi-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.kpi-label { font-size: 10px; color: var(--text-mute); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.kpi-icono { font-size: 22px; opacity: 0.7; }
+.kpi-valor { font-size: 32px; font-weight: 900; line-height: 1; margin-bottom: 6px; }
+.kpi-valor.cyan { color: var(--cyan); }
+.kpi-valor.orange { color: var(--orange); }
+.kpi-cambio { font-size: 11px; color: var(--text-mute); font-weight: 700; }
+
+.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 18px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { padding: 10px 16px; border-radius: 22px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--text-dim); font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: inherit; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.tab.activo { background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); color: #fff; border-color: transparent; }
+
+.panel-tab { display: none; }
+.panel-tab.activo { display: block; }
+
+.resultado-box { background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(106,27,154,0.1)); border: 1px solid rgba(0,229,255,0.3); border-radius: var(--radius); padding: 18px; margin-top: 16px; }
+.resultado-titulo { font-size: 11px; font-weight: 800; color: var(--cyan); margin-bottom: 14px; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; }
+.resultado-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+.resultado-row:last-child { border-bottom: none; }
+.resultado-row .rlabel { color: var(--text-dim); }
+.resultado-row .rval { color: var(--cyan); font-weight: 700; }
+.resultado-row.total { border-top: 2px solid rgba(0,229,255,0.4); margin-top: 8px; padding-top: 14px; font-weight: 800; font-size: 16px; }
+.resultado-row.total .rlabel { color: var(--purple); }
+.resultado-row.total .rval { color: var(--purple); }
+
+/* CALIBRAR */
+.calib-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 4px; }
+
+.calib-col-titulo {
+  font-size: 11px; font-weight: 800; color: var(--cyan);
+  text-transform: uppercase; letter-spacing: 1.2px;
+  margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  flex-wrap: wrap;
+}
+.calib-col-titulo .acciones { margin-left: auto; display: flex; gap: 4px; }
+.calib-col-titulo .acciones .btn { padding: 6px 10px; font-size: 10px; min-height: 32px; }
+
+.calib-buscador { position: relative; margin-bottom: 10px; }
+.calib-buscador .input { padding-left: 36px; padding-top: 10px; padding-bottom: 10px; font-size: 13px; }
+.calib-buscador .icono { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-mute); font-size: 14px; pointer-events: none; }
+
+.calib-lista { max-height: 420px; overflow-y: auto; padding-right: 4px; }
+.calib-lista::-webkit-scrollbar { width: 6px; }
+.calib-lista::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+.calib-fila { display: flex; align-items: center; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; cursor: pointer; transition: all 0.15s; position: relative; min-height: 48px; }
+.calib-fila:hover { transform: translateX(2px); }
+.calib-fila.seleccionado { border-color: var(--cyan); }
+.calib-punto { width: 8px; height: 8px; border-radius: 50%; background: transparent; border: 1px solid var(--border); flex-shrink: 0; }
+.calib-fila.editado .calib-punto { border: none; }
+.calib-fila.custom .calib-punto { background: var(--purple); border: none; }
+.calib-nombre { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.calib-resumen { font-size: 10px; color: var(--text-mute); font-family: 'Courier New', monospace; flex-shrink: 0; display: flex; gap: 4px; }
+.calib-resumen span { padding: 2px 5px; border-radius: 4px; background: rgba(255,255,255,0.04); }
+body.theme-light .calib-resumen span { background: rgba(0,0,0,0.04); }
+.calib-fila.editado .calib-resumen span { color: var(--cyan); font-weight: 800; }
+.calib-eliminar { background: transparent; border: none; color: var(--text-mute); font-size: 14px; cursor: pointer; padding: 6px 8px; border-radius: 6px; opacity: 0; transition: all 0.15s; min-width: 30px; }
+.calib-fila:hover .calib-eliminar { opacity: 1; }
+.calib-eliminar:hover { color: var(--red); background: rgba(239,83,80,0.15); }
+
+.calib-editor { background: rgba(0,229,255,0.03); border: 1px solid rgba(0,229,255,0.2); border-radius: 10px; padding: 16px; }
+body.theme-light .calib-editor { background: rgba(11,122,140,0.04); border-color: rgba(11,122,140,0.2); }
+
+.calib-editor-titulo { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.cucharas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 8px; margin-bottom: 14px; }
+
+.cuchara-box { border: 1px solid var(--border); border-radius: 8px; padding: 10px 8px; text-align: center; transition: all 0.15s; position: relative; }
+.cuchara-box .cuchara-label { font-size: 10px; font-weight: 800; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.cuchara-box input { width: 100%; background: transparent; border: none; color: var(--text); font-family: 'Courier New', monospace; font-size: 16px; font-weight: 800; text-align: center; outline: none; padding: 6px 4px; border-radius: 4px; }
+.cuchara-box input:focus { background: rgba(0,229,255,0.1); }
+.cuchara-box .cuchara-gramos { font-size: 9px; color: var(--text-mute); margin-top: 2px; font-weight: 700; }
+.cuchara-box.custom .cuchara-label { color: var(--purple); }
+
+.calib-editor-botones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.calib-editor-vacio { text-align: center; padding: 60px 20px; color: var(--text-mute); }
+.calib-editor-vacio .icono { font-size: 42px; opacity: 0.3; margin-bottom: 12px; }
+.calib-editor-vacio .texto { font-size: 13px; }
+
+.calib-acciones-top { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
+
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 10px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+.badge-cyan { background: rgba(0,229,255,0.15); color: var(--cyan); }
+.badge-purple { background: rgba(179,136,255,0.15); color: var(--purple); }
+
+.gestion-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; gap: 10px; }
+.gestion-item .nombre { font-size: 13px; font-weight: 700; color: var(--text); }
+.gestion-item .tag { font-size: 10px; padding: 3px 10px; border-radius: 8px; background: rgba(179,136,255,0.15); color: var(--purple); font-weight: 800; text-transform: uppercase; }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+.modal-overlay.activo { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border-strong); border-radius: 16px; width: 100%; max-width: 560px; max-height: 90vh; display: flex; flex-direction: column; animation: modalIn 0.25s; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.modal-titulo { font-size: 17px; font-weight: 800; }
+.modal-close { background: transparent; border: none; color: var(--text-mute); font-size: 28px; cursor: pointer; line-height: 1; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { color: var(--red); }
+.modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; pointer-events: auto; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; font-weight: 600; }
+
+.empty { text-align: center; padding: 40px 20px; color: var(--text-mute); }
+.empty-icono { font-size: 50px; opacity: 0.3; margin-bottom: 12px; }
+.empty-sub { font-size: 12px; }
+
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 20px; }
+  .calib-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; }
+
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; height: 100dvh; width: 260px; max-width: 85vw; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar.abierto { transform: translateX(0); }
+
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .hamburger { display: flex; }
+  .empresa-switcher { padding: 6px 10px; }
+  .empresa-nombre { font-size: 11px; }
+  .empresa-rol { font-size: 8px; }
+  .topbar-acciones { gap: 2px; }
+  .icon-btn { font-size: 18px; padding: 8px; min-width: 40px; min-height: 40px; }
+
+  .content { padding: 16px; }
+
+  .page-header { flex-direction: column; align-items: stretch; margin-bottom: 16px; }
+  .page-titulo { font-size: 22px; }
+  .page-sub { font-size: 12px; }
+  .page-acciones { width: 100%; }
+  .page-acciones .btn { flex: 1; justify-content: center; }
+
+  .kpi-grid { grid-template-columns: 1fr; gap: 10px; }
+  .kpi-card { padding: 16px; }
+  .kpi-valor { font-size: 26px; }
+
+  .panel { padding: 16px; }
+
+  .calib-layout { grid-template-columns: 1fr; gap: 12px; }
+  .calib-lista { max-height: 280px; }
+
+  .form-row.cols-2, .form-row.cols-3 { grid-template-columns: 1fr; }
+
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal { max-width: 100%; max-height: 92vh; border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-top-left-radius: 20px; border-top-right-radius: 20px; animation: modalInMobile 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+  @keyframes modalInMobile { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .modal::before { content: ""; display: block; width: 40px; height: 4px; background: var(--border-strong); border-radius: 2px; margin: 10px auto 0; }
+  .modal-header { padding: 14px 20px 16px; }
+  .modal-body { padding: 16px 20px; }
+  .modal-footer { padding: 14px 20px; }
+  .modal-footer .btn { flex: 1; justify-content: center; }
+
+  .toast-container { top: auto; bottom: 80px; left: 16px; right: 16px; }
+  .toast { min-width: auto; max-width: none; width: 100%; }
+
+  .btn { padding: 12px 16px; font-size: 13px; }
+  .btn-sm { padding: 8px 12px; font-size: 11px; min-height: 38px; }
+}
+
+@media (max-width: 480px) {
+  .content { padding: 12px; }
+  .page-titulo { font-size: 20px; }
+  .cucharas-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="app-root">
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="cerrarSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-sidebar">
+      <div class="logo-icono">🏛️</div>
+      <div><div class="logo-nombre">Cajuña Pro</div><div class="logo-sub">v3.0</div></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sb-seccion">Principal</div>
+      <div class="sb-item" onclick="irA('dashboard.html')"><span class="sb-icono">📊</span>Dashboard</div>
+      <div class="sb-item" onclick="irA('nueva-orden.html')"><span class="sb-icono">➕</span>Nueva Orden</div>
+      <div class="sb-item" onclick="irA('llenado-parcial.html')"><span class="sb-icono">📦</span>Llenado Parcial</div>
+      <div class="sb-item" onclick="irA('produccion.html')"><span class="sb-icono">🔨</span>Producción</div>
+
+      <div class="sb-seccion">Biblioteca</div>
+      <div class="sb-item" onclick="irA('moldes.html')"><span class="sb-icono">🗄️</span>Moldes</div>
+      <div class="sb-item" onclick="irA('mis-modelos.html')"><span class="sb-icono">💾</span>Mis Modelos</div>
+      <div class="sb-item" onclick="irA('recetas.html')"><span class="sb-icono">📖</span>Recetas</div>
+      <div class="sb-item" onclick="irA('archivo.html')"><span class="sb-icono">📁</span>Archivo</div>
+      <div class="sb-item" onclick="irA('museo.html')"><span class="sb-icono">🏛️</span>Museo Virtual</div>
+
+      <div class="sb-seccion">Análisis</div>
+      <div class="sb-item" onclick="irA('stock.html')"><span class="sb-icono">📦</span>Stock</div>
+      <div class="sb-item activo" onclick="irA('laboratorio.html')"><span class="sb-icono">🧪</span>Laboratorio</div>
+      <div class="sb-item" onclick="irA('reportes.html')"><span class="sb-icono">📈</span>Reportes</div>
+
+      <div class="sb-seccion">Sistema</div>
+      <div class="sb-item" onclick="irA('clientes.html')"><span class="sb-icono">👥</span>Clientes</div>
+      <div class="sb-item" onclick="irA('usuarios.html')"><span class="sb-icono">👤</span>Usuarios</div>
+      <div class="sb-item" onclick="irA('configuracion.html')"><span class="sb-icono">⚙️</span>Configuración</div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="hamburger" onclick="abrirSidebar()" aria-label="Abrir menú">☰</button>
+      <div class="empresa-switcher">
+        <span>🏢</span>
+        <div><div class="empresa-nombre">Cajuña</div><div class="empresa-rol">Admin</div></div>
+      </div>
+      <div class="topbar-acciones">
+        <button class="icon-btn" onclick="toggleManosSucias()" id="btnManos" title="Manos sucias">🧤</button>
+        <button class="icon-btn" onclick="toggleTema()" id="btnTema" title="Cambiar tema">🎨</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-titulo">🧪 Laboratorio</div>
+          <div class="page-sub" id="subtitulo">Cálculos y calibración</div>
+        </div>
+        <div class="page-acciones">
+          <button class="btn btn-ghost btn-sm" onclick="exportarConfig()">📤 Exportar</button>
+          <button class="btn btn-ghost btn-sm" onclick="abrirImportar()">📥 Importar</button>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card cyan">
+          <div class="kpi-top"><span class="kpi-label">Pigmentos calibrados</span><span class="kpi-icono">🎨</span></div>
+          <div class="kpi-valor cyan" id="kpiCalibrados">0</div>
+          <div class="kpi-cambio">Modificados vs valores de fábrica</div>
+        </div>
+        <div class="kpi-card orange">
+          <div class="kpi-top"><span class="kpi-label">Última calibración</span><span class="kpi-icono">📅</span></div>
+          <div class="kpi-valor orange" id="kpiUltimaCal" style="font-size:18px;line-height:1.2;">—</div>
+          <div class="kpi-cambio" id="kpiUltimaCalSub">Sin calibrar aún</div>
+        </div>
+      </div>
+
+      <div class="tabs" id="tabsLab">
+        <button class="tab activo" data-tab="calibrar" onclick="cambiarTab('calibrar', this)">⚖️ Calibrar</button>
+        <button class="tab" data-tab="medidas" onclick="cambiarTab('medidas', this)">📐 Medidas</button>
+        <button class="tab" data-tab="volumen" onclick="cambiarTab('volumen', this)">💧 Volumen</button>
+        <button class="tab" data-tab="resina" onclick="cambiarTab('resina', this)">🧪 Resina</button>
+        <button class="tab" data-tab="aliven" onclick="cambiarTab('aliven', this)">☁️ Aliven</button>
+        <button class="tab" data-tab="pigmentos" onclick="cambiarTab('pigmentos', this)">🎨 Pigmentos</button>
+      </div>
+
+      <!-- CALIBRAR -->
+      <div class="panel-tab activo" data-tab="calibrar">
+        <div class="panel">
+          <div class="panel-titulo">⚖️ Calibración de Gramos</div>
+          <div class="panel-sub">Ajustá el peso real de cada cuchara. Se guarda automáticamente y lo usa Nueva Orden.</div>
+
+          <div class="calib-acciones-top">
+            <button class="btn btn-green btn-sm" onclick="guardarTablaPesos()">💾 Guardar</button>
+            <button class="btn btn-ghost btn-sm" onclick="resetTablaPesos()">↺ Restaurar</button>
+            <button class="btn btn-ghost btn-sm" onclick="verComoUsaNuevaOrden()">ℹ️ Cómo se usa</button>
+            <span id="calibEstado" style="font-size:11px;color:var(--text-mute);margin-left:auto;"></span>
+          </div>
+
+          <div class="calib-layout">
+            <div>
+              <div class="calib-col-titulo">
+                📋 Pigmentos
+                <div class="acciones">
+                  <button class="btn btn-cyan btn-sm" onclick="abrirAgregarPigmento()">➕ Pigmento</button>
+                  <button class="btn btn-cyan btn-sm" onclick="abrirGestionCucharas()">➕ Cuchara</button>
+                </div>
+              </div>
+              <div class="calib-buscador">
+                <span class="icono">🔍</span>
+                <input class="input" id="calibBuscar" placeholder="Buscar pigmento..." oninput="renderListaCalib()">
+              </div>
+              <div class="calib-lista" id="calibLista"></div>
+            </div>
+
+            <div>
+              <div class="calib-col-titulo">✏️ Editor</div>
+              <div id="calibEditor"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEDIDAS -->
+      <div class="panel-tab" data-tab="medidas">
+        <div class="panel">
+          <div class="panel-titulo">📐 Calculadora por Medidas</div>
+          <div class="panel-sub">Ingresá las dimensiones y obtené los materiales.</div>
+
+          <div class="form-row cols-3">
+            <div class="input-group"><label class="input-label">Largo (cm)</label><input type="number" class="input" id="mMedLargo" value="40" oninput="calcMedidas()"></div>
+            <div class="input-group"><label class="input-label">Ancho (cm)</label><input type="number" class="input" id="mMedAncho" value="30" oninput="calcMedidas()"></div>
+            <div class="input-group"><label class="input-label">Espesor (cm)</label><input type="number" class="input" id="mMedEspesor" value="15" oninput="calcMedidas()"></div>
+          </div>
+
+          <div class="form-row cols-2">
+            <div class="input-group"><label class="input-label">Factor densidad</label><input type="number" class="input" id="mMedFactor" value="1.90" step="0.05" oninput="calcMedidas()"></div>
+            <div class="input-group"><label class="input-label">Tipo de mezcla</label>
+              <select class="select" id="mMedTipo" onchange="calcMedidas()">
+                <option>Concreto</option><option>Resina</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="resultado-box" id="resMedidas"></div>
+        </div>
+      </div>
+
+      <!-- VOLUMEN -->
+      <div class="panel-tab" data-tab="volumen">
+        <div class="panel">
+          <div class="panel-titulo">💧 Calculadora por Volumen</div>
+          <div class="panel-sub">Ingresá los mililitros y obtené los materiales.</div>
+
+          <div class="form-row cols-2">
+            <div class="input-group"><label class="input-label">Mililitros</label><input type="number" class="input" id="mVolMl" value="1800" oninput="calcVolumen()"></div>
+            <div class="input-group"><label class="input-label">Factor densidad</label><input type="number" class="input" id="mVolFactor" value="1.90" step="0.05" oninput="calcVolumen()"></div>
+          </div>
+
+          <div class="input-group">
+            <label class="input-label">Tipo de mezcla</label>
+            <select class="select" id="mVolTipo" onchange="calcVolumen()">
+              <option>Concreto</option><option>Resina</option>
+            </select>
+          </div>
+
+          <div class="resultado-box" id="resVolumen"></div>
+        </div>
+      </div>
+
+      <!-- RESINA -->
+      <div class="panel-tab" data-tab="resina">
+        <div class="panel">
+          <div class="panel-titulo">🧪 Calculadora de Resina</div>
+          <div class="panel-sub">Ajustá las proporciones según el trabajo.</div>
+
+          <div class="form-row cols-2">
+            <div class="input-group"><label class="input-label">Volumen (ml)</label><input type="number" class="input" id="mResMl" value="1800" oninput="calcResina()"></div>
+            <div class="input-group"><label class="input-label">Factor densidad</label><input type="number" class="input" id="mResFactor" value="1.90" step="0.05" oninput="calcResina()"></div>
+          </div>
+
+          <div style="margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-dim);cursor:pointer;min-height:44px;">
+              <input type="checkbox" id="mResConMar" checked onchange="calcResina()" style="width:18px;height:18px;"> Incluir marmolina
+            </label>
+          </div>
+
+          <div class="form-row cols-3">
+            <div class="input-group"><label class="input-label">% Resina</label><input type="number" class="input" id="mResPctRes" value="30" oninput="calcResina()"></div>
+            <div class="input-group"><label class="input-label">% Piedra</label><input type="number" class="input" id="mResPctPie" value="50" oninput="calcResina()"></div>
+            <div class="input-group"><label class="input-label">% Marmolina</label><input type="number" class="input" id="mResPctMar" value="20" oninput="calcResina()"></div>
+          </div>
+
+          <div class="input-group"><label class="input-label">% Catalizador</label><input type="number" class="input" id="mResPctCat" value="2" step="0.1" oninput="calcResina()"></div>
+
+          <div class="resultado-box" id="resResina"></div>
+        </div>
+      </div>
+
+      <!-- ALIVEN -->
+      <div class="panel-tab" data-tab="aliven">
+        <div class="panel">
+          <div class="panel-titulo">☁️ Calculadora de Aliven</div>
+          <div class="panel-sub">Cara lisa o doble capa.</div>
+
+          <div class="form-row cols-2">
+            <div class="input-group"><label class="input-label">Volumen (ml)</label><input type="number" class="input" id="mAliMl" value="1800" oninput="calcAliven()"></div>
+            <div class="input-group"><label class="input-label">Factor densidad</label><input type="number" class="input" id="mAliFactor" value="1.20" step="0.05" oninput="calcAliven()"></div>
+          </div>
+
+          <div class="form-row cols-2">
+            <div class="input-group"><label class="input-label">Ligante</label>
+              <select class="select" id="mAliLigante" onchange="calcAliven()">
+                <option>Cemento Blanco</option><option>Cemento Gris</option><option>Yeso</option>
+              </select>
+            </div>
+            <div class="input-group"><label class="input-label">Tamaño aliven</label>
+              <select class="select" id="mAliTamano" onchange="calcAliven()">
+                <option>Pequeño</option><option>Grande</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap;">
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-dim);cursor:pointer;min-height:44px;">
+              <input type="checkbox" id="mAliConMar" checked onchange="calcAliven()" style="width:18px;height:18px;"> Incluir marmolina
+            </label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-dim);cursor:pointer;min-height:44px;">
+              <input type="checkbox" id="mAliDoble" onchange="calcAliven()" style="width:18px;height:18px;"> Modo doble capa
+            </label>
+          </div>
+
+          <div class="resultado-box" id="resAliven"></div>
+        </div>
+      </div>
+
+      <!-- PIGMENTOS -->
+      <div class="panel-tab" data-tab="pigmentos">
+        <div class="panel">
+          <div class="panel-titulo">🎨 Conversor de Pigmentos</div>
+          <div class="panel-sub">Convertí cucharadas a gramos.</div>
+
+          <div class="input-group">
+            <label class="input-label">Pigmento</label>
+            <select class="select" id="mPigPigmento" onchange="calcConversorPig()"></select>
+          </div>
+
+          <div class="form-row cols-2">
+            <div class="input-group">
+              <label class="input-label">Cuchara</label>
+              <select class="select" id="mPigCuchara" onchange="calcConversorPig()"></select>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Cantidad</label>
+              <input type="number" class="input" id="mPigCantidad" value="1" step="0.25" oninput="calcConversorPig()">
+            </div>
+          </div>
+
+          <div class="resultado-box" id="resConversorPig"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-titulo">📈 Escalado muestra → lote</div>
+          <div class="panel-sub">Escalá los gramos de una muestra al lote completo.</div>
+
+          <div class="form-row cols-3">
+            <div class="input-group"><label class="input-label">Gramos muestra</label><input type="number" class="input" id="mEscGramos" value="1.67" step="0.01" oninput="calcEscalado()"></div>
+            <div class="input-group"><label class="input-label">Cem. muestra (g)</label><input type="number" class="input" id="mEscMuestra" value="400" oninput="calcEscalado()"></div>
+            <div class="input-group"><label class="input-label">Cem. lote (g)</label><input type="number" class="input" id="mEscLote" value="2000" oninput="calcEscalado()"></div>
+          </div>
+
+          <div class="resultado-box" id="resEscalado"></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)cerrarModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-titulo" id="modalTitulo">Modal</div>
+      <button class="modal-close" onclick="cerrarModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SIDEBAR MÓVIL
+// ============================================================
+function abrirSidebar() {
+  document.getElementById('sidebar').classList.add('abierto');
+  document.getElementById('sidebarBackdrop').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarSidebar() {
+  document.getElementById('sidebar').classList.remove('abierto');
+  document.getElementById('sidebarBackdrop').classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function irA(url) {
+  cerrarSidebar();
+  setTimeout(() => { location.href = url; }, 150);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') cerrarSidebar();
+});
+
+// ============================================================
+// CONSTANTES
+// ============================================================
+const CLAVE_PESOS = 'cajupa_pesos';
+const CLAVE_CUSTOM = 'cajupa_pesos_custom';
+
+const LISTA_PIGMENTOS_DEFAULT = [
+  "Rojo", "Amarillo", "Azul", "Marrón", "Negro", "Blanco", "Cemento Gris",
+  "Verde Nacional", "Verde Bycolor", "Verde Vitofibras", "Naranja", "Vinotinto"
+];
+
+const LISTA_CUCHARAS_DEFAULT = ["Cuch. 0.63", "Cuch. 1.25", "Cuch. 2.5", "Cuch. 15"];
+
+const TABLA_PESOS_DEFAULT = {
+  "Rojo": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 1.40, "Cuch. 2.5": 1.67, "Cuch. 15": 10.02 },
+  "Amarillo": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 1.45, "Cuch. 2.5": 1.90, "Cuch. 15": 11.40 },
+  "Azul": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 1.20, "Cuch. 2.5": 1.90, "Cuch. 15": 11.40 },
+  "Marrón": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 0.90, "Cuch. 2.5": 2.20, "Cuch. 15": 13.20 },
+  "Negro": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 0.96, "Cuch. 2.5": 1.84, "Cuch. 15": 11.04 },
+  "Blanco": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 1.00, "Cuch. 2.5": 2.00, "Cuch. 15": 12.00 },
+  "Cemento Gris": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 0.96, "Cuch. 2.5": 1.84, "Cuch. 15": 11.04 },
+  "Verde Nacional": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 1.05, "Cuch. 2.5": 2.70, "Cuch. 15": 16.20 },
+  "Verde Bycolor": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 1.00, "Cuch. 2.5": 2.32, "Cuch. 15": 13.92 },
+  "Verde Vitofibras": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 0.93, "Cuch. 2.5": 1.60, "Cuch. 15": 9.60 },
+  "Naranja": { "Cuch. 0.63": 0.25, "Cuch. 1.25": 1.40, "Cuch. 2.5": 1.67, "Cuch. 15": 10.02 },
+  "Vinotinto": { "Cuch. 0.63": 0.30, "Cuch. 1.25": 0.90, "Cuch. 2.5": 2.20, "Cuch. 15": 13.20 }
+};
+
+// ============================================================
+// ESTADO
+// ============================================================
+let tablaPesos = {};
+let tablaPesosOriginal = {};
+let pigmentoSeleccionado = null;
+let listaPigmentosActiva = [];
+let listaCucharasActiva = [];
+let customEstructura = { pigmentos: [], cucharas: [] };
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+}
+function toggleTema() {
+  let actual = localStorage.getItem('cajupa_tema') || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem('cajupa_tema', nuevo);
+  aplicarTema(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+function toggleManosSucias() {
+  const activo = document.body.classList.toggle('manos-sucias');
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function hoyISO() { return new Date().toISOString().split('T')[0]; }
+function fmtFecha(iso) {
+  if (!iso) return '—';
+  const [y, m, d] = iso.split('T')[0].split('-');
+  return `${d}/${m}/${y.slice(2)}`;
+}
+function fmtG(g) { return g >= 1000 ? (g/1000).toFixed(2) + ' kg' : g.toFixed(1) + ' g'; }
+function cucharaCorta(c) { return c.replace('Cuch. ', '').replace('Cuch ', ''); }
+function esPigmentoCustom(pig) { return customEstructura.pigmentos.includes(pig); }
+function esCucharaCustom(c) { return customEstructura.cucharas.includes(c); }
+
+function pigmentoEstaEditado(pig) {
+  if (esPigmentoCustom(pig)) return true;
+  const actual = tablaPesos[pig] || {};
+  const orig = TABLA_PESOS_DEFAULT[pig] || {};
+  for (const c of listaCucharasActiva) {
+    const valA = actual[c] || 0;
+    const valO = orig[c] !== undefined ? orig[c] : 0;
+    if (Math.abs(valA - valO) > 0.001) return true;
+  }
+  return false;
+}
+
+// ============================================================
+// PERSISTENCIA
+// ============================================================
+function leerTablaPesos() {
+  try {
+    const raw = localStorage.getItem(CLAVE_PESOS);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return {};
+}
+function guardarTablaPesosEnStorage(tabla) {
+  localStorage.setItem(CLAVE_PESOS, JSON.stringify(tabla));
+}
+function leerEstructuraCustom() {
+  try {
+    const raw = localStorage.getItem(CLAVE_CUSTOM);
+    if (raw) {
+      const d = JSON.parse(raw);
+      return {
+        pigmentos: Array.isArray(d.pigmentos) ? d.pigmentos : [],
+        cucharas: Array.isArray(d.cucharas) ? d.cucharas : []
+      };
+    }
+  } catch(e) {}
+  return { pigmentos: [], cucharas: [] };
+}
+function guardarEstructuraCustom(data) {
+  localStorage.setItem(CLAVE_CUSTOM, JSON.stringify(data));
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function recargarListas() {
+  customEstructura = leerEstructuraCustom();
+  listaPigmentosActiva = [...LISTA_PIGMENTOS_DEFAULT, ...customEstructura.pigmentos];
+  listaCucharasActiva = [...LISTA_CUCHARAS_DEFAULT, ...customEstructura.cucharas];
+}
+
+function inicializarTablaPesos() {
+  const guardada = leerTablaPesos();
+  const base = Object.keys(guardada).length > 0 ? JSON.parse(JSON.stringify(guardada)) : JSON.parse(JSON.stringify(TABLA_PESOS_DEFAULT));
+
+  for (const pig of listaPigmentosActiva) {
+    if (!base[pig]) base[pig] = {};
+    for (const c of listaCucharasActiva) {
+      if (base[pig][c] === undefined) base[pig][c] = 0;
+    }
+  }
+
+  tablaPesos = base;
+  tablaPesosOriginal = JSON.parse(JSON.stringify(TABLA_PESOS_DEFAULT));
+}
+
+function init() {
+  recargarListas();
+  inicializarTablaPesos();
+
+  if (!pigmentoSeleccionado || !listaPigmentosActiva.includes(pigmentoSeleccionado)) {
+    pigmentoSeleccionado = listaPigmentosActiva[0] || null;
+  }
+
+  renderListaCalib();
+  renderEditorCalib();
+  renderListaPigmentosConversor();
+  actualizarKPIs();
+  actualizarSubtitulo();
+  actualizarEstadoCalib();
+
+  calcMedidas();
+  calcVolumen();
+  calcResina();
+  calcAliven();
+  calcConversorPig();
+  calcEscalado();
+}
+
+function actualizarSubtitulo() {
+  let calibrados = 0;
+  for (const pig of listaPigmentosActiva) if (pigmentoEstaEditado(pig)) calibrados++;
+  document.getElementById('subtitulo').textContent =
+    `${listaPigmentosActiva.length} pigmentos · ${listaCucharasActiva.length} cucharas · ${calibrados} calibrado${calibrados === 1 ? '' : 's'}`;
+}
+
+function actualizarKPIs() {
+  let calibrados = 0;
+  for (const pig of listaPigmentosActiva) {
+    if (pigmentoEstaEditado(pig)) calibrados++;
+  }
+  document.getElementById('kpiCalibrados').textContent = calibrados + ' / ' + listaPigmentosActiva.length;
+
+  try {
+    const ultima = localStorage.getItem(CLAVE_PESOS + '_ultima_fecha');
+    if (ultima) {
+      document.getElementById('kpiUltimaCal').textContent = fmtFecha(ultima);
+      document.getElementById('kpiUltimaCalSub').textContent = 'Guardada';
+    } else {
+      document.getElementById('kpiUltimaCal').textContent = '—';
+      document.getElementById('kpiUltimaCalSub').textContent = 'Usando valores de fábrica';
+    }
+  } catch(e) {}
+}
+
+function actualizarEstadoCalib() {
+  const el = document.getElementById('calibEstado');
+  if (!el) return;
+  let calibrados = 0;
+  for (const pig of listaPigmentosActiva) if (pigmentoEstaEditado(pig)) calibrados++;
+  if (calibrados === 0) {
+    el.textContent = '✓ Valores de fábrica';
+    el.style.color = 'var(--text-mute)';
+  } else {
+    el.textContent = `● ${calibrados} modificado${calibrados > 1 ? 's' : ''}`;
+    el.style.color = 'var(--cyan)';
+  }
+}
+
+// ============================================================
+// CALIBRAR — LISTA
+// ============================================================
+function renderListaCalib() {
+  const busqueda = (document.getElementById('calibBuscar')?.value || '').toLowerCase().trim();
+  const lista = document.getElementById('calibLista');
+  if (!lista) return;
+
+  const filtrados = listaPigmentosActiva.filter(p => p.toLowerCase().includes(busqueda));
+
+  if (filtrados.length === 0) {
+    lista.innerHTML = `<div class="empty" style="padding:30px 10px;"><div class="empty-icono" style="font-size:36px;">🔍</div><div class="empty-sub">Sin resultados</div></div>`;
+    return;
+  }
+
+  lista.innerHTML = filtrados.map(pig => {
+    const editado = pigmentoEstaEditado(pig);
+    const custom = esPigmentoCustom(pig);
+    const seleccionado = pig === pigmentoSeleccionado;
+    const datos = tablaPesos[pig] || {};
+    const cucharasMostrar = listaCucharasActiva.slice(0, 4);
+    const resumenHTML = cucharasMostrar.map(c => {
+      const val = datos[c] || 0;
+      return `<span>${val.toFixed(2)}</span>`;
+    }).join('') + (listaCucharasActiva.length > 4 ? `<span>+${listaCucharasActiva.length - 4}</span>` : '');
+
+    return `
+      <div class="calib-fila ${seleccionado ? 'seleccionado' : ''} ${editado ? 'editado' : ''} ${custom ? 'custom' : ''}" onclick="seleccionarPigmento('${pig.replace(/'/g, "\\'")}')">
+        <div class="calib-punto"></div>
+        <div class="calib-nombre">${pig}${custom ? ' <span style="color:var(--purple);font-size:9px;">(custom)</span>' : ''}</div>
+        <div class="calib-resumen">${resumenHTML}</div>
+        ${custom ? `<button class="calib-eliminar" onclick="event.stopPropagation();eliminarPigmentoCustom('${pig.replace(/'/g, "\\'")}')" title="Eliminar">✕</button>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function seleccionarPigmento(pig) {
+  pigmentoSeleccionado = pig;
+  renderListaCalib();
+  renderEditorCalib();
+}
+
+// ============================================================
+// CALIBRAR — EDITOR
+// ============================================================
+function renderEditorCalib() {
+  const editor = document.getElementById('calibEditor');
+  if (!editor) return;
+
+  if (!pigmentoSeleccionado) {
+    editor.innerHTML = `
+      <div class="calib-editor-vacio">
+        <div class="icono">👈</div>
+        <div class="texto">Elegí un pigmento de la lista</div>
+      </div>
+    `;
+    return;
+  }
+
+  const datos = tablaPesos[pigmentoSeleccionado] || {};
+  const editado = pigmentoEstaEditado(pigmentoSeleccionado);
+  const custom = esPigmentoCustom(pigmentoSeleccionado);
+
+  const cucharasHTML = listaCucharasActiva.map((c) => {
+    const val = datos[c] || 0;
+    const orig = TABLA_PESOS_DEFAULT[pigmentoSeleccionado]?.[c];
+    const modificada = orig !== undefined && Math.abs(val - orig) > 0.001;
+    const cucharaCustom = esCucharaCustom(c);
+    return `
+      <div class="cuchara-box ${modificada ? 'modificado' : ''} ${cucharaCustom ? 'custom' : ''}">
+        <div class="cuchara-label">Cuch. ${cucharaCorta(c)}</div>
+        <input type="number" value="${val}" step="0.01" min="0" inputmode="decimal"
+               oninput="cambiarPeso('${pigmentoSeleccionado.replace(/'/g, "\\'")}', '${c.replace(/'/g, "\\'")}', this.value, event)">
+        <div class="cuchara-gramos">${val.toFixed(2)} g</div>
+      </div>
+    `;
+  }).join('');
+
+  editor.innerHTML = `
+    <div class="calib-editor">
+      <div class="calib-editor-titulo">
+        🎨 ${pigmentoSeleccionado}
+        ${editado ? '<span class="badge badge-cyan" style="font-size:9px;">editado</span>' : ''}
+        ${custom ? '<span class="badge badge-purple" style="font-size:9px;">custom</span>' : ''}
+      </div>
+      <div class="cucharas-grid">${cucharasHTML}</div>
+      <div class="calib-editor-botones">
+        <button class="btn btn-ghost btn-sm" onclick="resetPigmentoSeleccionado()">↺ Restaurar</button>
+        <button class="btn btn-green btn-sm" style="margin-left:auto;" onclick="guardarTablaPesos()">💾 Guardar</button>
+      </div>
+    </div>
+  `;
+}
+
+function cambiarPeso(pig, cuch, valor, event) {
+  const val = parseFloat(valor) || 0;
+  if (!tablaPesos[pig]) tablaPesos[pig] = {};
+  tablaPesos[pig][cuch] = val;
+
+  const box = event?.target?.closest('.cuchara-box');
+  if (box) {
+    const gramos = box.querySelector('.cuchara-gramos');
+    if (gramos) gramos.textContent = val.toFixed(2) + ' g';
+    const orig = TABLA_PESOS_DEFAULT[pig]?.[cuch];
+    const modificada = orig !== undefined && Math.abs(val - orig) > 0.001;
+    box.classList.toggle('modificado', modificada);
+  }
+
+  const fila = document.querySelector(`.calib-fila[onclick*="seleccionarPigmento('${pig.replace(/'/g, "\\'")}')"]`);
+  if (fila) {
+    const editado = pigmentoEstaEditado(pig);
+    fila.classList.toggle('editado', editado);
+    const resumen = fila.querySelector('.calib-resumen');
+    if (resumen) {
+      const datos = tablaPesos[pig] || {};
+      const cucharasMostrar = listaCucharasActiva.slice(0, 4);
+      resumen.innerHTML = cucharasMostrar.map(c => `<span>${(datos[c] || 0).toFixed(2)}</span>`).join('') +
+        (listaCucharasActiva.length > 4 ? `<span>+${listaCucharasActiva.length - 4}</span>` : '');
+    }
+  }
+
+  const titulo = document.querySelector('.calib-editor-titulo');
+  if (titulo && pigmentoEstaEditado(pig) && !titulo.querySelector('.badge')) {
+    const badge = document.createElement('span');
+    badge.className = 'badge badge-cyan';
+    badge.style.fontSize = '9px';
+    badge.textContent = 'editado';
+    titulo.appendChild(badge);
+  }
+
+  actualizarEstadoCalib();
+  actualizarKPIs();
+}
+
+function resetPigmentoSeleccionado() {
+  if (!pigmentoSeleccionado) return;
+  if (!confirm(`¿Restaurar "${pigmentoSeleccionado}" a los valores de fábrica?`)) return;
+  if (esPigmentoCustom(pigmentoSeleccionado)) {
+    tablaPesos[pigmentoSeleccionado] = {};
+    for (const c of listaCucharasActiva) tablaPesos[pigmentoSeleccionado][c] = 0;
+  } else {
+    tablaPesos[pigmentoSeleccionado] = JSON.parse(JSON.stringify(TABLA_PESOS_DEFAULT[pigmentoSeleccionado] || {}));
+  }
+  renderListaCalib();
+  renderEditorCalib();
+  actualizarEstadoCalib();
+  actualizarKPIs();
+  toast(`↺ ${pigmentoSeleccionado} restaurado`, 'info');
+}
+
+function guardarTablaPesos() {
+  guardarTablaPesosEnStorage(tablaPesos);
+  localStorage.setItem(CLAVE_PESOS + '_ultima_fecha', hoyISO());
+  actualizarKPIs();
+  actualizarEstadoCalib();
+  renderListaCalib();
+  renderEditorCalib();
+  toast('✓ Tabla guardada · Nueva Orden la usará', 'success');
+}
+
+function resetTablaPesos() {
+  if (!confirm('¿Restaurar TODOS los valores de fábrica?\n\nSe perderán las calibraciones personalizadas.')) return;
+  tablaPesos = JSON.parse(JSON.stringify(TABLA_PESOS_DEFAULT));
+  for (const pig of listaPigmentosActiva) {
+    if (!tablaPesos[pig]) tablaPesos[pig] = {};
+    for (const c of listaCucharasActiva) {
+      if (tablaPesos[pig][c] === undefined) tablaPesos[pig][c] = 0;
+    }
+  }
+  guardarTablaPesosEnStorage(tablaPesos);
+  localStorage.setItem(CLAVE_PESOS + '_ultima_fecha', hoyISO());
+  renderListaCalib();
+  renderEditorCalib();
+  actualizarKPIs();
+  actualizarEstadoCalib();
+  toast('↺ Valores restaurados', 'info');
+}
+
+// ============================================================
+// AGREGAR / ELIMINAR PIGMENTOS Y CUCHARAS
+// ============================================================
+function abrirAgregarPigmento() {
+  abrirModal('➕ Agregar pigmento', `
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;line-height:1.6;">
+      Se inicializará en 0 para todas las cucharas.
+    </p>
+    <div class="input-group">
+      <label class="input-label">Nombre del pigmento</label>
+      <input class="input" id="nuevoPigNombre" placeholder="Ej: Verde Esmeralda, Negro Mate..." autofocus>
+    </div>
+  `, [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: cerrarModal },
+    { txt: '➕ Agregar', class: 'btn-primary', fn: () => {
+      const nombre = document.getElementById('nuevoPigNombre').value.trim();
+      if (!nombre) { toast('⚠️ Ingresá un nombre', 'warning'); return; }
+      if (listaPigmentosActiva.includes(nombre)) { toast('⚠️ Ya existe', 'warning'); return; }
+      agregarPigmento(nombre);
+    }}
+  ]);
+}
+
+function agregarPigmento(nombre) {
+  customEstructura.pigmentos.push(nombre);
+  guardarEstructuraCustom(customEstructura);
+
+  if (!tablaPesos[nombre]) tablaPesos[nombre] = {};
+  for (const c of listaCucharasActiva) {
+    tablaPesos[nombre][c] = 0;
+  }
+  guardarTablaPesosEnStorage(tablaPesos);
+
+  recargarListas();
+  pigmentoSeleccionado = nombre;
+  renderListaCalib();
+  renderEditorCalib();
+  renderListaPigmentosConversor();
+  actualizarKPIs();
+  actualizarSubtitulo();
+  actualizarEstadoCalib();
+  cerrarModal();
+  toast(`✓ "${nombre}" agregado`, 'success');
+}
+
+function eliminarPigmentoCustom(nombre) {
+  if (!esPigmentoCustom(nombre)) return;
+  if (!confirm(`¿Eliminar el pigmento "${nombre}"?\n\nSe borrarán sus valores calibrados.`)) return;
+  customEstructura.pigmentos = customEstructura.pigmentos.filter(p => p !== nombre);
+  guardarEstructuraCustom(customEstructura);
+  delete tablaPesos[nombre];
+  guardarTablaPesosEnStorage(tablaPesos);
+  recargarListas();
+  if (pigmentoSeleccionado === nombre) pigmentoSeleccionado = listaPigmentosActiva[0] || null;
+  renderListaCalib();
+  renderEditorCalib();
+  renderListaPigmentosConversor();
+  actualizarKPIs();
+  actualizarSubtitulo();
+  actualizarEstadoCalib();
+  toast(`🗑 "${nombre}" eliminado`, 'info');
+}
+
+function abrirGestionCucharas() {
+  const listaHTML = listaCucharasActiva.map(c => {
+    const esCustom = esCucharaCustom(c);
+    return `
+      <div class="gestion-item">
+        <div>
+          <div class="nombre">${c}</div>
+          ${!esCustom ? '<div style="font-size:10px;color:var(--text-mute);margin-top:2px;">Estándar</div>' : ''}
+        </div>
+        ${esCustom
+          ? `<button class="btn btn-ghost btn-sm" style="color:var(--red);border-color:var(--red);" onclick="eliminarCucharaCustom('${c.replace(/'/g, "\\'")}')">🗑</button>`
+          : '<span class="tag">fija</span>'}
+      </div>
+    `;
+  }).join('');
+
+  abrirModal('🥄 Gestionar cucharas', `
+    <div style="margin-bottom:14px;">
+      <button class="btn btn-cyan btn-sm" onclick="cerrarModal();setTimeout(abrirAgregarCuchara,100);">➕ Agregar cuchara nueva</button>
+    </div>
+    <div class="input-label" style="margin-bottom:8px;">Cucharas actuales (${listaCucharasActiva.length})</div>
+    <div style="max-height:340px;overflow-y:auto;">${listaHTML}</div>
+  `, [
+    { txt: 'Cerrar', class: 'btn-primary', fn: cerrarModal }
+  ]);
+}
+
+function abrirAgregarCuchara() {
+  abrirModal('➕ Agregar cuchara', `
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px;line-height:1.6;">
+      Se inicializará en 0 para todos los pigmentos.
+    </p>
+    <div class="input-group">
+      <label class="input-label">Nombre de la cuchara</label>
+      <input class="input" id="nuevaCuchNombre" placeholder="Ej: Cuch. 30, Cuch. 5..." autofocus>
+    </div>
+    <div style="font-size:11px;color:var(--text-mute);line-height:1.6;">
+      💡 Usá el prefijo <strong style="color:var(--cyan);">"Cuch. "</strong> para mantener consistencia.
+    </div>
+  `, [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: () => { cerrarModal(); setTimeout(abrirGestionCucharas, 100); } },
+    { txt: '➕ Agregar', class: 'btn-primary', fn: () => {
+      const nombre = document.getElementById('nuevaCuchNombre').value.trim();
+      if (!nombre) { toast('⚠️ Ingresá un nombre', 'warning'); return; }
+      if (listaCucharasActiva.includes(nombre)) { toast('⚠️ Ya existe', 'warning'); return; }
+      agregarCuchara(nombre);
+    }}
+  ]);
+}
+
+function agregarCuchara(nombre) {
+  customEstructura.cucharas.push(nombre);
+  guardarEstructuraCustom(customEstructura);
+
+  for (const pig of listaPigmentosActiva) {
+    if (!tablaPesos[pig]) tablaPesos[pig] = {};
+    tablaPesos[pig][nombre] = 0;
+  }
+  guardarTablaPesosEnStorage(tablaPesos);
+
+  recargarListas();
+  renderListaCalib();
+  renderEditorCalib();
+  renderListaPigmentosConversor();
+  actualizarKPIs();
+  actualizarSubtitulo();
+  actualizarEstadoCalib();
+  cerrarModal();
+  toast(`✓ "${nombre}" agregada`, 'success');
+}
+
+function eliminarCucharaCustom(nombre) {
+  if (!esCucharaCustom(nombre)) return;
+  if (!confirm(`¿Eliminar la cuchara "${nombre}"?\n\nSe borrarán sus valores en todos los pigmentos.`)) return;
+  customEstructura.cucharas = customEstructura.cucharas.filter(c => c !== nombre);
+  guardarEstructuraCustom(customEstructura);
+  for (const pig in tablaPesos) {
+    delete tablaPesos[pig][nombre];
+  }
+  guardarTablaPesosEnStorage(tablaPesos);
+  recargarListas();
+  renderListaCalib();
+  renderEditorCalib();
+  renderListaPigmentosConversor();
+  actualizarKPIs();
+  actualizarSubtitulo();
+  actualizarEstadoCalib();
+  cerrarModal();
+  toast(`🗑 "${nombre}" eliminada`, 'info');
+}
+
+// ============================================================
+// VER CÓMO USA NUEVA ORDEN
+// ============================================================
+function verComoUsaNuevaOrden() {
+  const peso = tablaPesos['Rojo']?.['Cuch. 2.5'] || 0;
+  abrirModal('ℹ️ ¿Cómo lo usa Nueva Orden?', `
+    <p style="font-size:13px;color:var(--text-dim);line-height:1.7;margin-bottom:14px;">
+      Cuando creás una orden y agregás pigmentos, <strong>Nueva Orden</strong> usa esta tabla para convertir cucharadas a gramos:
+    </p>
+    <div style="background:rgba(0,229,255,0.05);border:1px dashed rgba(0,229,255,0.3);border-radius:10px;padding:16px;font-size:13px;line-height:1.8;">
+      <div style="color:var(--cyan);font-weight:800;margin-bottom:8px;">Ejemplo real:</div>
+      <div style="color:var(--text-dim);">Ponés <strong style="color:var(--text);">2 × Cuch. 2.5 de Rojo</strong></div>
+      <div style="color:var(--cyan);font-family:monospace;font-size:12px;margin-top:6px;">
+        tabla["Rojo"]["Cuch. 2.5"] = ${peso.toFixed(2)} g
+      </div>
+      <div style="color:var(--orange);margin-top:10px;">📦 Descuenta ${(2 * peso).toFixed(2)} g del stock</div>
+    </div>
+  `, [
+    { txt: 'Entendido', class: 'btn-primary', fn: cerrarModal }
+  ]);
+}
+
+// ============================================================
+// CALCULADORAS
+// ============================================================
+function calcMedidas() {
+  const l = parseFloat(document.getElementById('mMedLargo').value) || 0;
+  const a = parseFloat(document.getElementById('mMedAncho').value) || 0;
+  const e = parseFloat(document.getElementById('mMedEspesor').value) || 0;
+  const factor = parseFloat(document.getElementById('mMedFactor').value) || 1.9;
+  const tipo = document.getElementById('mMedTipo').value;
+  const volumenCm3 = l * a * e;
+  const pesoTotal = volumenCm3 * factor;
+  let materiales = [];
+  if (tipo === 'Concreto') {
+    const cem = pesoTotal * 0.5, pie = pesoTotal * 0.5;
+    const mar = cem * 0.30, agua = cem * 0.35;
+    materiales = [
+      { lbl: 'Cemento', val: cem }, { lbl: 'Piedra', val: pie },
+      { lbl: 'Marmolina', val: mar }, { lbl: 'Agua', val: agua }
+    ];
+  } else {
+    const res = pesoTotal * 0.3, pie = pesoTotal * 0.5, mar = pesoTotal * 0.2;
+    const cat = res * 0.02;
+    materiales = [
+      { lbl: 'Resina', val: res }, { lbl: 'Catalizador', val: cat },
+      { lbl: 'Piedra', val: pie }, { lbl: 'Marmolina', val: mar }
+    ];
+  }
+  const total = materiales.reduce((s, m) => s + m.val, 0);
+  document.getElementById('resMedidas').innerHTML = `
+    <div class="resultado-titulo">Materiales · ${tipo}</div>
+    <div class="resultado-row"><span class="rlabel">Volumen</span><span class="rval">${volumenCm3.toFixed(0)} cm³</span></div>
+    <div class="resultado-row"><span class="rlabel">Peso total</span><span class="rval">${fmtG(pesoTotal)}</span></div>
+    ${materiales.map(m => `<div class="resultado-row"><span class="rlabel">${m.lbl}</span><span class="rval">${fmtG(m.val)}</span></div>`).join('')}
+    <div class="resultado-row total"><span class="rlabel">TOTAL</span><span class="rval">${fmtG(total)}</span></div>
+  `;
+}
+
+function calcVolumen() {
+  const ml = parseFloat(document.getElementById('mVolMl').value) || 0;
+  const factor = parseFloat(document.getElementById('mVolFactor').value) || 1.9;
+  const tipo = document.getElementById('mVolTipo').value;
+  const pesoTotal = ml * factor;
+  let materiales = [];
+  if (tipo === 'Concreto') {
+    const cem = pesoTotal * 0.5, pie = pesoTotal * 0.5;
+    const mar = cem * 0.30, agua = cem * 0.35;
+    materiales = [
+      { lbl: 'Cemento', val: cem }, { lbl: 'Piedra', val: pie },
+      { lbl: 'Marmolina', val: mar }, { lbl: 'Agua', val: agua }
+    ];
+  } else {
+    const res = pesoTotal * 0.3, pie = pesoTotal * 0.5, mar = pesoTotal * 0.2;
+    const cat = res * 0.02;
+    materiales = [
+      { lbl: 'Resina', val: res }, { lbl: 'Catalizador', val: cat },
+      { lbl: 'Piedra', val: pie }, { lbl: 'Marmolina', val: mar }
+    ];
+  }
+  const total = materiales.reduce((s, m) => s + m.val, 0);
+  document.getElementById('resVolumen').innerHTML = `
+    <div class="resultado-titulo">Materiales · ${tipo}</div>
+    <div class="resultado-row"><span class="rlabel">Volumen</span><span class="rval">${ml} ml</span></div>
+    ${materiales.map(m => `<div class="resultado-row"><span class="rlabel">${m.lbl}</span><span class="rval">${fmtG(m.val)}</span></div>`).join('')}
+    <div class="resultado-row total"><span class="rlabel">TOTAL</span><span class="rval">${fmtG(total)}</span></div>
+  `;
+}
+
+function calcResina() {
+  const ml = parseFloat(document.getElementById('mResMl').value) || 0;
+  const factor = parseFloat(document.getElementById('mResFactor').value) || 1.9;
+  const conMar = document.getElementById('mResConMar').checked;
+  const pctRes = parseFloat(document.getElementById('mResPctRes').value) || 30;
+  const pctPie = parseFloat(document.getElementById('mResPctPie').value) || 50;
+  const pctMar = parseFloat(document.getElementById('mResPctMar').value) || 20;
+  const pctCat = parseFloat(document.getElementById('mResPctCat').value) || 2;
+  const pesoTotal = ml * factor;
+  let res, pie, mar;
+  if (conMar) {
+    res = pesoTotal * (pctRes / 100);
+    pie = pesoTotal * (pctPie / 100);
+    mar = pesoTotal * (pctMar / 100);
+  } else {
+    const totalSinMar = pctRes + pctPie;
+    res = pesoTotal * (pctRes / totalSinMar);
+    pie = pesoTotal * (pctPie / totalSinMar);
+    mar = 0;
+  }
+  const cat = res * (pctCat / 100);
+  document.getElementById('resResina').innerHTML = `
+    <div class="resultado-titulo">Cantidades precisas</div>
+    <div class="resultado-row"><span class="rlabel">Resina (A)</span><span class="rval">${fmtG(res)}</span></div>
+    <div class="resultado-row"><span class="rlabel">Catalizador (B)</span><span class="rval">${fmtG(cat)}</span></div>
+    <div class="resultado-row"><span class="rlabel">Piedra</span><span class="rval">${fmtG(pie)}</span></div>
+    ${conMar ? `<div class="resultado-row"><span class="rlabel">Marmolina</span><span class="rval">${fmtG(mar)}</span></div>` : ''}
+    <div class="resultado-row total"><span class="rlabel">PESO TOTAL</span><span class="rval">${fmtG(res + cat + pie + mar)}</span></div>
+  `;
+}
+
+function calcAliven() {
+  const ml = parseFloat(document.getElementById('mAliMl').value) || 0;
+  const factor = parseFloat(document.getElementById('mAliFactor').value) || 1.2;
+  const ligante = document.getElementById('mAliLigante').value;
+  const tamano = document.getElementById('mAliTamano').value;
+  const conMar = document.getElementById('mAliConMar').checked;
+  const doble = document.getElementById('mAliDoble').checked;
+  const pesoObjetivo = ml * factor;
+  const factorHueco = tamano === 'Grande' ? 1.15 : 1.0;
+  let html = '';
+  if (!doble) {
+    let ligG, marG, aliG, aguaG;
+    if (conMar) {
+      ligG = (pesoObjetivo * 0.50) * factorHueco;
+      marG = (pesoObjetivo * 0.20) * factorHueco;
+      aliG = pesoObjetivo * 0.30;
+    } else {
+      ligG = (pesoObjetivo * 0.70) * factorHueco;
+      marG = 0;
+      aliG = pesoObjetivo * 0.30;
+    }
+    const ratioAgua = ligante === 'Yeso' ? 0.60 : 0.35;
+    aguaG = (ligG + marG) * ratioAgua;
+    const total = ligG + marG + aliG;
+    html = `
+      <div class="resultado-titulo">Mezcla con ${ligante}</div>
+      <div class="resultado-row"><span class="rlabel">${ligante}</span><span class="rval">${fmtG(ligG)}</span></div>
+      ${conMar ? `<div class="resultado-row"><span class="rlabel">Marmolina</span><span class="rval">${fmtG(marG)}</span></div>` : ''}
+      <div class="resultado-row"><span class="rlabel">Aliven (${tamano})</span><span class="rval">${fmtG(aliG)}</span></div>
+      <div class="resultado-row"><span class="rlabel">💧 Agua</span><span class="rval">${fmtG(aguaG)}</span></div>
+      <div class="resultado-row total"><span class="rlabel">PESO TOTAL</span><span class="rval">${fmtG(total)}</span></div>
+    `;
+  } else {
+    const c1Total = pesoObjetivo * 0.20;
+    const c1Cem = c1Total * 0.40;
+    const c1Pie = c1Total * 0.60;
+    const c1Agua = c1Cem * 0.35;
+    const c2Total = pesoObjetivo * 0.80;
+    const c2Cem = (c2Total * 0.70) * factorHueco;
+    const c2Ali = c2Total * 0.30;
+    const c2Agua = c2Cem * 0.35;
+    html = `
+      <div class="resultado-titulo">Doble capa</div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;">
+        <div style="font-size:11px;font-weight:800;color:var(--cyan);margin-bottom:8px;">CAPA 1</div>
+        <div class="resultado-row"><span class="rlabel">Cem. blanco</span><span class="rval">${fmtG(c1Cem)}</span></div>
+        <div class="resultado-row"><span class="rlabel">Piedra blanca</span><span class="rval">${fmtG(c1Pie)}</span></div>
+        <div class="resultado-row"><span class="rlabel">Agua</span><span class="rval">${fmtG(c1Agua)}</span></div>
+      </div>
+      <div style="background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;">
+        <div style="font-size:11px;font-weight:800;color:var(--orange);margin-bottom:8px;">CAPA 2</div>
+        <div class="resultado-row"><span class="rlabel">Cem. gris</span><span class="rval">${fmtG(c2Cem)}</span></div>
+        <div class="resultado-row"><span class="rlabel">Aliven</span><span class="rval">${fmtG(c2Ali)}</span></div>
+        <div class="resultado-row"><span class="rlabel">Agua</span><span class="rval">${fmtG(c2Agua)}</span></div>
+      </div>
+      <div class="resultado-row total"><span class="rlabel">PESO TOTAL</span><span class="rval">${fmtG(c1Total + c2Total)}</span></div>
+    `;
+  }
+  document.getElementById('resAliven').innerHTML = html;
+}
+
+function renderListaPigmentosConversor() {
+  const sel = document.getElementById('mPigPigmento');
+  const valorPrevio = sel.value;
+  sel.innerHTML = listaPigmentosActiva.map(p => `<option>${p}</option>`).join('');
+  if (listaPigmentosActiva.includes(valorPrevio)) sel.value = valorPrevio;
+
+  const selC = document.getElementById('mPigCuchara');
+  const valorCPrevio = selC.value;
+  selC.innerHTML = [...listaCucharasActiva, 'Gramos'].map(c => `<option>${c}</option>`).join('');
+  if ([...listaCucharasActiva, 'Gramos'].includes(valorCPrevio)) selC.value = valorCPrevio;
+  else selC.value = listaCucharasActiva[2] || listaCucharasActiva[0] || 'Gramos';
+}
+
+function calcConversorPig() {
+  const pig = document.getElementById('mPigPigmento').value;
+  const cuch = document.getElementById('mPigCuchara').value;
+  const cant = parseFloat(document.getElementById('mPigCantidad').value) || 0;
+  let pesoUnit = 0;
+  if (cuch === 'Gramos') pesoUnit = 1;
+  else pesoUnit = tablaPesos[pig]?.[cuch] || 0;
+  const total = pesoUnit * cant;
+  document.getElementById('resConversorPig').innerHTML = `
+    <div class="resultado-titulo">Conversión</div>
+    <div class="resultado-row"><span class="rlabel">Pigmento</span><span class="rval">${pig}</span></div>
+    <div class="resultado-row"><span class="rlabel">Cuchara</span><span class="rval">${cuch}</span></div>
+    <div class="resultado-row"><span class="rlabel">Peso unit.</span><span class="rval">${pesoUnit.toFixed(2)} g</span></div>
+    <div class="resultado-row"><span class="rlabel">Cantidad</span><span class="rval">${cant}</span></div>
+    <div class="resultado-row total"><span class="rlabel">TOTAL</span><span class="rval">${total.toFixed(2)} g</span></div>
+  `;
+}
+
+function calcEscalado() {
+  const gramos = parseFloat(document.getElementById('mEscGramos').value) || 0;
+  const muestra = parseFloat(document.getElementById('mEscMuestra').value) || 1;
+  const lote = parseFloat(document.getElementById('mEscLote').value) || 0;
+  const resultado = (gramos * lote) / muestra;
+  document.getElementById('resEscalado').innerHTML = `
+    <div class="resultado-titulo">Escalado</div>
+    <div class="resultado-row"><span class="rlabel">Gramos muestra</span><span class="rval">${gramos.toFixed(2)} g</span></div>
+    <div class="resultado-row"><span class="rlabel">Cem. muestra</span><span class="rval">${muestra} g</span></div>
+    <div class="resultado-row"><span class="rlabel">Cem. lote</span><span class="rval">${lote} g</span></div>
+    <div class="resultado-row total"><span class="rlabel">PIGMENTO</span><span class="rval">${resultado.toFixed(2)} g</span></div>
+  `;
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function cambiarTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('activo'));
+  el.classList.add('activo');
+  document.querySelectorAll('.panel-tab').forEach(p => p.classList.remove('activo'));
+  document.querySelector(`.panel-tab[data-tab="${tab}"]`)?.classList.add('activo');
+  document.querySelector('.content').scrollTop = 0;
+  if (tab === 'pigmentos') calcConversorPig();
+}
+
+// ============================================================
+// EXPORTAR / IMPORTAR
+// ============================================================
+function exportarConfig() {
+  const config = {
+    tablaPesos,
+    custom: customEstructura,
+    fecha: new Date().toISOString(),
+    version: '2.0'
+  };
+  const json = JSON.stringify(config, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `cajupa_lab_${hoyISO()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('📤 Configuración exportada', 'success');
+}
+
+function abrirImportar() {
+  abrirModal('📥 Importar configuración', `
+    <div class="input-group">
+      <label class="input-label">Pegá el JSON de configuración</label>
+      <textarea class="input" id="impJson" rows="10" placeholder='{ "tablaPesos": {...}, "custom": {...} }' style="resize:vertical;font-family:monospace;font-size:12px;"></textarea>
+    </div>
+  `, [
+    { txt: 'Cancelar', class: 'btn-ghost', fn: cerrarModal },
+    { txt: 'Importar', class: 'btn-primary', fn: importarConfig }
+  ]);
+}
+
+function importarConfig() {
+  const raw = document.getElementById('impJson').value.trim();
+  if (!raw) { toast('⚠️ Pegá el JSON', 'warning'); return; }
+  try {
+    const data = JSON.parse(raw);
+    if (data.tablaPesos) {
+      tablaPesos = data.tablaPesos;
+      guardarTablaPesosEnStorage(tablaPesos);
+    }
+    if (data.custom) {
+      customEstructura = {
+        pigmentos: Array.isArray(data.custom.pigmentos) ? data.custom.pigmentos : [],
+        cucharas: Array.isArray(data.custom.cucharas) ? data.custom.cucharas : []
+      };
+      guardarEstructuraCustom(customEstructura);
+    }
+    cerrarModal();
+    init();
+    toast('✓ Configuración importada', 'success');
+  } catch(e) {
+    toast('⚠️ JSON inválido', 'error');
+  }
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function abrirModal(titulo, cuerpo, botones = []) {
+  document.getElementById('modalTitulo').textContent = titulo;
+  document.getElementById('modalBody').innerHTML = cuerpo;
+  document.getElementById('modalFooter').innerHTML = botones.map((b, i) =>
+    `<button class="btn ${b.class}" onclick="window._modalBtns[${i}]()">${b.txt}</button>`
+  ).join('');
+  window._modalBtns = botones.map(b => b.fn);
+  document.getElementById('modalOverlay').classList.add('activo');
+}
+function cerrarModal() {
+  document.getElementById('modalOverlay').classList.remove('activo');
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo = 'info') {
+  const iconos = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'toastIn 0.3s ease reverse';
+    setTimeout(() => el.remove(), 300);
+  }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+aplicarTema(localStorage.getItem('cajupa_tema') || 'brand');
+if (localStorage.getItem('cajupa_manos') === '1') {
+  document.body.classList.add('manos-sucias');
+  document.getElementById('btnManos').classList.add('activo');
+}
+
+init();
+setTimeout(() => toast('🧪 Laboratorio listo', 'info'), 300);
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+<meta name="theme-color" content="#050508">
+<title>Cajuña Pro v3.0 — Configuración</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+:root {
+  --bg:#050508; --bg-2:#0a0a15; --bg-3:#0d0d18;
+  --card:#12121e; --border:rgba(106,27,154,0.3); --border-strong:rgba(106,27,154,0.5);
+  --text:#e0e0e0; --text-dim:#a0a0b0; --text-mute:#666;
+  --purple:#b388ff; --purple-deep:#6a1b9a;
+  --cyan:#00e5ff; --cyan-deep:#00838f;
+  --orange:#ffa726; --green:#4caf50; --red:#ef5350;
+  --yellow:#ffd54f; --blue:#42a5f5;
+  --radius:14px; --radius-sm:10px;
+  --topbar-h: 60px;
+}
+body.manos-sucias { font-size: 17px; }
+body.manos-sucias .btn { padding: 14px 22px; font-size: 15px; }
+
+body.theme-dark {
+  --bg:#000000; --bg-2:#0a0a0a; --bg-3:#0f0f0f;
+  --card:#141414; --border:rgba(255,255,255,0.08); --border-strong:rgba(255,255,255,0.16);
+  --text:#f0f0f0; --text-dim:#a8a8a8; --text-mute:#5a5a5a;
+}
+body.theme-dark { background:#000000; color:#f0f0f0; }
+body.theme-dark { --purple:#c4a3ff; --cyan:#4defff; }
+body.theme-dark .sidebar { background:#0a0a0a; border-right-color:rgba(255,255,255,0.08); }
+body.theme-dark .topbar { background:#0a0a0a; border-bottom-color:rgba(255,255,255,0.08); }
+body.theme-dark .sb-item:hover { background:rgba(255,255,255,0.05); color:#f0f0f0; }
+body.theme-dark .sb-item.activo { background:linear-gradient(90deg, rgba(196,163,255,0.15), rgba(77,239,255,0.05)); color:#f0f0f0; border-left-color:#c4a3ff; }
+body.theme-dark .empresa-switcher { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+body.theme-dark .panel, body.theme-dark .seccion-card, body.theme-dark .item-row { background:#141414; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .input, body.theme-dark .select { background:#0f0f0f; border-color:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn:hover { background:rgba(255,255,255,0.08); }
+body.theme-dark .icon-btn.activo { background:rgba(179,136,255,0.2); }
+body.theme-dark .modal { background:#141414; border-color:rgba(255,255,255,0.15); }
+body.theme-dark .fila { border-bottom-color: rgba(255,255,255,0.06); }
+body.theme-dark .config-nav { background:#0a0a0a; }
+body.theme-dark .config-nav-item:hover { background:rgba(255,255,255,0.05); }
+body.theme-dark .config-nav-item .nav-icono { background:#1a1a1a; }
+body.theme-dark .config-nav-item.activo .nav-icono { background:linear-gradient(135deg,#6a1b9a,#00e5ff); }
+body.theme-dark .tema-preview { background:#141414; }
+body.theme-dark .config-mobile-bar { background:#141414; }
+body.theme-dark .formato-opcion { background:#101010; }
+
+body.theme-light {
+  --bg:#fff; --bg-2:#fbfbfa; --bg-3:#f7f7f5;
+  --card:#fff; --border:#e9e9e7; --border-strong:#d3d1cb;
+  --text:#37352f; --text-dim:#57564f; --text-mute:#9b9a97;
+  --purple:#6b46c1; --purple-deep:#5b3aa8;
+  --cyan:#0b7a8c; --cyan-deep:#095f6d;
+  --orange:#d9730d; --green:#0f7b3e; --red:#c4321c; --blue:#1f6feb;
+}
+body.theme-light { background:#fff; color:#37352f; }
+body.theme-light .sidebar { background:#f7f7f5; border-right-color:#e9e9e7; }
+body.theme-light .topbar { background:#fbfbfa; border-bottom-color:#e9e9e7; }
+body.theme-light .logo-sidebar { border-bottom-color:#e9e9e7; }
+body.theme-light .sb-item { color:#57564f; }
+body.theme-light .sb-item:hover { background:rgba(0,0,0,0.04); color:#37352f; }
+body.theme-light .sb-item.activo { background:linear-gradient(90deg,rgba(107,70,193,0.15),rgba(11,122,140,0.08)); color:#37352f; border-left-color:#6b46c1; }
+body.theme-light .empresa-switcher { background:rgba(107,70,193,0.08); border-color:#e9e9e7; }
+body.theme-light .icon-btn { color:#57564f; }
+body.theme-light .icon-btn:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .icon-btn.activo { background:rgba(107,70,193,0.15); color:#6b46c1; }
+body.theme-light .panel, body.theme-light .seccion-card, body.theme-light .item-row { background:#fff; border-color:#e9e9e7; box-shadow:0 1px 2px rgba(15,15,15,0.04); }
+body.theme-light .input, body.theme-light .select { background:#fff; border-color:#e9e9e7; color:#37352f; }
+body.theme-light .input:focus, body.theme-light .select:focus { border-color:#6b46c1; box-shadow:0 0 0 3px rgba(107,70,193,0.1); }
+body.theme-light .select option { background:#fff; color:#37352f; }
+body.theme-light .modal { background:#fff; border-color:#d3d1cb; }
+body.theme-light .modal-header { border-bottom-color:#e9e9e7; }
+body.theme-light .modal-footer { border-top-color:#e9e9e7; }
+body.theme-light .modal-titulo { color:#37352f; }
+body.theme-light .toast { background:#fff; border-color:#d3d1cb; }
+body.theme-light .toast-msg { color:#37352f; }
+body.theme-light .fila { border-bottom-color: rgba(0,0,0,0.05); }
+body.theme-light .config-nav { background:#f7f7f5; }
+body.theme-light .config-nav-item:hover { background:rgba(0,0,0,0.04); }
+body.theme-light .config-nav-item .nav-icono { background:rgba(0,0,0,0.03); }
+body.theme-light .config-nav-item.activo .nav-icono { background:linear-gradient(135deg,#6b46c1,#0b7a8c); }
+body.theme-light .tema-preview { background:#fbfbfa; }
+body.theme-light .config-mobile-bar { background:#fff; }
+body.theme-light .formato-opcion { background:#fbfbfa; }
+
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; -webkit-text-size-adjust: 100%; }
+.app-root { display: flex; height: 100vh; height: 100dvh; width: 100vw; overflow: hidden; }
+
+.sidebar { width: 230px; background: var(--bg-3); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; transition: transform 0.25s ease; z-index: 100; }
+.sidebar::-webkit-scrollbar { width: 6px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+.logo-sidebar { display: flex; align-items: center; gap: 12px; padding: 18px; border-bottom: 1px solid var(--border); }
+.logo-icono { width: 42px; height: 42px; background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.logo-nombre { font-size: 15px; font-weight: 800; }
+.logo-sub { font-size: 10px; color: var(--text-mute); }
+.sidebar-nav { flex: 1; padding: 8px 10px 20px; }
+.sb-seccion { font-size: 9px; font-weight: 800; color: var(--text-mute); text-transform: uppercase; letter-spacing: 1.5px; padding: 14px 12px 6px; }
+.sb-item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 10px; font-size: 13px; color: var(--text-dim); font-weight: 600; cursor: pointer; margin-bottom: 2px; transition: all 0.15s; }
+.sb-item:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.sb-item.activo { background: linear-gradient(90deg, rgba(106,27,154,0.4), rgba(0,229,255,0.08)); color: var(--text); border-left: 3px solid var(--purple); }
+.sb-icono { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+
+.sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99; opacity: 0; transition: opacity 0.25s ease; -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.sidebar-backdrop.activo { display: block; opacity: 1; }
+
+.main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: var(--bg-2); border-bottom: 1px solid var(--border); min-height: var(--topbar-h); flex-shrink: 0; }
+
+.hamburger { display: none; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; padding: 8px 10px; border-radius: 8px; transition: background 0.15s; min-width: 44px; min-height: 44px; align-items: center; justify-content: center; }
+.hamburger:hover { background: rgba(106,27,154,0.15); }
+.hamburger:active { background: rgba(106,27,154,0.25); }
+
+.empresa-switcher { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(106,27,154,0.2); border: 1px solid var(--border); border-radius: 10px; }
+.empresa-nombre { font-size: 12px; font-weight: 800; }
+.empresa-rol { font-size: 9px; color: var(--purple); font-weight: 700; }
+.topbar-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.icon-btn { background: transparent; border: none; color: var(--text-dim); font-size: 17px; cursor: pointer; padding: 10px; border-radius: 8px; transition: all 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.icon-btn:hover { background: rgba(106,27,154,0.15); }
+.icon-btn:active { background: rgba(106,27,154,0.25); }
+.icon-btn.activo { background: rgba(106,27,154,0.3); color: var(--purple); }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+.content::-webkit-scrollbar { width: 8px; }
+.content::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+
+.page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-titulo { font-size: 26px; font-weight: 800; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: var(--text-mute); }
+.page-acciones { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* ============================================================
+   LAYOUT DE CONFIGURACIÓN
+   Desktop: contenido (izq) + nav (der, 280px)
+   Mobile: solo contenido + drawer desde la derecha
+   ============================================================ */
+.config-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.config-content { min-width: 0; }
+
+/* ============================================================
+   NAV LATERAL (derecha en desktop)
+   ============================================================ */
+.config-nav {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  position: sticky;
+  top: 0;
+  max-height: calc(100vh - 160px);
+  overflow-y: auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.config-nav::-webkit-scrollbar { width: 6px; }
+.config-nav::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+
+.config-nav-header {
+  padding: 6px 10px 12px;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px dashed var(--border);
+  margin-bottom: 8px;
+}
+.config-nav-header .header-titulo { flex: 1; }
+
+.config-nav-close {
+  display: none;
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: var(--text-mute);
+  font-size: 22px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.config-nav-close:hover { color: var(--red); background: rgba(239,83,80,0.1); }
+
+.config-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 3px;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  width: 100%;
+  text-align: left;
+  min-height: 48px;
+}
+.config-nav-item:hover { color: var(--text); }
+.config-nav-item:hover .nav-icono { background: rgba(106,27,154,0.2); }
+
+.config-nav-item .nav-icono {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  transition: all 0.18s;
+}
+
+.config-nav-item .nav-titulo { flex: 1; min-width: 0; }
+
+.config-nav-item .nav-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: rgba(0,229,255,0.15);
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+
+.config-nav-item.activo {
+  background: linear-gradient(90deg, rgba(106,27,154,0.15), rgba(0,229,255,0.05));
+  color: var(--text);
+  border-right: 3px solid var(--cyan);
+  padding-right: 9px;
+}
+.config-nav-item.activo .nav-icono {
+  background: linear-gradient(135deg, var(--purple-deep), var(--cyan));
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(106,27,154,0.4);
+  transform: scale(1.08);
+}
+
+/* ============================================================
+   MOBILE BAR (solo móvil)
+   ============================================================ */
+.config-mobile-bar { display: none; }
+
+/* Backdrop del drawer (solo móvil) */
+.config-nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 199;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.config-nav-backdrop.activo {
+  display: block;
+  opacity: 1;
+}
+
+/* Sección */
+.seccion { display: none; }
+.seccion.activo { display: block; animation: fadeIn 0.2s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+.seccion-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.seccion-titulo {
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.seccion-sub {
+  font-size: 12px;
+  color: var(--text-mute);
+  margin-bottom: 18px;
+}
+
+.bloque-titulo {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 18px 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.bloque-titulo:first-child { margin-top: 0; }
+.bloque-titulo .hint {
+  color: var(--text-mute);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 10px;
+  margin-left: auto;
+}
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: var(--radius-sm); border: none; font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; min-height: 44px; }
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary { background: linear-gradient(135deg, var(--purple-deep), #8e24aa); color: #fff; }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan-deep), #00acc1); color: #fff; }
+.btn-green { background: linear-gradient(135deg, #2e7d32, #43a047); color: #fff; }
+.btn-orange { background: linear-gradient(135deg, #e65100, #f57c00); color: #fff; }
+.btn-red { background: linear-gradient(135deg, #b71c1c, #c62828); color: #fff; }
+.btn-ghost { background: transparent; color: var(--purple); border: 1px solid var(--purple); }
+.btn-sm { padding: 8px 12px; font-size: 11px; min-height: 36px; }
+
+.input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.input-label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.input-label .opcional { color: var(--text-mute); font-weight: 500; text-transform: none; letter-spacing: 0; font-size: 10px; }
+.input, .select { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; transition: all 0.15s; }
+.input:focus, .select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.1); }
+.select { cursor: pointer; appearance: none; padding-right: 40px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b388ff' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'/%3e%3c/svg%3e");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 18px; }
+.select option { background: var(--card); color: var(--text); }
+textarea.input { resize: vertical; font-family: inherit; font-size: 13px; line-height: 1.5; }
+.form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+.form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+.form-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.toggle-wrap { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; gap: 12px; }
+.toggle-info { flex: 1; min-width: 0; }
+.toggle-titulo { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.toggle-desc { font-size: 11px; color: var(--text-mute); }
+.toggle { position: relative; width: 50px; height: 28px; flex-shrink: 0; cursor: pointer; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle .slider { position: absolute; inset: 0; background: rgba(150,150,150,0.3); border-radius: 28px; transition: 0.2s; }
+.toggle .slider::before { content: ""; position: absolute; height: 22px; width: 22px; left: 3px; top: 3px; background: white; border-radius: 50%; transition: 0.2s; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+.toggle input:checked + .slider { background: linear-gradient(135deg, var(--purple-deep), var(--cyan)); }
+.toggle input:checked + .slider::before { transform: translateX(22px); }
+
+.tema-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.tema-preview { padding: 14px 12px; border: 2px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.15s; text-align: center; }
+.tema-preview:hover { transform: translateY(-2px); }
+.tema-preview.activo { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(0,229,255,0.15); }
+.tema-preview .icono { font-size: 28px; margin-bottom: 6px; }
+.tema-preview .nombre { font-size: 12px; font-weight: 800; }
+.tema-preview .desc { font-size: 10px; color: var(--text-mute); margin-top: 2px; }
+
+.lista-items { display: flex; flex-direction: column; gap: 8px; }
+.item-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 10px; font-size: 13px; }
+.item-row .item-emoji { font-size: 18px; flex-shrink: 0; }
+.item-row .item-info { flex: 1; min-width: 0; }
+.item-row .item-nombre { font-weight: 700; color: var(--text); word-break: break-word; }
+.item-row .item-meta { font-size: 11px; color: var(--text-mute); }
+.item-row .item-acciones { display: flex; gap: 4px; flex-shrink: 0; }
+.item-row .item-acciones button { background: transparent; border: none; color: var(--text-mute); padding: 6px 8px; border-radius: 6px; cursor: pointer; font-size: 14px; min-width: 32px; min-height: 32px; transition: all 0.15s; }
+.item-row .item-acciones button:hover { background: rgba(106,27,154,0.15); color: var(--text); }
+.item-row .item-acciones button.eliminar:hover { background: rgba(239,83,80,0.15); color: var(--red); }
+
+.item-add { display: flex; gap: 8px; margin-top: 12px; }
+.item-add .input { flex: 1; }
+.item-add .btn { flex-shrink: 0; }
+
+.formato-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.formato-opcion { padding: 14px 12px; border: 2px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.15s; text-align: center; background: rgba(255,255,255,0.02); }
+.formato-opcion:hover { transform: translateY(-2px); }
+.formato-opcion.activo { border-color: var(--cyan); background: rgba(0,229,255,0.06); }
+.formato-opcion .icono { font-size: 22px; margin-bottom: 6px; }
+.formato-opcion .nombre { font-size: 12px; font-weight: 800; }
+.formato-opcion .desc { font-size: 10px; color: var(--text-mute); margin-top: 2px; font-family: 'Courier New', monospace; }
+
+.danger-zone { background: rgba(239,83,80,0.06); border: 1px solid rgba(239,83,80,0.3); border-radius: var(--radius); padding: 18px; margin-top: 16px; }
+.danger-zone-titulo { font-size: 13px; font-weight: 800; color: var(--red); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.danger-acciones { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.contacto-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 10px; font-size: 13px; }
+.contacto-row .avatar { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #25d366, #128c7e); display: flex; align-items: center; justify-content: center; font-size: 15px; color: #fff; font-weight: 800; flex-shrink: 0; }
+.contacto-row .info { flex: 1; min-width: 0; }
+.contacto-row .nombre { font-weight: 700; color: var(--text); }
+.contacto-row .tel { font-size: 11px; color: var(--text-mute); }
+.contacto-row .rol-tag { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 10px; background: rgba(37,211,102,0.15); color: #25d366; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.integracion-card { display: flex; align-items: center; gap: 14px; padding: 16px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; }
+.integracion-card .logo { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.integracion-card .info { flex: 1; min-width: 0; }
+.integracion-card .nombre { font-size: 14px; font-weight: 800; color: var(--text); }
+.integracion-card .desc { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+.integracion-card .estado { font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+.integracion-card .estado.activo { background: rgba(76,175,80,0.15); color: var(--green); }
+.integracion-card .estado.pendiente { background: rgba(150,150,150,0.15); color: var(--text-mute); }
+
+.info-box { background: linear-gradient(135deg, rgba(0,229,255,0.05), rgba(106,27,154,0.08)); border: 1px solid rgba(0,229,255,0.25); border-radius: 10px; padding: 14px 16px; font-size: 12px; color: var(--text-dim); line-height: 1.6; margin-bottom: 14px; display: flex; gap: 12px; align-items: flex-start; }
+.info-box .icono { font-size: 20px; flex-shrink: 0; }
+.info-box strong { color: var(--cyan); }
+
+.warn-box { background: rgba(255,167,38,0.08); border: 1px solid rgba(255,167,38,0.3); border-radius: 10px; padding: 14px 16px; font-size: 12px; color: var(--text-dim); line-height: 1.6; margin-bottom: 14px; display: flex; gap: 12px; align-items: flex-start; }
+.warn-box .icono { font-size: 20px; flex-shrink: 0; }
+.warn-box strong { color: var(--orange); }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+.modal-overlay.activo { display: flex; }
+.modal { background: var(--card); border: 1px solid var(--border-strong); border-radius: 16px; width: 100%; max-width: 520px; max-height: 90vh; display: flex; flex-direction: column; animation: modalIn 0.25s; }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+.modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.modal-titulo { font-size: 17px; font-weight: 800; word-break: break-word; }
+.modal-close { background: transparent; border: none; color: var(--text-mute); font-size: 24px; cursor: pointer; line-height: 1; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.modal-close:hover { color: var(--red); }
+.modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+.toast-container { position: fixed; top: 80px; right: 20px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--card); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 14px 18px; display: flex; align-items: center; gap: 12px; min-width: 280px; max-width: 380px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); animation: toastIn 0.3s ease; pointer-events: auto; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
+.toast-icon { font-size: 20px; }
+.toast-msg { font-size: 13px; font-weight: 600; }
+
+/* ============================================================
+   RESPONSIVE v3.5
+   ============================================================ */
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 20px; }
+  .config-layout { grid-template-columns: 1fr 240px; gap: 14px; }
+  .formato-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  :root { --topbar-h: 56px; }
+
+  .sidebar { position: fixed; top: 0; left: 0; height: 100vh; height: 100dvh; width: 260px; max-width: 85vw; transform: translateX(-100%); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar.abierto { transform: translateX(0); }
+
+  .topbar { padding: 8px 12px; gap: 6px; }
+  .hamburger { display: flex; }
+  .empresa-switcher { padding: 6px 10px; }
+  .empresa-nombre { font-size: 11px; }
+  .empresa-rol { font-size: 8px; }
+  .topbar-acciones { gap: 2px; }
+  .icon-btn { font-size: 18px; padding: 8px; min-width: 40px; min-height: 40px; }
+
+  .content { padding: 16px; }
+
+  .page-header { flex-direction: column; align-items: stretch; margin-bottom: 16px; }
+  .page-titulo { font-size: 22px; }
+  .page-sub { font-size: 12px; }
+  .page-acciones { width: 100%; }
+  .page-acciones .btn { flex: 1; justify-content: center; }
+
+  /* Layout: solo contenido (nav sale como drawer) */
+  .config-layout { grid-template-columns: 1fr; gap: 0; }
+
+  /* =========================================================
+     MOBILE BAR — sticky con sección actual + mini hamburguesa
+     ========================================================= */
+  .config-mobile-bar {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 14px;
+    align-items: center;
+    gap: 10px;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  .config-mobile-actual {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .config-mobile-icono {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--purple-deep), var(--cyan));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(106,27,154,0.35);
+  }
+
+  .config-mobile-txt { min-width: 0; flex: 1; }
+  .config-mobile-label {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .config-mobile-nombre {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .config-mobile-menu-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, rgba(106,27,154,0.2), rgba(0,229,255,0.1));
+    border: 1px solid rgba(106,27,154,0.35);
+    color: var(--purple);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .config-mobile-menu-btn:hover { background: linear-gradient(135deg, rgba(106,27,154,0.3), rgba(0,229,255,0.15)); }
+  .config-mobile-menu-btn:active { transform: scale(0.94); }
+
+  /* =========================================================
+     DRAWER — nav desde la derecha
+     ========================================================= */
+  .config-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    height: 100dvh;
+    width: 300px;
+    max-width: 85vw;
+    z-index: 200;
+    border-radius: 0;
+    border: none;
+    border-left: 1px solid var(--border-strong);
+    transform: translateX(100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: none;
+    padding: 16px 12px;
+    padding-top: calc(16px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+    overflow-y: auto;
+    background: var(--bg-3);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+  }
+  .config-nav.abierto {
+    transform: translateX(0);
+  }
+
+  .config-nav-header {
+    padding: 6px 6px 12px;
+    font-size: 11px;
+  }
+
+  .config-nav-close {
+    display: flex;
+  }
+
+  .config-nav-item {
+    min-height: 54px;
+    padding: 12px 14px;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .config-nav-item .nav-icono {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 11px;
+  }
+  .config-nav-item.activo {
+    border-right: none;
+    border-left: 3px solid var(--cyan);
+    padding-left: 11px;
+    padding-right: 14px;
+    background: linear-gradient(90deg, rgba(106,27,154,0.25), rgba(0,229,255,0.06));
+  }
+
+  /* Secciones */
+  .seccion-card { padding: 16px; }
+  .seccion-titulo { font-size: 15px; }
+  .seccion-sub { font-size: 11px; }
+
+  .form-row.cols-2, .form-row.cols-3 { grid-template-columns: 1fr; }
+
+  .tema-grid { grid-template-columns: 1fr; }
+  .formato-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+
+  .item-add { flex-wrap: wrap; }
+  .item-add .btn { width: 100%; justify-content: center; }
+
+  .danger-acciones { flex-direction: column; }
+  .danger-acciones .btn { width: 100%; justify-content: center; }
+
+  .toggle-wrap { padding: 12px 14px; }
+
+  .integracion-card { padding: 14px; }
+  .integracion-card .logo { width: 40px; height: 40px; font-size: 20px; }
+
+  .modal-overlay { align-items: flex-end; padding: 0; }
+  .modal { max-width: 100%; max-height: 92vh; border-radius: 18px 18px 0 0; animation: modalSheet 0.28s ease; }
+  @keyframes modalSheet { from { opacity: 0; transform: translateY(100%); } to { opacity: 1; transform: translateY(0); } }
+  .modal-header { padding: 16px 18px; }
+  .modal-titulo { font-size: 15px; }
+  .modal-body { padding: 16px 18px; }
+  .modal-footer { padding: 14px 18px; }
+  .modal-footer .btn { flex: 1 1 auto; justify-content: center; }
+
+  .toast-container { top: auto; bottom: 80px; left: 16px; right: 16px; }
+  .toast { min-width: auto; max-width: none; width: 100%; }
+
+  .btn { padding: 12px 14px; font-size: 12px; }
+  .btn-sm { padding: 8px 10px; font-size: 11px; min-height: 38px; }
+}
+
+@media (max-width: 480px) {
+  .content { padding: 12px; }
+  .page-titulo { font-size: 20px; }
+  .seccion-card { padding: 14px; }
+  .formato-grid { grid-template-columns: 1fr; }
+  .item-row { padding: 9px 12px; }
+  .item-row .item-emoji { font-size: 16px; }
+  .config-mobile-nombre { font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-root">
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="cerrarSidebar()"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo-sidebar">
+      <div class="logo-icono">🏛️</div>
+      <div><div class="logo-nombre">Cajuña Pro</div><div class="logo-sub">v3.0</div></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sb-seccion">Principal</div>
+      <div class="sb-item" onclick="irA('dashboard.html')"><span class="sb-icono">📊</span>Dashboard</div>
+      <div class="sb-item" onclick="irA('nueva-orden.html')"><span class="sb-icono">➕</span>Nueva Orden</div>
+      <div class="sb-item" onclick="irA('llenado-parcial.html')"><span class="sb-icono">📦</span>Llenado Parcial</div>
+      <div class="sb-item" onclick="irA('produccion.html')"><span class="sb-icono">🔨</span>Producción</div>
+
+      <div class="sb-seccion">Biblioteca</div>
+      <div class="sb-item" onclick="irA('moldes.html')"><span class="sb-icono">🗄️</span>Moldes</div>
+      <div class="sb-item" onclick="irA('mis-modelos.html')"><span class="sb-icono">💾</span>Mis Modelos</div>
+      <div class="sb-item" onclick="irA('recetas.html')"><span class="sb-icono">📖</span>Recetas</div>
+      <div class="sb-item" onclick="irA('archivo.html')"><span class="sb-icono">📁</span>Archivo</div>
+      <div class="sb-item" onclick="irA('museo.html')"><span class="sb-icono">🏛️</span>Museo Virtual</div>
+
+      <div class="sb-seccion">Análisis</div>
+      <div class="sb-item" onclick="irA('stock.html')"><span class="sb-icono">📦</span>Stock</div>
+      <div class="sb-item" onclick="irA('laboratorio.html')"><span class="sb-icono">🧪</span>Laboratorio</div>
+      <div class="sb-item" onclick="irA('reportes.html')"><span class="sb-icono">📈</span>Reportes</div>
+
+      <div class="sb-seccion">Sistema</div>
+      <div class="sb-item" onclick="irA('clientes.html')"><span class="sb-icono">👥</span>Clientes</div>
+      <div class="sb-item" onclick="irA('usuarios.html')"><span class="sb-icono">👤</span>Usuarios</div>
+      <div class="sb-item activo" onclick="irA('configuracion.html')"><span class="sb-icono">⚙️</span>Configuración</div>
+    </div>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <button class="hamburger" onclick="abrirSidebar()" aria-label="Abrir menú">☰</button>
+      <div class="empresa-switcher">
+        <span>🏢</span>
+        <div><div class="empresa-nombre" id="empresaSwitcherNombre">Cajuña</div><div class="empresa-rol">Admin</div></div>
+      </div>
+      <div class="topbar-acciones">
+        <button class="icon-btn" onclick="toggleManosSucias()" id="btnManos" title="Manos sucias">🧤</button>
+        <button class="icon-btn" onclick="toggleTema()" id="btnTema" title="Cambiar tema">🎨</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <div class="page-titulo">⚙️ Configuración</div>
+          <div class="page-sub">Ajustes de la empresa y del sistema</div>
+        </div>
+        <div class="page-acciones">
+          <button class="btn btn-green btn-sm" onclick="guardarTodo()">💾 Guardar cambios</button>
+        </div>
+      </div>
+
+      <div class="config-layout">
+        <!-- ==================== CONTENIDO ==================== -->
+        <div class="config-content">
+
+          <!-- MOBILE BAR (solo visible en móvil) -->
+          <div class="config-mobile-bar">
+            <div class="config-mobile-actual">
+              <div class="config-mobile-icono" id="configMobileIcono">🏢</div>
+              <div class="config-mobile-txt">
+                <div class="config-mobile-label">Sección actual</div>
+                <div class="config-mobile-nombre" id="configMobileNombre">Mi empresa</div>
+              </div>
+            </div>
+            <button class="config-mobile-menu-btn" onclick="toggleConfigNavMobile()" aria-label="Abrir menú de secciones">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- ============ EMPRESA ============ -->
+          <div class="seccion activo" data-seccion-content="empresa">
+            <div class="seccion-card">
+              <div class="seccion-titulo">🏢 Datos de la empresa</div>
+              <div class="seccion-sub">Información que aparece en las órdenes, reportes e impresiones.</div>
+
+              <div class="form-row cols-2">
+                <div class="input-group">
+                  <label class="input-label">Nombre de la empresa *</label>
+                  <input class="input" id="cfgEmpresaNombre" placeholder="Ej: Cajuña">
+                </div>
+                <div class="input-group">
+                  <label class="input-label">Slogan / rubro</label>
+                  <input class="input" id="cfgEmpresaSlogan" placeholder="Ej: Taller de granito y marmolería">
+                </div>
+              </div>
+
+              <div class="form-row cols-2">
+                <div class="input-group">
+                  <label class="input-label">RIF / NIT</label>
+                  <input class="input" id="cfgEmpresaRif" placeholder="Ej: J-12345678-9">
+                </div>
+                <div class="input-group">
+                  <label class="input-label">Moneda</label>
+                  <select class="select" id="cfgEmpresaMoneda">
+                    <option value="USD">💵 USD — Dólar</option>
+                    <option value="VES">🇻🇪 VES — Bolívar</option>
+                    <option value="COP">🇨🇴 COP — Peso colombiano</option>
+                    <option value="EUR">🇪🇺 EUR — Euro</option>
+                    <option value="MXN">🇲🇽 MXN — Peso mexicano</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label class="input-label">Emoji / Logo</label>
+                <div style="display:flex;gap:10px;align-items:center;">
+                  <div id="logoPreview" style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--purple-deep),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">🏛️</div>
+                  <input class="input" id="cfgEmpresaEmoji" placeholder="🏛️" maxlength="4" style="flex:1;" oninput="actualizarLogoPreview()">
+                </div>
+                <div style="font-size:11px;color:var(--text-mute);margin-top:6px;">Podés pegar cualquier emoji.</div>
+              </div>
+
+              <div class="bloque-titulo">📞 Contacto</div>
+
+              <div class="form-row cols-2">
+                <div class="input-group">
+                  <label class="input-label">Teléfono</label>
+                  <input class="input" id="cfgEmpresaTelefono" placeholder="04141234567" inputmode="tel">
+                </div>
+                <div class="input-group">
+                  <label class="input-label">Email</label>
+                  <input class="input" id="cfgEmpresaEmail" type="email" placeholder="contacto@cajuna.com">
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label class="input-label">Dirección</label>
+                <input class="input" id="cfgEmpresaDireccion" placeholder="Ej: Av. Principal, Galpón 5">
+              </div>
+
+              <div class="input-group">
+                <label class="input-label">Zona horaria</label>
+                <select class="select" id="cfgEmpresaZona">
+                  <option value="America/Caracas">🇻🇪 Caracas (GMT-4)</option>
+                  <option value="America/Bogota">🇨🇴 Bogotá (GMT-5)</option>
+                  <option value="America/Mexico_City">🇲🇽 Ciudad de México (GMT-6)</option>
+                  <option value="America/Argentina/Buenos_Aires">🇦🇷 Buenos Aires (GMT-3)</option>
+                  <option value="America/Santiago">🇨🇱 Santiago (GMT-3/-4)</option>
+                  <option value="Europe/Madrid">🇪🇸 Madrid (GMT+1)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ APARIENCIA ============ -->
+          <div class="seccion" data-seccion-content="apariencia">
+            <div class="seccion-card">
+              <div class="seccion-titulo">🎨 Apariencia</div>
+              <div class="seccion-sub">Personalizá cómo se ve la app en este dispositivo.</div>
+
+              <div class="bloque-titulo">Tema visual</div>
+              <div class="tema-grid">
+                <div class="tema-preview" data-tema="brand" onclick="seleccionarTema('brand')">
+                  <div class="icono">🎨</div>
+                  <div class="nombre">Marca personal</div>
+                  <div class="desc">Púrpura + Cyan</div>
+                </div>
+                <div class="tema-preview" data-tema="dark" onclick="seleccionarTema('dark')">
+                  <div class="icono">🌙</div>
+                  <div class="nombre">Oscuro normal</div>
+                  <div class="desc">Grises neutros</div>
+                </div>
+                <div class="tema-preview" data-tema="light" onclick="seleccionarTema('light')">
+                  <div class="icono">☀️</div>
+                  <div class="nombre">Claro Notion</div>
+                  <div class="desc">Blanco minimalista</div>
+                </div>
+              </div>
+
+              <div class="bloque-titulo">Opciones de accesibilidad</div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-titulo">🧤 Modo manos sucias</div>
+                  <div class="toggle-desc">Aumenta el tamaño de fuentes, botones e inputs para usar con guantes.</div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="cfgManosSucias" onchange="aplicarManosSucias(this.checked)">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-titulo">📳 Vibración al guardar</div>
+                  <div class="toggle-desc">El dispositivo vibra brevemente al confirmar acciones importantes.</div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="cfgVibracion" onchange="guardarConfig()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-titulo">🔔 Notificaciones del sistema</div>
+                  <div class="toggle-desc">Permite que la app envíe notificaciones push (requiere PWA instalada).</div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="cfgNotificaciones" onchange="pedirPermisoNotificaciones(this.checked)">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ IMPRESIÓN ============ -->
+          <div class="seccion" data-seccion-content="impresion">
+            <div class="seccion-card">
+              <div class="seccion-titulo">🖨️ Impresión</div>
+              <div class="seccion-sub">Formato por defecto y textos que aparecen en las órdenes impresas.</div>
+
+              <div class="bloque-titulo">Formato por defecto</div>
+              <div class="formato-grid">
+                <div class="formato-opcion" data-formato="carta" onclick="seleccionarFormato('carta')">
+                  <div class="icono">📄</div>
+                  <div class="nombre">Carta</div>
+                  <div class="desc">216 × 279 mm</div>
+                </div>
+                <div class="formato-opcion" data-formato="oficio" onclick="seleccionarFormato('oficio')">
+                  <div class="icono">📃</div>
+                  <div class="nombre">Oficio</div>
+                  <div class="desc">216 × 330 mm</div>
+                </div>
+                <div class="formato-opcion" data-formato="a4" onclick="seleccionarFormato('a4')">
+                  <div class="icono">📄</div>
+                  <div class="nombre">A4</div>
+                  <div class="desc">210 × 297 mm</div>
+                </div>
+                <div class="formato-opcion" data-formato="legal" onclick="seleccionarFormato('legal')">
+                  <div class="icono">📃</div>
+                  <div class="nombre">Legal</div>
+                  <div class="desc">216 × 356 mm</div>
+                </div>
+              </div>
+
+              <div class="bloque-titulo">Textos personalizados</div>
+
+              <div class="input-group">
+                <label class="input-label">Encabezado de la orden</label>
+                <input class="input" id="cfgPrintEncabezado" placeholder="ORDEN DE TRABAJO">
+              </div>
+
+              <div class="input-group">
+                <label class="input-label">Pie de página</label>
+                <input class="input" id="cfgPrintPie" placeholder="Documento generado por Cajuña Pro">
+              </div>
+
+              <div class="bloque-titulo">Elementos opcionales</div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-titulo">Mostrar QR de seguimiento</div>
+                  <div class="toggle-desc">Agrega un QR al final de la orden que linkea al estado actual.</div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="cfgPrintQR" onchange="guardarConfig()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-titulo">Mostrar precios estimados</div>
+                  <div class="toggle-desc">Incluye el costo estimado de materiales en la orden impresa.</div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="cfgPrintPrecios" onchange="guardarConfig()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+              <div class="toggle-wrap">
+                <div class="toggle-info">
+                  <div class="toggle-titulo">Modo blanco y negro</div>
+                  <div class="toggle-desc">Optimizado para impresoras que no imprimen a color.</div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="cfgPrintBN" onchange="guardarConfig()">
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ FÓRMULAS ============ -->
+          <div class="seccion" data-seccion-content="formulas">
+            <div class="seccion-card">
+              <div class="seccion-titulo">🧪 Fórmulas por defecto</div>
+              <div class="seccion-sub">Factores y proporciones que se usan al calcular materiales en Nueva Orden.</div>
+
+              <div class="info-box">
+                <span class="icono">💡</span>
+                <div>
+                  <strong>Nota:</strong> Los valores por defecto son los del plan maestro. Podés ajustarlos sin miedo — solo afectan a las órdenes nuevas.
+                </div>
+              </div>
+
+              <div class="bloque-titulo">Factor de densidad general</div>
+              <div class="input-group">
+                <label class="input-label">Factor (g/cm³)</label>
+                <input type="number" class="input" id="cfgFactorGeneral" value="1.90" step="0.05" min="0.5" max="5">
+                <div style="font-size:11px;color:var(--text-mute);margin-top:4px;">
+                  Se multiplica por el volumen para estimar el peso total.
+                </div>
+              </div>
+
+              <div class="bloque-titulo">🏗️ Concreto</div>
+              <div class="form-row cols-3">
+                <div class="input-group"><label class="input-label">% Cemento</label><input type="number" class="input" id="cfgConcretoCem" value="50"></div>
+                <div class="input-group"><label class="input-label">% Piedra</label><input type="number" class="input" id="cfgConcretoPie" value="50"></div>
+                <div class="input-group"><label class="input-label">% Marmolina (de cem.)</label><input type="number" class="input" id="cfgConcretoMar" value="30"></div>
+              </div>
+              <div class="form-row cols-2">
+                <div class="input-group"><label class="input-label">% Agua (de cem.)</label><input type="number" class="input" id="cfgConcretoAgua" value="35"></div>
+              </div>
+
+              <div class="bloque-titulo">💧 Resina</div>
+              <div class="form-row cols-3">
+                <div class="input-group"><label class="input-label">% Resina</label><input type="number" class="input" id="cfgResinaRes" value="30"></div>
+                <div class="input-group"><label class="input-label">% Piedra</label><input type="number" class="input" id="cfgResinaPie" value="50"></div>
+                <div class="input-group"><label class="input-label">% Marmolina</label><input type="number" class="input" id="cfgResinaMar" value="20"></div>
+              </div>
+              <div class="input-group">
+                <label class="input-label">% Catalizador (de resina)</label>
+                <input type="number" class="input" id="cfgResinaCat" value="2" step="0.1">
+              </div>
+
+              <div class="bloque-titulo">☁️ Aliven</div>
+              <div class="warn-box">
+                <span class="icono">⚠️</span>
+                <div>
+                  <strong>Pendiente confirmar.</strong> El factor provisional es <strong>1.20</strong>. Andrés y Jesús deben definir la fórmula real.
+                </div>
+              </div>
+              <div class="input-group">
+                <label class="input-label">Factor Aliven</label>
+                <input type="number" class="input" id="cfgAlivenFactor" value="1.20" step="0.05">
+              </div>
+
+              <div class="bloque-titulo">⬜ Yeso</div>
+              <div class="warn-box">
+                <span class="icono">⚠️</span>
+                <div>
+                  <strong>Pendiente confirmar.</strong> El factor provisional es <strong>1.50</strong>. Andrés y Jesús deben definir la fórmula real.
+                </div>
+              </div>
+              <div class="input-group">
+                <label class="input-label">Factor Yeso</label>
+                <input type="number" class="input" id="cfgYesoFactor" value="1.50" step="0.05">
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ MATERIALES ============ -->
+          <div class="seccion" data-seccion-content="materiales">
+            <div class="seccion-card">
+              <div class="seccion-titulo">📦 Materiales base</div>
+              <div class="seccion-sub">Categorías de material disponibles al crear órdenes y en el Stock.</div>
+
+              <div class="info-box">
+                <span class="icono">💡</span>
+                <div>
+                  Esta lista define qué materiales puede tener el <strong>Stock</strong>. Los pigmentos y piedras se manejan en sus propias secciones.
+                </div>
+              </div>
+
+              <div class="bloque-titulo">Categorías de material <span class="hint" id="contadorMateriales">0 items</span></div>
+              <div class="lista-items" id="listaMateriales"></div>
+
+              <div class="item-add">
+                <input class="input" id="nuevoMaterialNombre" placeholder="Ej: Cemento Holcim 25kg">
+                <button class="btn btn-primary btn-sm" onclick="agregarMaterial()">➕ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ PIEDRAS ============ -->
+          <div class="seccion" data-seccion-content="piedras">
+            <div class="seccion-card">
+              <div class="seccion-titulo">🪨 Catálogo de piedras</div>
+              <div class="seccion-sub">Tipos de piedra disponibles al agregar piedras a una orden.</div>
+
+              <div class="info-box">
+                <span class="icono">💡</span>
+                <div>
+                  Las piedras se registran con <strong>nombre completo</strong> y solo el <strong>número de grano</strong> (#0, #1, #3). No llevan cantidad.
+                </div>
+              </div>
+
+              <div class="bloque-titulo">Piedras disponibles <span class="hint" id="contadorPiedras">0 items</span></div>
+              <div class="lista-items" id="listaPiedras"></div>
+
+              <div class="item-add">
+                <input class="input" id="nuevaPiedraNombre" placeholder="Ej: Arenilla Dorada">
+                <button class="btn btn-primary btn-sm" onclick="agregarPiedra()">➕ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ CATEGORÍAS ============ -->
+          <div class="seccion" data-seccion-content="categorias">
+            <div class="seccion-card">
+              <div class="seccion-titulo">🏷️ Categorías de piezas</div>
+              <div class="seccion-sub">Las categorías que se pueden elegir al crear una nueva orden.</div>
+
+              <div class="bloque-titulo">Categorías <span class="hint" id="contadorCategorias">0 items</span></div>
+              <div class="lista-items" id="listaCategorias"></div>
+
+              <div class="item-add">
+                <input class="input" id="nuevaCategoriaNombre" placeholder="Ej: Fuentes decorativas">
+                <button class="btn btn-primary btn-sm" onclick="agregarCategoria()">➕ Agregar</button>
+              </div>
+
+              <div class="bloque-titulo">Unidades de medida</div>
+              <div class="lista-items" id="listaUnidades"></div>
+
+              <div class="item-add">
+                <input class="input" id="nuevaUnidadNombre" placeholder="Ej: saco">
+                <button class="btn btn-primary btn-sm" onclick="agregarUnidad()">➕ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ CONTACTOS ============ -->
+          <div class="seccion" data-seccion-content="contactos">
+            <div class="seccion-card">
+              <div class="seccion-titulo">📱 Contactos WhatsApp</div>
+              <div class="seccion-sub">Accesos rápidos que aparecen en el botón flotante del Dashboard.</div>
+
+              <div class="bloque-titulo">Contactos <span class="hint" id="contadorContactos">0 items</span></div>
+              <div class="lista-items" id="listaContactos"></div>
+
+              <div class="item-add" style="flex-wrap:wrap;">
+                <input class="input" id="nuevoContactoNombre" placeholder="Nombre" style="min-width:150px;">
+                <input class="input" id="nuevoContactoTel" placeholder="Teléfono" inputmode="tel" style="min-width:150px;">
+                <button class="btn btn-primary btn-sm" onclick="agregarContacto()">➕ Agregar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ INTEGRACIONES ============ -->
+          <div class="seccion" data-seccion-content="integraciones">
+            <div class="seccion-card">
+              <div class="seccion-titulo">🔌 Integraciones</div>
+              <div class="seccion-sub">Conexión con servicios externos. Se activarán cuando se configuren las cuentas.</div>
+
+              <div class="integracion-card">
+                <div class="logo" style="background:rgba(37,211,102,0.15);color:#25d366;">📱</div>
+                <div class="info">
+                  <div class="nombre">WhatsApp Business</div>
+                  <div class="desc">Enviar órdenes y notificaciones por WhatsApp</div>
+                </div>
+                <div class="estado activo">Activo</div>
+              </div>
+
+              <div class="integracion-card">
+                <div class="logo" style="background:rgba(15,157,88,0.15);color:#0f9d58;">📊</div>
+                <div class="info">
+                  <div class="nombre">Google Sheets</div>
+                  <div class="desc">Exportar órdenes y reportes a hojas de cálculo</div>
+                </div>
+                <div class="estado pendiente">Configurar</div>
+              </div>
+
+              <div class="integracion-card">
+                <div class="logo" style="background:rgba(0,0,0,0.15);color:var(--text);">📝</div>
+                <div class="info">
+                  <div class="nombre">Notion</div>
+                  <div class="desc">Sincronizar órdenes con base de datos en Notion</div>
+                </div>
+                <div class="estado pendiente">Configurar</div>
+              </div>
+
+              <div class="integracion-card">
+                <div class="logo" style="background:rgba(255,202,40,0.15);color:#ffca28;">🔥</div>
+                <div class="info">
+                  <div class="nombre">Firebase (Firestore + Auth + Storage)</div>
+                  <div class="desc">Backend en la nube con sincronización entre dispositivos</div>
+                </div>
+                <div class="estado pendiente">Próximamente</div>
+              </div>
+
+              <div class="integracion-card">
+                <div class="logo" style="background:rgba(0,229,255,0.15);color:var(--cyan);">🌐</div>
+                <div class="info">
+                  <div class="nombre">Netlify (hosting)</div>
+                  <div class="desc">Deploy automático desde GitHub con HTTPS</div>
+                </div>
+                <div class="estado pendiente">Próximamente</div>
+              </div>
+
+              <div class="integracion-card">
+                <div class="logo" style="background:rgba(255,213,79,0.15);color:var(--yellow);">💬</div>
+                <div class="info">
+                  <div class="nombre">Firebase Cloud Messaging</div>
+                  <div class="desc">Notificaciones push en Android e iOS (16.4+)</div>
+                </div>
+                <div class="estado pendiente">Próximamente</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ DATOS ============ -->
+          <div class="seccion" data-seccion-content="datos">
+            <div class="seccion-card">
+              <div class="seccion-titulo">💾 Datos del sistema</div>
+              <div class="seccion-sub">Respaldo, restauración y mantenimiento de los datos locales.</div>
+
+              <div class="info-box">
+                <span class="icono">📊</span>
+                <div>
+                  Todos los datos se guardan en este dispositivo (localStorage). Cuando se conecte <strong>Firebase</strong>, se sincronizarán automáticamente entre todos los dispositivos.
+                </div>
+              </div>
+
+              <div class="bloque-titulo">Resumen de datos</div>
+              <div class="lista-items" id="resumenDatos"></div>
+
+              <div class="bloque-titulo">Respaldo</div>
+              <div class="danger-acciones">
+                <button class="btn btn-green" onclick="exportarRespaldo()">⬇️ Descargar respaldo (.json)</button>
+                <button class="btn btn-cyan" onclick="abrirImportar()">⬆️ Importar respaldo</button>
+              </div>
+              <input type="file" id="inputImportar" accept=".json" style="display:none;" onchange="importarRespaldo(event)">
+
+              <div class="bloque-titulo">Estadísticas</div>
+              <div class="lista-items" id="statsSistema"></div>
+
+              <div class="danger-zone">
+                <div class="danger-zone-titulo">⚠️ Zona peligrosa</div>
+                <div style="font-size:12px;color:var(--text-dim);margin-bottom:12px;line-height:1.6;">
+                  Estas acciones son permanentes y no se pueden deshacer. Se recomienda descargar un respaldo antes.
+                </div>
+                <div class="danger-acciones">
+                  <button class="btn btn-orange" onclick="resetDemo()">🎲 Recargar datos demo</button>
+                  <button class="btn btn-red" onclick="borrarTodo()">🗑 Borrar TODO</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ==================== NAV (derecha en desktop, drawer en móvil) ==================== -->
+        <nav class="config-nav" id="configNav">
+          <div class="config-nav-header">
+            <span>⚙️</span>
+            <span class="header-titulo">Secciones</span>
+            <button class="config-nav-close" onclick="cerrarConfigNavMobile()" aria-label="Cerrar">×</button>
+          </div>
+
+          <button class="config-nav-item activo" data-seccion="empresa" onclick="irSeccion('empresa')">
+            <span class="nav-icono">🏢</span>
+            <span class="nav-titulo">Mi empresa</span>
+          </button>
+          <button class="config-nav-item" data-seccion="apariencia" onclick="irSeccion('apariencia')">
+            <span class="nav-icono">🎨</span>
+            <span class="nav-titulo">Apariencia</span>
+          </button>
+          <button class="config-nav-item" data-seccion="impresion" onclick="irSeccion('impresion')">
+            <span class="nav-icono">🖨️</span>
+            <span class="nav-titulo">Impresión</span>
+          </button>
+          <button class="config-nav-item" data-seccion="formulas" onclick="irSeccion('formulas')">
+            <span class="nav-icono">🧪</span>
+            <span class="nav-titulo">Fórmulas</span>
+          </button>
+          <button class="config-nav-item" data-seccion="materiales" onclick="irSeccion('materiales')">
+            <span class="nav-icono">📦</span>
+            <span class="nav-titulo">Materiales</span>
+            <span class="nav-badge" id="badgeMateriales">0</span>
+          </button>
+          <button class="config-nav-item" data-seccion="piedras" onclick="irSeccion('piedras')">
+            <span class="nav-icono">🪨</span>
+            <span class="nav-titulo">Piedras</span>
+            <span class="nav-badge" id="badgePiedras">0</span>
+          </button>
+          <button class="config-nav-item" data-seccion="categorias" onclick="irSeccion('categorias')">
+            <span class="nav-icono">🏷️</span>
+            <span class="nav-titulo">Categorías</span>
+          </button>
+          <button class="config-nav-item" data-seccion="contactos" onclick="irSeccion('contactos')">
+            <span class="nav-icono">📱</span>
+            <span class="nav-titulo">Contactos WhatsApp</span>
+          </button>
+          <button class="config-nav-item" data-seccion="integraciones" onclick="irSeccion('integraciones')">
+            <span class="nav-icono">🔌</span>
+            <span class="nav-titulo">Integraciones</span>
+          </button>
+          <button class="config-nav-item" data-seccion="datos" onclick="irSeccion('datos')">
+            <span class="nav-icono">💾</span>
+            <span class="nav-titulo">Datos del sistema</span>
+          </button>
+        </nav>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Backdrop del drawer móvil -->
+<div class="config-nav-backdrop" id="configNavBackdrop" onclick="cerrarConfigNavMobile()"></div>
+
+<!-- Modal importar -->
+<div class="modal-overlay" id="modalImportar" onclick="if(event.target===this)cerrarModalImportar()">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header">
+      <div class="modal-titulo">⬆️ Importar respaldo</div>
+      <button class="modal-close" onclick="cerrarModalImportar()">×</button>
+    </div>
+    <div class="modal-body" id="modalImportarBody"></div>
+    <div class="modal-footer" id="modalImportarFooter"></div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ============================================================
+// SIDEBAR MÓVIL (menú principal de la app)
+// ============================================================
+function abrirSidebar() {
+  document.getElementById('sidebar').classList.add('abierto');
+  document.getElementById('sidebarBackdrop').classList.add('activo');
+  document.body.style.overflow = 'hidden';
+}
+function cerrarSidebar() {
+  document.getElementById('sidebar').classList.remove('abierto');
+  document.getElementById('sidebarBackdrop').classList.remove('activo');
+  document.body.style.overflow = '';
+}
+function irA(url) {
+  cerrarSidebar();
+  setTimeout(() => { location.href = url; }, 150);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    cerrarSidebar();
+    cerrarModalImportar();
+    cerrarConfigNavMobile();
+  }
+});
+
+// ============================================================
+// DRAWER DE SECCIONES (móvil) — Configuración
+// ============================================================
+function toggleConfigNavMobile() {
+  const nav = document.getElementById('configNav');
+  const bd = document.getElementById('configNavBackdrop');
+  if (!nav || !bd) return;
+  const abierto = nav.classList.contains('abierto');
+  if (abierto) {
+    cerrarConfigNavMobile();
+  } else {
+    nav.classList.add('abierto');
+    bd.classList.add('activo');
+    document.body.style.overflow = 'hidden';
+  }
+}
+function cerrarConfigNavMobile() {
+  const nav = document.getElementById('configNav');
+  const bd = document.getElementById('configNavBackdrop');
+  if (!nav || !bd) return;
+  nav.classList.remove('abierto');
+  bd.classList.remove('activo');
+  document.body.style.overflow = '';
+}
+
+// ============================================================
+// CONSTANTES
+// ============================================================
+const CLAVE_CONFIG = 'cajupa_config_v1';
+
+// Info de cada sección (icono + nombre) para la mobile bar
+const SECCIONES_INFO = {
+  empresa:       { icono: '🏢', nombre: 'Mi empresa' },
+  apariencia:    { icono: '🎨', nombre: 'Apariencia' },
+  impresion:     { icono: '🖨️', nombre: 'Impresión' },
+  formulas:      { icono: '🧪', nombre: 'Fórmulas' },
+  materiales:    { icono: '📦', nombre: 'Materiales' },
+  piedras:       { icono: '🪨', nombre: 'Piedras' },
+  categorias:    { icono: '🏷️', nombre: 'Categorías' },
+  contactos:     { icono: '📱', nombre: 'Contactos WhatsApp' },
+  integraciones: { icono: '🔌', nombre: 'Integraciones' },
+  datos:         { icono: '💾', nombre: 'Datos del sistema' }
+};
+
+const CLAVES_DATOS = {
+  'cajupa_clientes_v1': { nombre: 'Clientes', emoji: '👥' },
+  'cajupa_moldes_v1': { nombre: 'Moldes', emoji: '🗄️' },
+  'cajupa_recetas_v1': { nombre: 'Recetas', emoji: '📖' },
+  'cajupa_mis_modelos_v1': { nombre: 'Mis Modelos', emoji: '💾' },
+  'cajupa_stock_v4': { nombre: 'Stock', emoji: '📦' },
+  'cajupa_ordenes': { nombre: 'Órdenes', emoji: '📋' },
+  'cajupa_museo_v1': { nombre: 'Museo', emoji: '🏛️' },
+  'cajupa_usuarios_v1': { nombre: 'Usuarios', emoji: '👤' },
+  'cajupa_pesos': { nombre: 'Tabla de pesos', emoji: '⚖️' },
+  'cajupa_pesos_custom': { nombre: 'Pigmentos/cucharas custom', emoji: '🎨' },
+  'cajupa_colores_nuevos': { nombre: 'Colores nuevos', emoji: '🖌️' },
+  'cajupa_colores_fav': { nombre: 'Colores favoritos', emoji: '⭐' }
+};
+
+const CONFIG_DEFAULT = {
+  empresa: {
+    nombre: 'Cajuña',
+    slogan: 'Taller de granito y marmolería',
+    rif: '',
+    moneda: 'USD',
+    emoji: '🏛️',
+    telefono: '04141234567',
+    email: 'contacto@cajuna.com',
+    direccion: '',
+    zona: 'America/Caracas'
+  },
+  apariencia: {
+    tema: 'brand',
+    manosSucias: false,
+    vibracion: true,
+    notificaciones: false
+  },
+  impresion: {
+    formato: 'carta',
+    encabezado: 'ORDEN DE TRABAJO',
+    pie: 'Documento generado por Cajuña Pro',
+    mostrarQR: false,
+    mostrarPrecios: false,
+    blancoNegro: false
+  },
+  formulas: {
+    factorGeneral: 1.90,
+    concreto: { cem: 50, pie: 50, mar: 30, agua: 35 },
+    resina: { res: 30, pie: 50, mar: 20, cat: 2 },
+    aliven: { factor: 1.20 },
+    yeso: { factor: 1.50 }
+  },
+  materiales: [
+    'Cemento Vencemos', 'Cemento Holcim', 'Piedra Blanca', 'Piedra Gris',
+    'Marmolina', 'Arena', 'Agua', 'Resina', 'Catalizador', 'Aliven', 'Yeso'
+  ],
+  piedras: [
+    'Blanca Especial', 'Blanco Gris', 'Verde', 'Piedra Negra', 'Piedra Verde',
+    'Piedra Blanca', 'Marfil', 'Sepia', 'Roja', 'Hueso',
+    'Arenilla Negra', 'Arenilla Blanca', 'Arenilla Roja'
+  ],
+  categorias: [
+    'Lavamanos', 'Torres', 'Topes y Bases', 'Piezas Utilitarias',
+    'Muestras', 'Personalizados'
+  ],
+  unidades: ['g', 'kg', 'ml', 'L', 'unidad', 'saco', 'paquete'],
+  contactos: [
+    { nombre: 'Jesús (jefe)', telefono: '04141234567' },
+    { nombre: 'Carlos (encargado)', telefono: '04249876543' }
+  ]
+};
+
+// ============================================================
+// ESTADO
+// ============================================================
+let config = JSON.parse(JSON.stringify(CONFIG_DEFAULT));
+let seccionActiva = 'empresa';
+
+// ============================================================
+// SISTEMA DE 3 TEMAS
+// ============================================================
+const TEMAS = ['brand', 'dark', 'light'];
+const TEMA_ICONO = { brand: '🎨', dark: '🌙', light: '☀️' };
+const TEMA_NOMBRE = { brand: 'Marca personal', dark: 'Oscuro normal', light: 'Claro Notion' };
+
+function aplicarTema(tema) {
+  document.body.classList.remove('theme-dark', 'theme-light');
+  if (tema === 'dark') document.body.classList.add('theme-dark');
+  if (tema === 'light') document.body.classList.add('theme-light');
+  const btn = document.getElementById('btnTema');
+  if (btn) btn.textContent = TEMA_ICONO[tema] || '🎨';
+}
+function toggleTema() {
+  let actual = localStorage.getItem('cajupa_tema') || 'brand';
+  let idx = TEMAS.indexOf(actual);
+  if (idx === -1) idx = 0;
+  idx = (idx + 1) % TEMAS.length;
+  const nuevo = TEMAS[idx];
+  localStorage.setItem('cajupa_tema', nuevo);
+  aplicarTema(nuevo);
+  marcarTemaActivo(nuevo);
+  toast(`🎨 Tema: ${TEMA_NOMBRE[nuevo]}`, 'info');
+}
+function toggleManosSucias() {
+  const activo = document.body.classList.toggle('manos-sucias');
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+  const checkbox = document.getElementById('cfgManosSucias');
+  if (checkbox) checkbox.checked = activo;
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function leerLS(clave, fallback) {
+  try {
+    const raw = localStorage.getItem(clave);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return fallback;
+}
+function guardarLS(clave, valor) {
+  localStorage.setItem(clave, JSON.stringify(valor));
+}
+function escaparHTML(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+function vibrar(ms = 15) {
+  if (config.apariencia.vibracion && navigator.vibrate) {
+    try { navigator.vibrate(ms); } catch(e) {}
+  }
+}
+
+// ============================================================
+// NAVEGACIÓN ENTRE SECCIONES
+// ============================================================
+function irSeccion(nombre) {
+  seccionActiva = nombre;
+
+  // Nav items
+  document.querySelectorAll('.config-nav-item').forEach(b => {
+    b.classList.toggle('activo', b.dataset.seccion === nombre);
+  });
+
+  // Secciones
+  document.querySelectorAll('.seccion').forEach(s => {
+    s.classList.toggle('activo', s.dataset.seccionContent === nombre);
+  });
+
+  // Actualizar mobile bar
+  const info = SECCIONES_INFO[nombre];
+  if (info) {
+    const iconoEl = document.getElementById('configMobileIcono');
+    const nombreEl = document.getElementById('configMobileNombre');
+    if (iconoEl) iconoEl.textContent = info.icono;
+    if (nombreEl) nombreEl.textContent = info.nombre;
+  }
+
+  // Cerrar drawer si estamos en móvil
+  if (window.innerWidth <= 768) {
+    cerrarConfigNavMobile();
+  }
+
+  // Guardar preferencia
+  localStorage.setItem('cajupa_config_seccion', nombre);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+function init() {
+  const guardada = leerLS(CLAVE_CONFIG, null);
+  if (guardada) {
+    config = mergeDeep(JSON.parse(JSON.stringify(CONFIG_DEFAULT)), guardada);
+  } else {
+    guardarLS(CLAVE_CONFIG, config);
+  }
+
+  // Cargar sección guardada
+  const seccionGuardada = localStorage.getItem('cajupa_config_seccion');
+  if (seccionGuardada && SECCIONES_INFO[seccionGuardada]) {
+    irSeccion(seccionGuardada);
+  } else {
+    irSeccion('empresa');
+  }
+
+  cargarFormularios();
+  renderListas();
+  renderResumenDatos();
+  renderStats();
+  actualizarLogoPreview();
+  marcarTemaActivo(localStorage.getItem('cajupa_tema') || 'brand');
+  marcarFormatoActivo();
+
+  setTimeout(() => {
+    toast('⚙️ Configuración cargada', 'info');
+  }, 400);
+}
+
+function mergeDeep(target, source) {
+  for (const key in source) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      if (!target[key]) target[key] = {};
+      mergeDeep(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
+
+// ============================================================
+// CARGAR FORMULARIOS
+// ============================================================
+function cargarFormularios() {
+  document.getElementById('cfgEmpresaNombre').value = config.empresa.nombre || '';
+  document.getElementById('cfgEmpresaSlogan').value = config.empresa.slogan || '';
+  document.getElementById('cfgEmpresaRif').value = config.empresa.rif || '';
+  document.getElementById('cfgEmpresaMoneda').value = config.empresa.moneda || 'USD';
+  document.getElementById('cfgEmpresaEmoji').value = config.empresa.emoji || '🏛️';
+  document.getElementById('cfgEmpresaTelefono').value = config.empresa.telefono || '';
+  document.getElementById('cfgEmpresaEmail').value = config.empresa.email || '';
+  document.getElementById('cfgEmpresaDireccion').value = config.empresa.direccion || '';
+  document.getElementById('cfgEmpresaZona').value = config.empresa.zona || 'America/Caracas';
+
+  document.getElementById('cfgManosSucias').checked = config.apariencia.manosSucias;
+  document.getElementById('cfgVibracion').checked = config.apariencia.vibracion;
+  document.getElementById('cfgNotificaciones').checked = config.apariencia.notificaciones;
+
+  document.getElementById('cfgPrintEncabezado').value = config.impresion.encabezado || '';
+  document.getElementById('cfgPrintPie').value = config.impresion.pie || '';
+  document.getElementById('cfgPrintQR').checked = config.impresion.mostrarQR;
+  document.getElementById('cfgPrintPrecios').checked = config.impresion.mostrarPrecios;
+  document.getElementById('cfgPrintBN').checked = config.impresion.blancoNegro;
+
+  document.getElementById('cfgFactorGeneral').value = config.formulas.factorGeneral;
+  document.getElementById('cfgConcretoCem').value = config.formulas.concreto.cem;
+  document.getElementById('cfgConcretoPie').value = config.formulas.concreto.pie;
+  document.getElementById('cfgConcretoMar').value = config.formulas.concreto.mar;
+  document.getElementById('cfgConcretoAgua').value = config.formulas.concreto.agua;
+  document.getElementById('cfgResinaRes').value = config.formulas.resina.res;
+  document.getElementById('cfgResinaPie').value = config.formulas.resina.pie;
+  document.getElementById('cfgResinaMar').value = config.formulas.resina.mar;
+  document.getElementById('cfgResinaCat').value = config.formulas.resina.cat;
+  document.getElementById('cfgAlivenFactor').value = config.formulas.aliven.factor;
+  document.getElementById('cfgYesoFactor').value = config.formulas.yeso.factor;
+
+  document.getElementById('empresaSwitcherNombre').textContent = config.empresa.nombre || 'Cajuña';
+}
+
+function actualizarLogoPreview() {
+  const emoji = document.getElementById('cfgEmpresaEmoji').value || '🏛️';
+  document.getElementById('logoPreview').textContent = emoji;
+}
+
+// ============================================================
+// SELECCIONES
+// ============================================================
+function marcarTemaActivo(tema) {
+  document.querySelectorAll('.tema-preview').forEach(p => {
+    p.classList.toggle('activo', p.dataset.tema === tema);
+  });
+}
+function seleccionarTema(tema) {
+  localStorage.setItem('cajupa_tema', tema);
+  aplicarTema(tema);
+  marcarTemaActivo(tema);
+  config.apariencia.tema = tema;
+  guardarConfig();
+  toast(`🎨 Tema cambiado a ${TEMA_NOMBRE[tema]}`, 'success');
+}
+function marcarFormatoActivo() {
+  document.querySelectorAll('.formato-opcion').forEach(p => {
+    p.classList.toggle('activo', p.dataset.formato === config.impresion.formato);
+  });
+}
+function seleccionarFormato(fmt) {
+  config.impresion.formato = fmt;
+  marcarFormatoActivo();
+  guardarConfig();
+  const nombres = { carta: 'Carta', oficio: 'Oficio', a4: 'A4', legal: 'Legal' };
+  toast(`🖨️ Formato por defecto: ${nombres[fmt]}`, 'success');
+}
+function aplicarManosSucias(activo) {
+  document.body.classList.toggle('manos-sucias', activo);
+  document.getElementById('btnManos').classList.toggle('activo', activo);
+  localStorage.setItem('cajupa_manos', activo ? '1' : '0');
+  config.apariencia.manosSucias = activo;
+  guardarConfig();
+}
+function pedirPermisoNotificaciones(activo) {
+  if (activo) {
+    if ('Notification' in window) {
+      Notification.requestPermission().then(perm => {
+        if (perm === 'granted') {
+          config.apariencia.notificaciones = true;
+          guardarConfig();
+          toast('🔔 Notificaciones activadas', 'success');
+        } else {
+          document.getElementById('cfgNotificaciones').checked = false;
+          config.apariencia.notificaciones = false;
+          guardarConfig();
+          toast('⚠️ Permiso denegado', 'warning');
+        }
+      });
+    } else {
+      document.getElementById('cfgNotificaciones').checked = false;
+      toast('⚠️ Este dispositivo no soporta notificaciones', 'warning');
+    }
+  } else {
+    config.apariencia.notificaciones = false;
+    guardarConfig();
+  }
+}
+
+// ============================================================
+// RENDER LISTAS
+// ============================================================
+function renderListas() {
+  renderListaMateriales();
+  renderListaPiedras();
+  renderListaCategorias();
+  renderListaUnidades();
+  renderListaContactos();
+  actualizarBadges();
+}
+
+function renderListaMateriales() {
+  const cont = document.getElementById('listaMateriales');
+  cont.innerHTML = config.materiales.map((m, i) => `
+    <div class="item-row">
+      <span class="item-emoji">📦</span>
+      <div class="item-info"><div class="item-nombre">${escaparHTML(m)}</div></div>
+      <div class="item-acciones">
+        <button class="eliminar" onclick="eliminarMaterial(${i})" title="Eliminar">🗑</button>
+      </div>
+    </div>
+  `).join('') || '<div style="text-align:center;padding:20px;color:var(--text-mute);font-size:12px;font-style:italic;">Sin materiales</div>';
+  document.getElementById('contadorMateriales').textContent = `${config.materiales.length} items`;
+}
+function renderListaPiedras() {
+  const cont = document.getElementById('listaPiedras');
+  cont.innerHTML = config.piedras.map((p, i) => `
+    <div class="item-row">
+      <span class="item-emoji">🪨</span>
+      <div class="item-info">
+        <div class="item-nombre">${escaparHTML(p)}</div>
+        <div class="item-meta">Granos #0, #1, #3</div>
+      </div>
+      <div class="item-acciones">
+        <button class="eliminar" onclick="eliminarPiedra(${i})" title="Eliminar">🗑</button>
+      </div>
+    </div>
+  `).join('') || '<div style="text-align:center;padding:20px;color:var(--text-mute);font-size:12px;font-style:italic;">Sin piedras</div>';
+  document.getElementById('contadorPiedras').textContent = `${config.piedras.length} items`;
+}
+function renderListaCategorias() {
+  const cont = document.getElementById('listaCategorias');
+  cont.innerHTML = config.categorias.map((c, i) => `
+    <div class="item-row">
+      <span class="item-emoji">🏷️</span>
+      <div class="item-info"><div class="item-nombre">${escaparHTML(c)}</div></div>
+      <div class="item-acciones">
+        <button class="eliminar" onclick="eliminarCategoria(${i})" title="Eliminar">🗑</button>
+      </div>
+    </div>
+  `).join('') || '<div style="text-align:center;padding:20px;color:var(--text-mute);font-size:12px;font-style:italic;">Sin categorías</div>';
+  document.getElementById('contadorCategorias').textContent = `${config.categorias.length} items`;
+}
+function renderListaUnidades() {
+  const cont = document.getElementById('listaUnidades');
+  cont.innerHTML = config.unidades.map((u, i) => `
+    <div class="item-row">
+      <span class="item-emoji">📏</span>
+      <div class="item-info"><div class="item-nombre">${escaparHTML(u)}</div></div>
+      <div class="item-acciones">
+        <button class="eliminar" onclick="eliminarUnidad(${i})" title="Eliminar">🗑</button>
+      </div>
+    </div>
+  `).join('') || '<div style="text-align:center;padding:20px;color:var(--text-mute);font-size:12px;font-style:italic;">Sin unidades</div>';
+}
+function renderListaContactos() {
+  const cont = document.getElementById('listaContactos');
+  cont.innerHTML = config.contactos.map((c, i) => {
+    const ini = (c.nombre || '?').split(' ').map(x => x[0]).slice(0, 2).join('').toUpperCase();
+    return `
+      <div class="item-row contacto-row">
+        <div class="avatar">${ini}</div>
+        <div class="info">
+          <div class="nombre">${escaparHTML(c.nombre)}</div>
+          <div class="tel">📱 ${escaparHTML(c.telefono)}</div>
+        </div>
+        <span class="rol-tag">WA</span>
+        <div class="item-acciones">
+          <button onclick="abrirWhatsApp('${escaparHTML(c.telefono)}')" title="Abrir WhatsApp">💬</button>
+          <button class="eliminar" onclick="eliminarContacto(${i})" title="Eliminar">🗑</button>
+        </div>
+      </div>
+    `;
+  }).join('') || '<div style="text-align:center;padding:20px;color:var(--text-mute);font-size:12px;font-style:italic;">Sin contactos</div>';
+  document.getElementById('contadorContactos').textContent = `${config.contactos.length} items`;
+}
+function actualizarBadges() {
+  document.getElementById('badgeMateriales').textContent = config.materiales.length;
+  document.getElementById('badgePiedras').textContent = config.piedras.length;
+}
+
+// ============================================================
+// CRUD
+// ============================================================
+function agregarMaterial() {
+  const input = document.getElementById('nuevoMaterialNombre');
+  const val = input.value.trim();
+  if (!val) { toast('⚠️ Escribí un nombre', 'warning'); return; }
+  if (config.materiales.includes(val)) { toast('⚠️ Ya existe', 'warning'); return; }
+  config.materiales.push(val);
+  input.value = '';
+  guardarConfig();
+  renderListaMateriales();
+  actualizarBadges();
+  vibrar();
+  toast(`✓ "${val}" agregado`, 'success');
+}
+function eliminarMaterial(i) {
+  if (!confirm(`¿Eliminar "${config.materiales[i]}"?`)) return;
+  config.materiales.splice(i, 1);
+  guardarConfig();
+  renderListaMateriales();
+  actualizarBadges();
+}
+function agregarPiedra() {
+  const input = document.getElementById('nuevaPiedraNombre');
+  const val = input.value.trim();
+  if (!val) { toast('⚠️ Escribí un nombre', 'warning'); return; }
+  if (config.piedras.includes(val)) { toast('⚠️ Ya existe', 'warning'); return; }
+  config.piedras.push(val);
+  input.value = '';
+  guardarConfig();
+  renderListaPiedras();
+  actualizarBadges();
+  vibrar();
+  toast(`✓ "${val}" agregada`, 'success');
+}
+function eliminarPiedra(i) {
+  if (!confirm(`¿Eliminar "${config.piedras[i]}"?`)) return;
+  config.piedras.splice(i, 1);
+  guardarConfig();
+  renderListaPiedras();
+  actualizarBadges();
+}
+function agregarCategoria() {
+  const input = document.getElementById('nuevaCategoriaNombre');
+  const val = input.value.trim();
+  if (!val) { toast('⚠️ Escribí un nombre', 'warning'); return; }
+  if (config.categorias.includes(val)) { toast('⚠️ Ya existe', 'warning'); return; }
+  config.categorias.push(val);
+  input.value = '';
+  guardarConfig();
+  renderListaCategorias();
+  vibrar();
+  toast(`✓ "${val}" agregada`, 'success');
+}
+function eliminarCategoria(i) {
+  if (!confirm(`¿Eliminar "${config.categorias[i]}"?`)) return;
+  config.categorias.splice(i, 1);
+  guardarConfig();
+  renderListaCategorias();
+}
+function agregarUnidad() {
+  const input = document.getElementById('nuevaUnidadNombre');
+  const val = input.value.trim();
+  if (!val) { toast('⚠️ Escribí una unidad', 'warning'); return; }
+  if (config.unidades.includes(val)) { toast('⚠️ Ya existe', 'warning'); return; }
+  config.unidades.push(val);
+  input.value = '';
+  guardarConfig();
+  renderListaUnidades();
+  vibrar();
+  toast(`✓ "${val}" agregada`, 'success');
+}
+function eliminarUnidad(i) {
+  if (!confirm(`¿Eliminar "${config.unidades[i]}"?`)) return;
+  config.unidades.splice(i, 1);
+  guardarConfig();
+  renderListaUnidades();
+}
+function agregarContacto() {
+  const n = document.getElementById('nuevoContactoNombre').value.trim();
+  const t = document.getElementById('nuevoContactoTel').value.trim();
+  if (!n || !t) { toast('⚠️ Nombre y teléfono son obligatorios', 'warning'); return; }
+  config.contactos.push({ nombre: n, telefono: t });
+  document.getElementById('nuevoContactoNombre').value = '';
+  document.getElementById('nuevoContactoTel').value = '';
+  guardarConfig();
+  renderListaContactos();
+  vibrar();
+  toast(`✓ "${n}" agregado`, 'success');
+}
+function eliminarContacto(i) {
+  if (!confirm(`¿Eliminar a "${config.contactos[i].nombre}"?`)) return;
+  config.contactos.splice(i, 1);
+  guardarConfig();
+  renderListaContactos();
+}
+function abrirWhatsApp(tel) {
+  const limpio = String(tel).replace(/[^0-9]/g, '');
+  let url = '';
+  if (limpio.startsWith('0')) url = 'https://wa.me/58' + limpio.slice(1);
+  else if (limpio.startsWith('58')) url = 'https://wa.me/' + limpio;
+  else url = 'https://wa.me/' + limpio;
+  window.open(url, '_blank');
+}
+
+// ============================================================
+// GUARDAR
+// ============================================================
+function recogerFormularios() {
+  config.empresa.nombre = document.getElementById('cfgEmpresaNombre').value.trim() || 'Cajuña';
+  config.empresa.slogan = document.getElementById('cfgEmpresaSlogan').value.trim();
+  config.empresa.rif = document.getElementById('cfgEmpresaRif').value.trim();
+  config.empresa.moneda = document.getElementById('cfgEmpresaMoneda').value;
+  config.empresa.emoji = document.getElementById('cfgEmpresaEmoji').value.trim() || '🏛️';
+  config.empresa.telefono = document.getElementById('cfgEmpresaTelefono').value.trim();
+  config.empresa.email = document.getElementById('cfgEmpresaEmail').value.trim();
+  config.empresa.direccion = document.getElementById('cfgEmpresaDireccion').value.trim();
+  config.empresa.zona = document.getElementById('cfgEmpresaZona').value;
+
+  config.apariencia.manosSucias = document.getElementById('cfgManosSucias').checked;
+  config.apariencia.vibracion = document.getElementById('cfgVibracion').checked;
+  config.apariencia.notificaciones = document.getElementById('cfgNotificaciones').checked;
+
+  config.impresion.encabezado = document.getElementById('cfgPrintEncabezado').value.trim();
+  config.impresion.pie = document.getElementById('cfgPrintPie').value.trim();
+  config.impresion.mostrarQR = document.getElementById('cfgPrintQR').checked;
+  config.impresion.mostrarPrecios = document.getElementById('cfgPrintPrecios').checked;
+  config.impresion.blancoNegro = document.getElementById('cfgPrintBN').checked;
+
+  config.formulas.factorGeneral = parseFloat(document.getElementById('cfgFactorGeneral').value) || 1.90;
+  config.formulas.concreto.cem = parseFloat(document.getElementById('cfgConcretoCem').value) || 50;
+  config.formulas.concreto.pie = parseFloat(document.getElementById('cfgConcretoPie').value) || 50;
+  config.formulas.concreto.mar = parseFloat(document.getElementById('cfgConcretoMar').value) || 30;
+  config.formulas.concreto.agua = parseFloat(document.getElementById('cfgConcretoAgua').value) || 35;
+  config.formulas.resina.res = parseFloat(document.getElementById('cfgResinaRes').value) || 30;
+  config.formulas.resina.pie = parseFloat(document.getElementById('cfgResinaPie').value) || 50;
+  config.formulas.resina.mar = parseFloat(document.getElementById('cfgResinaMar').value) || 20;
+  config.formulas.resina.cat = parseFloat(document.getElementById('cfgResinaCat').value) || 2;
+  config.formulas.aliven.factor = parseFloat(document.getElementById('cfgAlivenFactor').value) || 1.20;
+  config.formulas.yeso.factor = parseFloat(document.getElementById('cfgYesoFactor').value) || 1.50;
+}
+function guardarConfig(silencioso = true) {
+  recogerFormularios();
+  guardarLS(CLAVE_CONFIG, config);
+  document.getElementById('empresaSwitcherNombre').textContent = config.empresa.nombre;
+  if (!silencioso) toast('💾 Configuración guardada', 'success');
+}
+function guardarTodo() {
+  guardarConfig(false);
+  vibrar(30);
+}
+
+// ============================================================
+// DATOS DEL SISTEMA
+// ============================================================
+function renderResumenDatos() {
+  const cont = document.getElementById('resumenDatos');
+  const items = [];
+  for (const [clave, info] of Object.entries(CLAVES_DATOS)) {
+    const raw = localStorage.getItem(clave);
+    let count = 0, peso = 0;
+    if (raw) {
+      peso = raw.length;
+      try {
+        const data = JSON.parse(raw);
+        count = Array.isArray(data) ? data.length : 1;
+      } catch(e) {}
+    }
+    items.push({ clave, ...info, count, peso });
+  }
+  cont.innerHTML = items.map(it => {
+    const pesoFmt = it.peso > 1024 ? (it.peso / 1024).toFixed(1) + ' KB' : it.peso + ' B';
+    return `
+      <div class="item-row">
+        <span class="item-emoji">${it.emoji}</span>
+        <div class="item-info">
+          <div class="item-nombre">${it.nombre}</div>
+          <div class="item-meta">${it.count} ${it.count === 1 ? 'registro' : 'registros'} · ${pesoFmt}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderStats() {
+  const cont = document.getElementById('statsSistema');
+  let totalBytes = 0;
+  for (const clave of Object.keys(CLAVES_DATOS)) {
+    const raw = localStorage.getItem(clave);
+    if (raw) totalBytes += raw.length;
+  }
+  const totalFmt = totalBytes > 1024 * 1024
+    ? (totalBytes / (1024 * 1024)).toFixed(2) + ' MB'
+    : totalBytes > 1024
+      ? (totalBytes / 1024).toFixed(1) + ' KB'
+      : totalBytes + ' B';
+  const pct = Math.min(100, (totalBytes / (5 * 1024 * 1024)) * 100);
+
+  const items = [
+    { label: 'Espacio usado', valor: totalFmt, sub: `${pct.toFixed(1)}% del límite estimado` },
+    { label: 'Claves guardadas', valor: Object.keys(CLAVES_DATOS).length, sub: 'Colecciones en localStorage' },
+    { label: 'Tema actual', valor: TEMA_NOMBRE[localStorage.getItem('cajupa_tema') || 'brand'], sub: 'Preferencia del dispositivo' },
+    { label: 'Manos sucias', valor: localStorage.getItem('cajupa_manos') === '1' ? 'Activado' : 'Desactivado', sub: 'Preferencia del dispositivo' }
+  ];
+  cont.innerHTML = items.map(it => `
+    <div class="item-row">
+      <div class="item-info">
+        <div class="item-nombre">${it.label}</div>
+        <div class="item-meta">${it.sub}</div>
+      </div>
+      <div style="font-weight:800;color:var(--cyan);font-size:14px;">${it.valor}</div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// RESPALDO
+// ============================================================
+function exportarRespaldo() {
+  const respaldo = {
+    version: '3.0',
+    fecha: new Date().toISOString(),
+    empresa: config.empresa.nombre,
+    config: config,
+    datos: {}
+  };
+  for (const clave of Object.keys(CLAVES_DATOS)) {
+    const raw = localStorage.getItem(clave);
+    if (raw) {
+      try { respaldo.datos[clave] = JSON.parse(raw); } catch(e) {}
+    }
+  }
+  const json = JSON.stringify(respaldo, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const fecha = new Date().toISOString().split('T')[0];
+  a.href = url;
+  a.download = `cajupa-respaldo-${fecha}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  vibrar(30);
+  toast('⬇️ Respaldo descargado', 'success');
+}
+
+let respaldoImportar = null;
+
+function abrirImportar() {
+  document.getElementById('inputImportar').click();
+}
+function importarRespaldo(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.datos && !data.config) {
+        toast('⚠️ Archivo inválido', 'error');
+        return;
+      }
+      respaldoImportar = data;
+      mostrarModalImportar(data);
+    } catch(err) {
+      console.error(err);
+      toast('⚠️ Error al leer el archivo', 'error');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function mostrarModalImportar(data) {
+  const stats = [];
+  if (data.datos) {
+    for (const [clave, valor] of Object.entries(data.datos)) {
+      const info = CLAVES_DATOS[clave] || { nombre: clave, emoji: '📄' };
+      const count = Array.isArray(valor) ? valor.length : 1;
+      stats.push({ nombre: info.nombre, emoji: info.emoji, count });
+    }
+  }
+  const fecha = data.fecha ? new Date(data.fecha).toLocaleString('es-VE') : '—';
+  const empresa = data.empresa || '—';
+  const version = data.version || '—';
+
+  document.getElementById('modalImportarBody').innerHTML = `
+    <div class="info-box">
+      <span class="icono">📦</span>
+      <div>Vas a restaurar un respaldo. Esto <strong>reemplazará</strong> los datos actuales.</div>
+    </div>
+    <div class="fila"><span class="label">Empresa</span><span class="valor">${escaparHTML(empresa)}</span></div>
+    <div class="fila"><span class="label">Versión</span><span class="valor">${version}</span></div>
+    <div class="fila"><span class="label">Fecha del respaldo</span><span class="valor">${fecha}</span></div>
+    <div class="bloque-titulo" style="margin-top:18px;">Contenido</div>
+    <div class="lista-items">
+      ${stats.map(s => `
+        <div class="item-row">
+          <span class="item-emoji">${s.emoji}</span>
+          <div class="item-info">
+            <div class="item-nombre">${s.nombre}</div>
+            <div class="item-meta">${s.count} ${s.count === 1 ? 'registro' : 'registros'}</div>
+          </div>
+        </div>
+      `).join('') || '<div style="text-align:center;color:var(--text-mute);font-size:12px;">Sin datos</div>'}
+    </div>
+  `;
+  document.getElementById('modalImportarFooter').innerHTML = `
+    <button class="btn btn-ghost" onclick="cerrarModalImportar()">Cancelar</button>
+    <button class="btn btn-red" onclick="confirmarImportar()">⚠️ Reemplazar todo</button>
+  `;
+  document.getElementById('modalImportar').classList.add('activo');
+}
+function cerrarModalImportar() {
+  document.getElementById('modalImportar').classList.remove('activo');
+  respaldoImportar = null;
+}
+function confirmarImportar() {
+  if (!respaldoImportar) return;
+  try {
+    if (respaldoImportar.config) {
+      config = mergeDeep(JSON.parse(JSON.stringify(CONFIG_DEFAULT)), respaldoImportar.config);
+      guardarLS(CLAVE_CONFIG, config);
+    }
+    if (respaldoImportar.datos) {
+      for (const [clave, valor] of Object.entries(respaldoImportar.datos)) {
+        localStorage.setItem(clave, JSON.stringify(valor));
+      }
+    }
+    cerrarModalImportar();
+    vibrar(50);
+    toast('⬆️ Respaldo restaurado · recargando...', 'success');
+    setTimeout(() => location.reload(), 1200);
+  } catch(e) {
+    console.error(e);
+    toast('⚠️ Error al restaurar', 'error');
+  }
+}
+
+function resetDemo() {
+  if (!confirm('¿Recargar TODOS los datos demo?\n\nSe reemplazarán los datos actuales de todos los módulos. ¿Continuar?')) return;
+  for (const clave of Object.keys(CLAVES_DATOS)) {
+    localStorage.removeItem(clave);
+  }
+  vibrar(50);
+  toast('🎲 Datos demo en camino · recargando...', 'info');
+  setTimeout(() => location.reload(), 1200);
+}
+function borrarTodo() {
+  if (!confirm('⚠️ ¡ATENCIÓN!\n\nEsto va a borrar TODOS los datos de la app.\n\nNO se puede deshacer. ¿Estás seguro?')) return;
+  if (!confirm('🚨 Última confirmación.\n\n¿Borrar TODO permanentemente?')) return;
+  localStorage.clear();
+  vibrar(100);
+  toast('🗑 Todo borrado · recargando...', 'info');
+  setTimeout(() => location.reload(), 1200);
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, tipo = 'info') {
+  const iconos = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  const el = document.createElement('div');
+  el.className = 'toast ' + tipo;
+  el.innerHTML = `<span class="toast-icon">${iconos[tipo]}</span><span class="toast-msg">${msg}</span>`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'toastIn 0.3s ease reverse';
+    setTimeout(() => el.remove(), 300);
+  }, 3000);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+aplicarTema(localStorage.getItem('cajupa_tema') || 'brand');
+if (localStorage.getItem('cajupa_manos') === '1') {
+  document.body.classList.add('manos-sucias');
+  document.getElementById('btnManos').classList.add('activo');
+}
+init();
+
+window.addEventListener('storage', (e) => {
+  if (e.key === 'cajupa_tema') {
+    aplicarTema(e.newValue || 'brand');
+    marcarTemaActivo(e.newValue || 'brand');
+  }
+  if (e.key === CLAVE_CONFIG) {
+    const nueva = leerLS(CLAVE_CONFIG, null);
+    if (nueva) {
+      config = mergeDeep(JSON.parse(JSON.stringify(CONFIG_DEFAULT)), nueva);
+      cargarFormularios();
+      renderListas();
+      marcarFormatoActivo();
+    }
+  }
+});
+
+// ============================================================
+// FIX SCROLL SIDEBAR — mantiene el scroll al cambiar de módulo
+// ============================================================
+(function fixSidebarScroll() {
+  const sidebar = document.querySelector('.sidebar');
+  if (!sidebar) return;
+
+  // Restaurar scroll guardado
+  try {
+    const saved = sessionStorage.getItem('cajupa_sidebar_scroll');
+    if (saved !== null) {
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = parseInt(saved, 10) || 0;
+      });
+    }
+  } catch(e) {}
+
+  // Guardar scroll al scrollear
+  sidebar.addEventListener('scroll', () => {
+    try {
+      sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+    } catch(e) {}
+  }, { passive: true });
+
+  // Guardar scroll al hacer click en cualquier item del sidebar
+  sidebar.querySelectorAll('.sb-item').forEach(item => {
+    item.addEventListener('click', () => {
+      try {
+        sessionStorage.setItem('cajupa_sidebar_scroll', sidebar.scrollTop);
+      } catch(e) {}
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
